@@ -3,64 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logo Gallery</title>
+    <title>Main Page</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
             text-align: center;
         }
-        .main-logo img {
-            width: 300px;
-            height: auto;
-            margin-top: 20px;
-        }
         .logo-container {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 50px;
+            margin-top: 30px;
         }
-        .logo-container img {
-            width: 100px;
-            height: 100px;
+        .main-logo img {
+            width: 100%;
+            max-width: 800px;
+        }
+        .logo-link img {
+            width: 150px;
+            height: 150px;
+            margin: 10px;
+            border-radius: 8px;
             cursor: pointer;
             transition: transform 0.3s;
         }
-        .logo-container img:hover {
+        .logo-link img:hover {
             transform: scale(1.1);
+        }
+        .back-button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            .logo-link img {
+                width: 120px;
+                height: 120px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Main Logo -->
     <div class="main-logo">
         <img src="https://lh4.googleusercontent.com/Qwh5DgG5q-PsT_8DfX40Hhk0I9xuj_pz5ghT-2RwHG3lEGESsdaD9h84KQMEP6FM2SGjt3akrJfdVYc2ipZzIM2IZ5mdZwi5MSlAjxfVGlb5nvbOfWcd8njmrrm_jrxmGg=w1280" alt="Main Logo">
     </div>
 
-    <h1>Click on a logo to learn more!</h1>
-
     <div class="logo-container">
-        <!-- Logo 1 -->
-        <a href="logo1.html">
+        <a href="logo1.html" class="logo-link">
             <img src="https://lh5.googleusercontent.com/Dv6tNnCELNAeCc-PJZKVjNV6TwZGoXsm0nZLvrlUU5_crY9KpLAnhb80jR7rnqsImIUOm6NP_vQ5eQKEa1FFb__AEb8E3kazD-Sla-M4cKxr5SlNb9n4QZYZYhaVm68aXg=w1280" alt="Logo 1">
         </a>
-        <!-- Logo 2 -->
-        <a href="logo2.html">
+        <a href="logo2.html" class="logo-link">
             <img src="https://lh4.googleusercontent.com/Zhfy4KaSzvUNXEIUNYQJPCs_y7mhu4KrxnlObAkjDpTinAeB8SjuqoOgmZzOFcQfYdmOvUhgXCjPzhSTP2IT7EVyklqIhiOPIDq6sK5jCYVXSjMAue6Kl7XC-Fszir0TCA=w1280" alt="Logo 2">
         </a>
-        <!-- Logo 3 -->
-        <a href="logo3.html">
+        <a href="logo3.html" class="logo-link">
             <img src="https://lh4.googleusercontent.com/FM-45-iC6DZVb-7-uHerdJob6K7fdcb4asGrP1pW8P0cALELneRrUv-WwOgR19Y0KIuZhEo74InxI1lspdWT26bGNS-yk5i0qaBf-xnFMSjpxdK8FDHnX3MXXsQHGETeGw=w1280" alt="Logo 3">
         </a>
-        <!-- Logo 4 -->
-        <a href="logo4.html">
+        <a href="logo4.html" class="logo-link">
             <img src="https://lh6.googleusercontent.com/2d1Nh9O5ZdICQKatMB0tEAEZC0izBG8X1u05HEIKipO0vz3DwA5uYACbye3VHKlWaXPx0NhkZ-vB-Y_xYIxYJ0o1uRyVAPBQudSBcOQK7dRGA0d3vMQ99vSHHIDz2q5jLQ=w1280" alt="Logo 4">
         </a>
-        <!-- Logo 5 -->
-        <a href="logo5.html">
+        <a href="logo5.html" class="logo-link">
             <img src="https://lh3.googleusercontent.com/FmrmOJ-uLBBS5kdEIrMXxpxYH5QINd8qHfL3brL3op9Yr50Qwq5SSjpCTpYwT6jKf3DmXETJJz4eXEwDd5CW_hc-e0FxK2GqGHHUS6Y12r4vKiSeIUzwmncE23ZPM2SZZw=w1280" alt="Logo 5">
         </a>
-        <!-- Logo 6 -->
-        <a href="logo6.html">
+        <a href="logo6.html" class="logo-link">
             <img src="https://lh6.googleusercontent.com/TJIG0r2WbrIixkyzV5BFST7YkfOssp-l97AxqO7cUNzVfw8xqfRTHU7aqJmfMZ72mC4CRTiTY8T2MZi_HNtiN2jTH9hUzMUirrOUX41asI4AdvhFwUIZD7rmzQjd7WQL3g=w1280" alt="Logo 6">
         </a>
     </div>
