@@ -10,29 +10,42 @@
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             text-align: center;
         }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
         .logo-info img {
-            width: 250px;
-            height: 250px;
+            width: 100%;
+            max-width: 300px;
+            height: auto;
             border-radius: 10px;
             margin-bottom: 20px;
         }
-        .logo-info h2 {
-            font-size: 24px;
+        h2 {
+            font-size: 28px;
             color: #333;
+            margin-bottom: 15px;
         }
-        .logo-info p {
+        p {
             font-size: 18px;
             color: #555;
-            margin: 0 auto;
-            max-width: 800px;
             text-align: left;
+            line-height: 1.6;
         }
         .back-button {
             display: inline-block;
             margin-top: 30px;
-            padding: 10px 20px;
+            padding: 12px 24px;
             background-color: #007BFF;
             color: white;
             text-decoration: none;
@@ -44,35 +57,37 @@
         }
         @media (max-width: 768px) {
             .logo-info img {
-                width: 200px;
-                height: 200px;
+                width: 100%;
+                max-width: 250px;
             }
-            .logo-info h2 {
-                font-size: 20px;
+            h2 {
+                font-size: 24px;
             }
-            .logo-info p {
+            p {
                 font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="logo-info">
-        <img src="https://lh4.googleusercontent.com/Zhfy4KaSzvUNXEIUNYQJPCs_y7mhu4KrxnlObAkjDpTinAeB8SjuqoOgmZzOFcQfYdmOvUhgXCjPzhSTP2IT7EVyklqIhiOPIDq6sK5jCYVXSjMAue6Kl7XC-Fszir0TCA=w1280" alt="Logo 2">
-        <h2>Team Information</h2>
-        <p>
-            <strong>Sameer Mavle</strong> - Owner<br>
-            <strong>Varun Arya</strong> - Captain<br>
-            <strong>Akshay Keluskar</strong> - Icon<br>
-            <strong>Vishal Bagwe</strong> - Player<br>
-            <strong>Shashikant Nishad</strong> - Player<br>
-            <strong>Sandesh Parab</strong> - Player<br>
-            <strong>Chirag Khavnekar</strong> - Player<br>
-            <strong>Yash Vegrulekar</strong> - Player<br>
-            <strong>Chetan Aadkar</strong> - Player
-        </p>
-    </div>
+    <div class="container">
+        <div class="logo-info">
+            <img src="https://lh4.googleusercontent.com/Zhfy4KaSzvUNXEIUNYQJPCs_y7mhu4KrxnlObAkjDpTinAeB8SjuqoOgmZzOFcQfYdmOvUhgXCjPzhSTP2IT7EVyklqIhiOPIDq6sK5jCYVXSjMAue6Kl7XC-Fszir0TCA=w1280" alt="Logo 2">
+            <h2>Team Information</h2>
+            <p>
+                <strong>Sameer Mavle</strong> - Owner<br>
+                <strong>Varun Arya</strong> - Captain<br>
+                <strong>Akshay Keluskar</strong> - Icon<br>
+                <strong>Vishal Bagwe</strong> - Player<br>
+                <strong>Shashikant Nishad</strong> - Player<br>
+                <strong>Sandesh Parab</strong> - Player<br>
+                <strong>Chirag Khavnekar</strong> - Player<br>
+                <strong>Yash Vegrulekar</strong> - Player<br>
+                <strong>Chetan Aadkar</strong> - Player
+            </p>
+        </div>
 
-    <a href="index.html" class="back-button">Back to Main Page</a>
+        <a href="index.html" class="back-button">Back to Main Page</a>
+    </div>
 </body>
 </html>
