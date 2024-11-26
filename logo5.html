@@ -6,42 +6,88 @@
     <title>Logo 5 Information</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             text-align: center;
-            margin-top: 50px;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .logo-info img {
-            width: 200px;
-            height: 200px;
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
             margin-bottom: 20px;
         }
-        .logo-info h2 {
-            font-size: 24px;
+        h2 {
+            font-size: 28px;
             color: #333;
+            margin-bottom: 15px;
         }
-        .logo-info p {
+        p {
             font-size: 18px;
             color: #555;
-            max-width: 800px;
-            margin: 0 auto;
+            text-align: left;
+            line-height: 1.6;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 24px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            .logo-info img {
+                width: 100%;
+                max-width: 250px;
+            }
+            h2 {
+                font-size: 24px;
+            }
+            p {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="logo-info">
-        <img src="https://lh3.googleusercontent.com/FmrmOJ-uLBBS5kdEIrMXxpxYH5QINd8qHfL3brL3op9Yr50Qwq5SSjpCTpYwT6jKf3DmXETJJz4eXEwDd5CW_hc-e0FxK2GqGHHUS6Y12r4vKiSeIUzwmncE23ZPM2SZZw=w1280" alt="Logo 5">
-        <h2>Team Information</h2>
-        <p>
-            <strong>Yuvraj Chavan</strong> - Owner<br>
-            <strong>Shubham Baraskar</strong> - Captain<br>
-            <strong>Aniket Parmar</strong> - Icon<br>
-            <strong>Sanket Surve</strong> - Player<br>
-            <strong>Ajay Khade</strong> - Player<br>
-            <strong>Prithviraj Chavan</strong> - Player<br>
-            <strong>Anand Bhogle</strong> - Player<br>
-            <strong>Dhiraj Jadhav</strong> - Player<br>
-            <strong>Prasanna Mungle</strong> - Player
-        </p>
+    <div class="container">
+        <div class="logo-info">
+            <img src="https://lh3.googleusercontent.com/FmrmOJ-uLBBS5kdEIrMXxpxYH5QINd8qHfL3brL3op9Yr50Qwq5SSjpCTpYwT6jKf3DmXETJJz4eXEwDd5CW_hc-e0FxK2GqGHHUS6Y12r4vKiSeIUzwmncE23ZPM2SZZw=w1280" alt="Logo 5">
+            <h2>Team Information</h2>
+            <p>
+                <strong>Sandeep Yadav</strong> - Owner<br>
+                <strong>Krishna Sahasrabuddhe</strong> - Captain<br>
+                <strong>Umesh Beloshe</strong> - Icon<br>
+                <strong>Ajit Biradar</strong> - Player<br>
+                <strong>Raghvendra</strong> - Player<br>
+                <strong>Rohit Pawar</strong> - Player<br>
+                <strong>Yash Deshmukh</strong> - Player<br>
+                <strong>Shubham Joshi</strong> - Player<br>
+                <strong>Yash Munde</strong> - Player
+            </p>
+        </div>
+
+        <a href="index.html" class="back-button">Back to Main Page</a>
     </div>
 </body>
 </html>
