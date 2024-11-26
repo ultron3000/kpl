@@ -6,13 +6,16 @@
     <title>Logo 2 Information</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
             text-align: center;
-            margin-top: 50px;
         }
         .logo-info img {
-            width: 200px;
-            height: 200px;
+            width: 250px;
+            height: 250px;
+            border-radius: 10px;
             margin-bottom: 20px;
         }
         .logo-info h2 {
@@ -22,8 +25,34 @@
         .logo-info p {
             font-size: 18px;
             color: #555;
-            max-width: 800px;
             margin: 0 auto;
+            max-width: 800px;
+            text-align: left;
+        }
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 768px) {
+            .logo-info img {
+                width: 200px;
+                height: 200px;
+            }
+            .logo-info h2 {
+                font-size: 20px;
+            }
+            .logo-info p {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -43,5 +72,7 @@
             <strong>Chetan Aadkar</strong> - Player
         </p>
     </div>
+
+    <a href="index.html" class="back-button">Back to Main Page</a>
 </body>
 </html>
