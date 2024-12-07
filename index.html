@@ -42,12 +42,6 @@
         .back-button:hover {
             background-color: #0056b3;
         }
-        .countdown {
-            font-size: 24px;
-            font-weight: bold;
-            color: #007BFF;
-            margin-top: 40px;
-        }
         @media (max-width: 768px) {
             .logo-link img {
                 width: 120px;
@@ -82,31 +76,7 @@
         </a>
     </div>
 
-    <script>
-        // Set the date for the tournament start (7 December 2024)
-        var tournamentDate = new Date("December 7, 2024 00:00:00").getTime();
-
-        // Update the countdown every second
-        var countdownInterval = setInterval(function() {
-            var now = new Date().getTime();
-            var timeLeft = tournamentDate - now;
-
-            // Calculate days, hours, minutes, and seconds
-            var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-            // Display the countdown in the "countdown" div
-            document.getElementById("countdown").innerHTML = 
-                "GameTime! " + days + "d " + hours + "h " + minutes + "m " + seconds + "s";
-
-            // If the countdown is finished
-            if (timeLeft < 0) {
-                clearInterval(countdownInterval);
-                document.getElementById("countdown").innerHTML = "The tournament has started!";
-            }
-        }, 1000);
-    </script>
+    <!-- Link to Match Schedule -->
+    <a href="schedule.html" class="back-button">View Match Schedule</a>
 </body>
 </html>
