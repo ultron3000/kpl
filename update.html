@@ -1,87 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KPL Admin Update</title>
-  <style>
-    body { font-family: sans-serif; background:#f7f7f7; padding:2rem; }
-    h1 { text-align:center; }
-    form { max-width:480px; margin:auto; background:#fff; padding:1.5rem; border-radius:1rem; }
-    input, textarea { width:100%; margin-bottom:1rem; padding:0.6rem; }
-    button { width:100%; padding:0.6rem; background:#007bff; color:#fff; border:none; border-radius:0.4rem; }
-    #statusMsg { text-align:center; margin-top:1rem; font-weight:600; }
-  </style>
+<meta charset="UTF-8">
+<title>KPL Live Score Admin Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    font-family: "Poppins", Arial, sans-serif;
+    background: #f7f7f7;
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+  h1 { text-align: center; color: #222; }
+  p { text-align: center; color: #666; }
+  select, input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+  }
+  button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover { background: #0056b3; }
+  pre {
+    background: #111;
+    color: #0f0;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+  .note {
+    background: #fff3cd;
+    border-left: 4px solid #ffeeba;
+    color: #856404;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+</style>
 </head>
 <body>
-  <h1>🏏 KPL Admin Panel</h1>
-  <form id="updateForm">
-    <input type="text" id="score" placeholder="Score (e.g. 102/4)" required>
-    <input type="text" id="overs" placeholder="Overs (e.g. 12.3)" required>
-    <input type="text" id="runRate" placeholder="Run Rate (e.g. 8.12)" required>
-    <input type="text" id="target" placeholder="Target (e.g. 150)" required>
-    <textarea id="batsmen" placeholder='Batsmen JSON (e.g. [{"name":"R. Sharma","runs":42,"balls":30}] )'></textarea>
-    <textarea id="bowlers" placeholder='Bowlers JSON (e.g. [{"name":"M. Khan","overs":3,"runs":25,"wickets":2}] )'></textarea>
-    <button type="submit">Update Live Score</button>
-  </form>
-  <div id="statusMsg"></div>
 
-  <script>
-    const GITHUB_USERNAME = "ultron3000";
-    const REPO_NAME = "kpl";
-    const FILE_PATH = "data/live.json";
+<h1>🏏 KPL Admin Score Updater</h1>
+<p>Fill in the details and click <strong>Generate JSON</strong>. Then copy the JSON output into the correct file inside <code>/data/</code> on GitHub (e.g. <code>match-1.json</code>).</p>
 
-    async function updateGitHubFile(token, content) {
-      const apiURL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
-      const current = await fetch(apiURL, {
-        headers: { Authorization: `Bearer ${token}` }
-      }).then(r => r.json());
+<div class="note">
+  <strong>Tip:</strong> Use valid JSON in the Batsmen and Bowlers boxes. Example:<br>
+  <code>[{"name":"A. Patel","runs":25,"balls":15},{"name":"R. Sharma","runs":14,"balls":10}]</code>
+</div>
 
-      const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2))));
+<form id="form">
+  <label>Select Match File:</label>
+  <select id="matchFile">
+    <option value="match-1.json">Match 1: Titans vs Strikers</option>
+    <option value="match-2.json">Match 2: Warriors vs Challengers</option>
+    <option value="match-3.json">Match 3: Blazers vs Spartans</option>
+    <option value="match-4.json">Match 4: Royals vs Mavericks</option>
+    <option value="match-5.json">Match 5: Thunderbolts vs Gladiators</option>
+  </select>
 
-      const res = await fetch(apiURL, {
-        method: "PUT",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          message: "🏏 Live score auto-updated via Admin Panel",
-          content: newContent,
-          sha: current.sha
-        })
-      });
+  <label>Match Name:</label>
+  <input id="match" placeholder="Titans vs Strikers" required>
 
-      if (!res.ok) throw new Error("GitHub update failed");
-      return res.json();
-    }
+  <label>Venue:</label>
+  <input id="venue" placeholder="KPL Arena 1">
 
-    document.getElementById('updateForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const token = prompt("🔑 Enter your GitHub Personal Access Token:");
+  <label>Status:</label>
+  <input id="status" placeholder="LIVE / Completed / Upcoming">
 
-      const payload = {
-        match: "Titans vs Strikers",
-        venue: "KPL Arena 1",
-        status: "LIVE",
-        score: document.getElementById('score').value,
-        overs: document.getElementById('overs').value,
-        runRate: document.getElementById('runRate').value,
-        target: document.getElementById('target').value,
-        batsmen: JSON.parse(document.getElementById('batsmen').value || "[]"),
-        bowlers: JSON.parse(document.getElementById('bowlers').value || "[]"),
-        lastUpdated: new Date().toLocaleString()
-      };
+  <label>Score:</label>
+  <input id="score" placeholder="e.g. 89/3">
 
-      document.getElementById('statusMsg').textContent = "⏳ Updating GitHub...";
-      try {
-        await updateGitHubFile(token, payload);
-        document.getElementById('statusMsg').textContent = "✅ Live score updated successfully!";
-      } catch (err) {
-        console.error(err);
-        document.getElementById('statusMsg').textContent = "❌ Failed: " + err.message;
-      }
-    });
-  </script>
+  <label>Overs:</label>
+  <input id="overs" placeholder="e.g. 10.2">
+
+  <label>Run Rate:</label>
+  <input id="runRate" placeholder="e.g. 8.65">
+
+  <label>Target:</label>
+  <input id="target" placeholder="e.g. 150">
+
+  <label>Batsmen (JSON format):</label>
+  <textarea id="batsmen" rows="4" placeholder='[{"name":"A. Patel","runs":25,"balls":15}]'></textarea>
+
+  <label>Bowlers (JSON format):</label>
+  <textarea id="bowlers" rows="4" placeholder='[{"name":"M. Khan","overs":2,"runs":18,"wickets":1}]'></textarea>
+
+  <button type="button" onclick="generate()">Generate JSON</button>
+</form>
+
+<h2>📄 Generated JSON</h2>
+<pre id="output">-- JSON output will appear here --</pre>
+
+<script>
+function generate() {
+  let batsmen = [];
+  let bowlers = [];
+  try { batsmen = JSON.parse(document.getElementById('batsmen').value || '[]'); }
+  catch { alert("Invalid Batsmen JSON"); return; }
+  try { bowlers = JSON.parse(document.getElementById('bowlers').value || '[]'); }
+  catch { alert("Invalid Bowlers JSON"); return; }
+
+  const obj = {
+    match: document.getElementById('match').value,
+    venue: document.getElementById('venue').value,
+    status: document.getElementById('status').value,
+    score: document.getElementById('score').value,
+    overs: document.getElementById('overs').value,
+    runRate: document.getElementById('runRate').value,
+    target: document.getElementById('target').value,
+    batsmen,
+    bowlers,
+    lastUpdated: new Date().toLocaleString()
+  };
+
+  const jsonStr = JSON.stringify(obj, null, 2);
+  document.getElementById('output').textContent = jsonStr;
+
+  // Display filename suggestion
+  const matchFile = document.getElementById('matchFile').value;
+  document.getElementById('output').insertAdjacentHTML(
+    'beforebegin',
+    `<p><strong>💾 Save this to:</strong> <code>/data/${matchFile}</code></p>`
+  );
+}
+</script>
+
 </body>
 </html>
