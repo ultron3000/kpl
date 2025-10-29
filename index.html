@@ -1,84 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>KPL Live Dashboard</title>
-  <style>
-    body { font-family: Inter, Arial, sans-serif; background:#071025; color:#fff; margin:0; padding:28px; }
-    h1 { color:#ffd54f; text-align:center; margin:0 0 6px 0; }
-    p.sub { text-align:center; color:#bcd3f5; margin-top:6px; margin-bottom:20px; }
-    .grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); }
-    .card { background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); }
-    .match { font-weight:700; font-size:16px; color:#fff; }
-    .status { color:#ffd54f; margin-top:6px; }
-    .score { font-size:20px; margin-top:8px; color:#ffefc2; }
-    .meta { color:#bcd3f5; margin-top:6px; }
-    .btn { display:inline-block; margin-top:10px; padding:8px 12px; background:#ffd54f; color:#071025; border-radius:6px; text-decoration:none; font-weight:700; }
-    footer { text-align:center; color:#9fb6e6; margin-top:20px; font-size:13px; }
-  </style>
+<meta charset="UTF-8">
+<title>KPL Fixtures</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:Poppins,sans-serif;text-align:center;background:#f7f7f7;padding:20px;}
+.card{background:white;margin:10px auto;padding:15px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,0.1);width:90%;max-width:400px;}
+a{color:#007bff;text-decoration:none;font-weight:600;}
+</style>
 </head>
 <body>
-  <h1>🏏 KPL 2025 — Live Dashboard</h1>
-  <p class="sub">Click a match to open live view. Data is read from <code>/data/match-x.json</code>.</p>
 
-  <div id="grid" class="grid"></div>
+<h1>🏆 KPL 2025 — Fixtures</h1>
 
-  <footer>Admin → <a href="update.html" style="color:#ffd54f; text-decoration:none;">Update Scores</a></footer>
+<div class="card"><a href="match-1.html">Match 1: Titans vs Strikers</a></div>
+<div class="card"><a href="match-2.html">Match 2: Warriors vs Challengers</a></div>
+<div class="card"><a href="match-3.html">Match 3: Blazers vs Spartans</a></div>
+<div class="card"><a href="match-4.html">Match 4: Royals vs Mavericks</a></div>
+<div class="card"><a href="match-5.html">Match 5: Thunderbolts vs Gladiators</a></div>
 
-<script>
-const username = "ultron3000";               // ← your GitHub username (already set)
-const repo = "kpl";                          // ← repo name (already set)
-const matches = [
-  {id:1, file:"match-1.json", page:"match-1.html"},
-  {id:2, file:"match-2.json", page:"match-2.html"},
-  {id:3, file:"match-3.json", page:"match-3.html"},
-  {id:4, file:"match-4.json", page:"match-4.html"},
-  {id:5, file:"match-5.json", page:"match-5.html"}
-];
-
-async function fetchData(file) {
-  const raw = `https://raw.githubusercontent.com/${username}/${repo}/main/data/${file}?t=${Date.now()}`;
-  try {
-    const res = await fetch(raw);
-    if (!res.ok) throw new Error('No data');
-    const json = await res.json();
-    return json;
-  } catch (e) {
-    return null;
-  }
-}
-
-async function render() {
-  const grid = document.getElementById('grid');
-  grid.innerHTML = 'Loading…';
-  const html = await Promise.all(matches.map(async m => {
-    const data = await fetchData(m.file);
-    if (!data) {
-      return `<div class="card">
-                <div class="match">Match ${m.id}</div>
-                <div class="status">No data (create <code>data/${m.file}</code>)</div>
-                <div style="margin-top:8px;"><a class="btn" href="${m.page}">Open</a></div>
-              </div>`;
-    }
-    return `<div class="card">
-              <div class="match">${escapeHtml(data.match || `Match ${m.id}`)}</div>
-              <div class="status">${escapeHtml(data.status || '—')}</div>
-              <div class="score">${escapeHtml(data.score || '—')}</div>
-              <div class="meta">${escapeHtml(data.venue || '')} • Overs: ${escapeHtml(data.overs || '—')}</div>
-              <div style="margin-top:8px;"><a class="btn" href="${m.page}">Open</a></div>
-            </div>`;
-  }));
-  grid.innerHTML = html.join('');
-}
-
-function escapeHtml(s) {
-  if (!s && s !== 0) return '';
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-
-render();
-setInterval(render, 10000);
-</script>
 </body>
 </html>
