@@ -1,12 +1,15 @@
 {
-  "match": "Titans vs Strikers",
-  "venue": "Khandelwal Mansion",
-  "status": "Live",
-  "score": "100",
-  "overs": "50",
-  "runRate": "105",
-  "target": "101",
-  "batsmen": "Sachin",
-  "bowlers": "Kumble",
-  "lastUpdated": "10/30/2025, 2:39:16 AM"
+  "teamA": {
+    "name": "Titans",
+    "score": "125/5",
+    "overs": "15.3"
+  },
+  "teamB": {
+    "name": "Strikers",
+    "score": "110/4",
+    "overs": "14.5"
+  },
+  "venue": "KPL Ground",
+  "status": "LIVE",
+  "lastUpdated": "2025-10-30 10:00 PM"
 }
