@@ -105,8 +105,25 @@
       "team": "Titans",
       "totalRuns": 0,
       "wickets": 0,
-      "overs": 0,
-      "balls": [],
+      "overs": "0.3",
+      "balls": [
+        {
+          "striker": "R. Sharma",
+          "bowler": "K. Rahul",
+          "runs": 0,
+          "type": "normal",
+          "wicket": "none",
+          "time": "4:17:29 AM"
+        },
+        {
+          "striker": "R. Sharma",
+          "bowler": "K. Rahul",
+          "runs": 0,
+          "type": "normal",
+          "wicket": "none",
+          "time": "4:17:58 AM"
+        }
+      ],
       "fallOfWickets": []
     },
     {
