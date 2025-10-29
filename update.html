@@ -109,7 +109,7 @@ let matchData = {
   teamA: { name:"", score:0, wickets:0, overs:0, balls:0, extras:0 },
   teamB: { name:"", score:0, wickets:0, overs:0, balls:0, extras:0 },
   striker:"", nonStriker:"", bowler:"",
-  oversSummary:[], // keeps per-over breakdown
+  oversSummary:[],
   venue:"", status:"LIVE", lastUpdated:""
 };
 
@@ -129,14 +129,16 @@ function toggleFreeHit(){
   document.getElementById("freeHitStatus").innerText=isFreeHit?"ON":"OFF";
 }
 
+// ✅ Add Run
 function addRun(runs){
   const t=getBatting();
   matchData[t].score+=runs;
   recordBall(runs);
-  if(!isFreeHit) addBall();
+  addBall(); // legal delivery
   updateDisplay();
 }
 
+// ✅ Add Extras
 function addExtra(type){
   const t=getBatting();
   let label="";
@@ -146,13 +148,20 @@ function addExtra(type){
     case "bye": label="B"; break;
     case "legbye": label="Lb"; break;
   }
+
+  // add 1 run for the extra
   matchData[t].score+=1;
   matchData[t].extras+=1;
+
+  // wide and no ball do NOT count as legal deliveries
+  const legal = !(type==="wide" || type==="noball");
   recordBall(label);
-  if(type==="bye"||type==="legbye") addBall();
+  if(legal) addBall();
+
   updateDisplay();
 }
 
+// ✅ Add Wicket
 function addWicket(kind){
   const t=getBatting();
   if(isFreeHit){
@@ -167,18 +176,19 @@ function addWicket(kind){
   updateDisplay();
 }
 
+// ✅ Record Ball in Over Summary
 function recordBall(symbol){
   overBalls.push(symbol);
   document.getElementById("overSummary").innerText=`Over Summary: ${overBalls.join(" | ")}`;
 }
 
+// ✅ Handle legal ball progression
 function addBall(){
   const t=getBatting();
   matchData[t].balls+=1;
   if(matchData[t].balls===6){
     matchData[t].overs+=1;
     matchData[t].balls=0;
-    // Save over summary
     matchData.oversSummary.push({
       over: matchData[t].overs,
       balls:[...overBalls],
@@ -189,6 +199,7 @@ function addBall(){
   }
 }
 
+// ✅ Update score display
 function updateDisplay(){
   const t=getBatting();
   const d=matchData[t];
@@ -197,6 +208,7 @@ function updateDisplay(){
   document.getElementById("balls").innerText=d.balls;
 }
 
+// ✅ Push JSON to GitHub
 async function updateGitHub(){
   matchData.teamA.name=document.getElementById("teamA").value;
   matchData.teamB.name=document.getElementById("teamB").value;
