@@ -1,215 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>KPL Admin — Update Scores</title>
+<meta charset="UTF-8">
+<title>KPL Live Admin — Protected</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body { font-family: Inter, Arial, sans-serif; background:#f7fafc; color:#0b1220; margin:0; padding:22px; }
-  .wrap { max-width:820px; margin:auto; }
-  h1 { text-align:center; color:#0b1220; }
-  .box { background:#fff; border-radius:10px; padding:14px; box-shadow:0 6px 18px rgba(9,30,66,0.08); margin-top:14px; }
-  label { display:block; font-weight:600; margin-top:10px; color:#1f2d3d; }
-  input, textarea, select { width:100%; padding:10px; border-radius:8px; border:1px solid #dbe7f0; margin-top:6px; box-sizing:border-box; font-size:14px; }
-  button { margin-top:12px; background:#0b72ff; color:#fff; padding:10px 14px; border:0; border-radius:8px; cursor:pointer; font-weight:700; }
-  .small { font-size:13px; color:#52606d; margin-top:8px; }
-  pre { background:#0b1220; color:#dff3c6; padding:12px; border-radius:8px; overflow:auto; margin-top:12px; }
-  .success { color:green; font-weight:700; }
-  .error { color:red; font-weight:700; }
+  body { font-family:Poppins, sans-serif; background:#f4f4f4; padding:20px; max-width:900px; margin:auto; }
+  h1 { text-align:center; color:#111; }
+  input, select, textarea {
+    width:100%; padding:10px; margin:6px 0; border:1px solid #ccc; border-radius:6px;
+  }
+  button { background:#007bff; color:white; border:none; padding:10px 16px; border-radius:6px; cursor:pointer; }
+  button:hover { background:#0056b3; }
+  .card { background:white; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:15px; }
+  pre { background:#111; color:#0f0; padding:10px; border-radius:8px; overflow-x:auto; }
+  .error{color:red;} .success{color:green;}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>🏏 KPL — Admin Update (Protected)</h1>
 
-  <!-- LOGIN -->
-  <div id="loginBox" class="box">
-    <label>Enter Admin PIN</label>
-    <input id="pin" type="password" placeholder="Admin PIN">
-    <div style="display:flex; gap:10px;">
-      <button onclick="tryLogin()">Unlock</button>
-      <button onclick="clearPin()">Reset Pin Entry</button>
-    </div>
-    <div id="loginMsg" class="small"></div>
-    <p class="small" style="margin-top:12px;">Admin PIN is <strong>4278</strong> (preconfigured). Change in script if you want different PIN.</p>
+<h1>🏏 KPL Live Score Admin</h1>
+
+<!-- LOGIN -->
+<div id="loginBox" class="card">
+  <h3>🔐 Enter Admin PIN</h3>
+  <input type="password" id="adminPin" placeholder="Enter PIN">
+  <button onclick="checkPin()">Login</button>
+  <p id="loginMsg"></p>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none;">
+  <div class="card">
+    <h3>⚙️ GitHub Setup</h3>
+    <input id="username" placeholder="GitHub Username (e.g. ultron3000)">
+    <input id="token" type="password" placeholder="GitHub Token (starts with ghp_)">
   </div>
 
-  <!-- ADMIN FORM, hidden until login -->
-  <div id="adminBox" class="box" style="display:none;">
-    <div style="display:flex; gap:12px; align-items:center;">
-      <h2 style="margin:0;">Live Update</h2>
-      <button style="margin-left:auto; background:#ef4444;" onclick="logout()">Logout</button>
-    </div>
-
-    <label>GitHub Username</label>
-    <input id="ghUser" placeholder="e.g. ultron3000">
-
-    <label>Personal Access Token (PAT)</label>
-    <input id="ghToken" placeholder="ghp_xxx..." type="password">
-    <div class="small">PAT must have repository write permission (public_repo or repo). Token is used only in browser requests.</div>
-
-    <label>Select match file</label>
+  <div class="card">
+    <h3>🏆 Select Match</h3>
     <select id="matchFile">
-      <option value="match-1.json">match-1.json (Titans vs Strikers)</option>
-      <option value="match-2.json">match-2.json</option>
-      <option value="match-3.json">match-3.json</option>
-      <option value="match-4.json">match-4.json</option>
-      <option value="match-5.json">match-5.json</option>
+      <option value="match-1.json">Match 1: Titans vs Strikers</option>
+      <option value="match-2.json">Match 2: Warriors vs Challengers</option>
+      <option value="match-3.json">Match 3: Blazers vs Spartans</option>
+      <option value="match-4.json">Match 4: Royals vs Mavericks</option>
+      <option value="match-5.json">Match 5: Thunderbolts vs Gladiators</option>
     </select>
+  </div>
 
-    <label>Match (title)</label><input id="match" placeholder="Titans vs Strikers">
-    <label>Venue</label><input id="venue" placeholder="KPL Arena 1">
-    <label>Status</label><input id="status" placeholder="LIVE / Completed / Upcoming">
-    <label>Score (e.g. 89/3)</label><input id="score" placeholder="89/3">
-    <label>Overs (e.g. 10.2)</label><input id="overs" placeholder="10.2">
-    <label>Run Rate</label><input id="runRate" placeholder="8.65">
-    <label>Target</label><input id="target" placeholder="150">
-    <label>Batsmen JSON</label>
-    <textarea id="batsmen" rows="4" placeholder='[{"name":"A. Patel","runs":25,"balls":15}]'></textarea>
-    <label>Bowlers JSON</label>
-    <textarea id="bowlers" rows="4" placeholder='[{"name":"M. Khan","overs":2,"runs":18,"wickets":1}]'></textarea>
+  <div class="card">
+    <h3>🏏 Team A — 1st Innings</h3>
+    <input id="teamA" placeholder="Team A Name">
+    <input id="teamAScore" placeholder="Score (e.g. 125/5)">
+    <input id="teamAOvers" placeholder="Overs (e.g. 15.3)">
+  </div>
 
-    <div style="display:flex; gap:10px;">
-      <button onclick="generate()">Generate JSON</button>
-      <button onclick="pushToGitHub()">Save to GitHub</button>
-    </div>
+  <div class="card">
+    <h3>🏏 Team B — 2nd Innings</h3>
+    <input id="teamB" placeholder="Team B Name">
+    <input id="teamBScore" placeholder="Score (e.g. 110/4)">
+    <input id="teamBOvers" placeholder="Overs (e.g. 14.5)">
+  </div>
 
-    <div id="msg" class="small"></div>
-    <pre id="jsonOut">Generated JSON will appear here</pre>
+  <div class="card">
+    <h3>📊 Match Info</h3>
+    <input id="venue" placeholder="Venue (e.g. KPL Ground)">
+    <input id="status" placeholder="Status (LIVE / Completed / Upcoming)">
+  </div>
+
+  <div class="card">
+    <button onclick="generate()">Generate JSON</button>
+    <pre id="output">-- JSON will appear here --</pre>
+    <button onclick="updateGitHub()">Save to GitHub</button>
+    <p id="msg"></p>
   </div>
 </div>
 
 <script>
-/* ---------- CONFIG ---------- */
-const ADMIN_PIN = "4278";         // PIN you requested
-const REPO = "kpl";              // repo name (already set)
-const USERNAME_FALLBACK = "ultron3000"; // default display, still enter your username in form
-/* ---------------------------- */
+const ADMIN_PIN = "4278"; // ✅ Your PIN
 
-function tryLogin() {
-  const pin = document.getElementById('pin').value.trim();
-  const msg = document.getElementById('loginMsg');
-  if (pin === ADMIN_PIN) {
-    localStorage.setItem('kpl_admin_auth', '1');
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('adminBox').style.display = 'block';
-    msg.textContent = '';
-    // Prefill username for convenience
-    document.getElementById('ghUser').value = USERNAME_FALLBACK;
+function checkPin() {
+  const entered = document.getElementById("adminPin").value.trim();
+  if (entered === ADMIN_PIN) {
+    localStorage.setItem("kplAdmin", "true");
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
   } else {
-    msg.innerHTML = '<span class="error">Wrong PIN — try again.</span>';
+    document.getElementById("loginMsg").innerHTML = '<span class="error">❌ Wrong PIN!</span>';
   }
 }
-
-function clearPin() {
-  document.getElementById('pin').value = '';
-  document.getElementById('loginMsg').textContent = '';
-}
-
-function logout() {
-  localStorage.removeItem('kpl_admin_auth');
-  document.getElementById('adminBox').style.display = 'none';
-  document.getElementById('loginBox').style.display = 'block';
-  document.getElementById('msg').textContent = 'Logged out';
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('kpl_admin_auth') === '1') {
-    document.getElementById('loginBox').style.display = 'none';
-    document.getElementById('adminBox').style.display = 'block';
-    document.getElementById('ghUser').value = USERNAME_FALLBACK;
+window.onload = () => {
+  if (localStorage.getItem("kplAdmin") === "true") {
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("adminPanel").style.display = "block";
   }
-});
+};
 
-/* Generate JSON from inputs */
-let lastGenerated = null;
+let latestJSON = "";
+
 function generate() {
-  const batsmenText = document.getElementById('batsmen').value.trim();
-  const bowlersText = document.getElementById('bowlers').value.trim();
-  let batsmen = [], bowlers = [];
-  try { batsmen = batsmenText ? JSON.parse(batsmenText) : []; } catch (e) { alert('Invalid Batsmen JSON'); return; }
-  try { bowlers = bowlersText ? JSON.parse(bowlersText) : []; } catch (e) { alert('Invalid Bowlers JSON'); return; }
-
-  const obj = {
-    match: document.getElementById('match').value.trim() || 'Match',
-    venue: document.getElementById('venue').value.trim() || '',
-    status: document.getElementById('status').value.trim() || 'LIVE',
-    score: document.getElementById('score').value.trim() || '',
-    overs: document.getElementById('overs').value.trim() || '',
-    runRate: document.getElementById('runRate').value.trim() || '',
-    target: document.getElementById('target').value.trim() || '',
-    batsmen,
-    bowlers,
+  const data = {
+    teamA: {
+      name: document.getElementById("teamA").value,
+      score: document.getElementById("teamAScore").value,
+      overs: document.getElementById("teamAOvers").value
+    },
+    teamB: {
+      name: document.getElementById("teamB").value,
+      score: document.getElementById("teamBScore").value,
+      overs: document.getElementById("teamBOvers").value
+    },
+    venue: document.getElementById("venue").value,
+    status: document.getElementById("status").value,
     lastUpdated: new Date().toLocaleString()
   };
-  lastGenerated = obj;
-  document.getElementById('jsonOut').textContent = JSON.stringify(obj, null, 2);
-  document.getElementById('msg').innerHTML = '<span class="success">JSON generated — ready to push.</span>';
+
+  latestJSON = JSON.stringify(data, null, 2);
+  document.getElementById("output").textContent = latestJSON;
+  document.getElementById("msg").innerHTML = "";
 }
 
-/* GitHub update: handles create & update (sha present or absent) */
-async function pushToGitHub() {
-  const user = document.getElementById('ghUser').value.trim();
-  const token = document.getElementById('ghToken').value.trim();
-  const file = document.getElementById('matchFile').value.trim();
+async function updateGitHub() {
+  const user = document.getElementById("username").value.trim();
+  const token = document.getElementById("token").value.trim();
+  const file = document.getElementById("matchFile").value;
 
-  if (!localStorage.getItem('kpl_admin_auth')) return alert('Please login with PIN first.');
-  if (!user || !token) return alert('Enter GitHub username and token.');
-  if (!lastGenerated) return alert('Generate JSON first.');
+  if (!user || !token) return alert("Enter GitHub username and token");
+  if (!latestJSON) return alert("Generate JSON first!");
 
-  const path = `data/${file}`;
-  const api = `https://api.github.com/repos/${user}/${REPO}/contents/${path}`;
-  document.getElementById('msg').textContent = 'Checking file...';
+  const repo = "kpl";
+  const path = "data/" + file;
+  const apiURL = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
 
   try {
-    // 1) Try GET to obtain sha if exists
-    const getRes = await fetch(api, { headers: { Authorization: 'Bearer ' + token }});
-    let sha = null;
-    if (getRes.status === 200) {
-      const getJson = await getRes.json();
-      sha = getJson.sha;
-    } else if (getRes.status === 404) {
-      sha = null; // file doesn't exist — will create
-    } else {
-      const errText = await getRes.text();
-      throw new Error('Error checking file: ' + getRes.status + ' ' + errText);
-    }
+    const getRes = await fetch(apiURL, { headers: { Authorization: `token ${token}` }});
+    const getData = await getRes.json();
+    const sha = getData.sha;
 
-    // 2) PUT the file (create or update)
-    const contentBase64 = btoa(unescape(encodeURIComponent(JSON.stringify(lastGenerated, null, 2))));
     const body = {
-      message: `KPL: update ${file} via admin panel`,
-      content: contentBase64
+      message: `Auto update ${file}`,
+      content: btoa(unescape(encodeURIComponent(latestJSON))),
+      sha
     };
-    if (sha) body.sha = sha;
 
-    const putRes = await fetch(api, {
-      method: 'PUT',
-      headers: {
-        Authorization: 'Bearer ' + token,
-        'Content-Type': 'application/json'
-      },
+    const putRes = await fetch(apiURL, {
+      method: "PUT",
+      headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify(body)
     });
 
-    if (!putRes.ok) {
-      const errJson = await putRes.json().catch(() => ({}));
-      throw new Error(errJson.message || 'Unknown GitHub error ' + putRes.status);
+    if (putRes.ok) {
+      document.getElementById("msg").innerHTML = `<span class="success">✅ Updated ${file} successfully!</span>`;
+    } else {
+      const err = await putRes.json();
+      document.getElementById("msg").innerHTML = `<span class="error">❌ ${err.message}</span>`;
     }
-
-    document.getElementById('msg').innerHTML = '<span class="success">Saved to GitHub successfully ✅</span>';
-    // show resulting raw URL for quick check
-    const rawUrl = `https://raw.githubusercontent.com/${user}/${REPO}/main/data/${file}?t=${Date.now()}`;
-    document.getElementById('msg').innerHTML += `<div class="small">Raw URL: <a href="${rawUrl}" target="_blank">${rawUrl}</a></div>`;
   } catch (err) {
-    console.error(err);
-    document.getElementById('msg').innerHTML = `<span class="error">Failed: ${escapeHtml(err.message || err)}</span>`;
+    document.getElementById("msg").innerHTML = `<span class="error">❌ ${err.message}</span>`;
   }
-}
-
-function escapeHtml(s) {
-  if (!s && s !== 0) return '';
-  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 }
 </script>
 </body>
