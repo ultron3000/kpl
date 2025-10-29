@@ -1,38 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Match 1 Live — Titans vs Strikers</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>KPL Match 1 — Live Viewer</title>
 <style>
-body{text-align:center;font-family:Poppins,sans-serif;background:#f9f9f9;padding:20px;}
-.card{background:white;padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:inline-block;width:90%;max-width:500px;}
-h2{color:#007bff;}
+  body{font-family:Inter,Arial,sans-serif;background:#f8fafc;color:#0b1220;padding:18px}
+  .wrap{max-width:900px;margin:0 auto}
+  .card{background:white;padding:14px;border-radius:10px;box-shadow:0 4px 18px rgba(12,20,40,0.04);margin-bottom:12px}
+  h1{margin:0 0 8px}
+  .score{font-size:28px;font-weight:800}
+  .muted{color:#475569}
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:8px;border-bottom:1px dashed #eef2ff;text-align:left}
+  pre{background:#f1f5f9;padding:8px;border-radius:6px}
 </style>
 </head>
 <body>
+<div class="wrap">
+  <h1>🏏 KPL — Match 1 Live</h1>
 
-<div class="card">
-  <h2 id="title">🏏 Match 1</h2>
-  <p id="teamA"></p>
-  <p id="teamB"></p>
-  <p id="venue"></p>
-  <p id="status"></p>
-  <p id="updated"></p>
+  <div id="scoreCard" class="card">
+    <div class="score" id="scoreText">—</div>
+    <div class="muted" id="oversText">—</div>
+    <div style="margin-top:8px">
+      <span class="muted">Striker:</span> <strong id="vStriker">-</strong> &nbsp;|&nbsp;
+      <span class="muted">Non-Striker:</span> <strong id="vNonStriker">-</strong> &nbsp;|&nbsp;
+      <span class="muted">Bowler:</span> <strong id="vBowler">-</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Batting (current inning)</h3>
+    <table id="batTable"><thead><tr><th>Player</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>Status</th></tr></thead><tbody></tbody></table>
+  </div>
+
+  <div class="card">
+    <h3>Fall of Wickets</h3>
+    <pre id="fow">—</pre>
+  </div>
+
+  <div class="card">
+    <h3>Overs Summary</h3>
+    <pre id="oversSummary">—</pre>
+  </div>
+
+  <div class="card">
+    <h3>Full JSON (debug)</h3>
+    <pre id="rawJson">—</pre>
+  </div>
+
 </div>
 
 <script>
-async function loadScore(){
-  const res=await fetch("data/match-1.json?cache="+Date.now());
-  const d=await res.json();
-  document.getElementById("teamA").innerText=`${d.teamA.name}: ${d.teamA.score}/${d.teamA.wickets} (${d.teamA.overs}.${d.teamA.balls})`;
-  document.getElementById("teamB").innerText=`${d.teamB.name}: ${d.teamB.score}/${d.teamB.wickets} (${d.teamB.overs}.${d.teamB.balls})`;
-  document.getElementById("venue").innerText=`📍 ${d.venue}`;
-  document.getElementById("status").innerText=`⏱️ ${d.status}`;
-  document.getElementById("updated").innerText=`🕒 Updated: ${d.lastUpdated}`;
+const RAW = 'https://raw.githubusercontent.com/ultron3000/kpl/main/data/match-1.json';
+
+async function load(){
+  try{
+    const res = await fetch(RAW+'?t='+Date.now());
+    if(!res.ok) throw new Error('No data');
+    const d = await res.json();
+    // decide which inning to show: show batting team
+    const tKey = d.batting === 'A' ? 'teamA' : 'teamB';
+    const team = d[tKey];
+
+    document.getElementById('scoreText').innerText = `${team.score}/${team.wickets}`;
+    document.getElementById('oversText').innerText = `${team.overs}.${team.balls} overs • Extras: ${team.extras}`;
+    document.getElementById('vStriker').innerText = d.striker || '-';
+    document.getElementById('vNonStriker').innerText = d.nonStriker || '-';
+    document.getElementById('vBowler').innerText = d.bowler || '-';
+
+    // batting table
+    const tb = document.querySelector('#batTable tbody');
+    tb.innerHTML = '';
+    (team.battingOrder || []).forEach(p=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${p.name}</td><td>${p.runs}</td><td>${p.balls}</td><td>${p.fours}</td><td>${p.sixes}</td><td>${p.status}</td>`;
+      tb.appendChild(tr);
+    });
+
+    document.getElementById('fow').innerText = (team.fow && team.fow.length) ? team.fow.join('\\n') : '—';
+    document.getElementById('oversSummary').innerText = (d.oversSummary && d.oversSummary.length) ? d.oversSummary.map(o=>'Over '+o.over+': '+o.balls.join(' | ')+' — '+o.bowler).join('\\n') : '—';
+    document.getElementById('rawJson').innerText = JSON.stringify(d,null,2);
+  }catch(err){
+    document.getElementById('rawJson').innerText = 'Error: ' + err.message;
+  }
 }
-loadScore();
-setInterval(loadScore,10000);
+load();
+setInterval(load,8000); // refresh every 8s
 </script>
 </body>
 </html>
