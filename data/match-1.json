@@ -1,11 +1,11 @@
 {
   "teamA": {
     "name": "Titans",
-    "score": 26,
+    "score": 0,
     "wickets": 1,
-    "overs": 1,
-    "balls": 1,
-    "extras": 10
+    "overs": 0,
+    "balls": 2,
+    "extras": 0
   },
   "teamB": {
     "name": "Strikers",
@@ -18,31 +18,14 @@
   "striker": "Sachin",
   "nonStriker": "Ganguly",
   "bowler": "Siraj",
-  "oversSummary": [
+  "wickets": [
     {
-      "over": 1,
-      "balls": [
-        "Wd",
-        "Nb",
-        "Nb",
-        "Wd",
-        "Nb",
-        "Wd",
-        "Nb",
-        "Nb",
-        "Nb",
-        "Nb",
-        0,
-        1,
-        2,
-        3,
-        4,
-        6
-      ],
-      "bowler": ""
+      "player": "Sachin",
+      "how": "bowled"
     }
   ],
+  "oversSummary": [],
   "venue": "Ground",
   "status": "Live",
-  "lastUpdated": "10/30/2025, 3:16:07 AM"
+  "lastUpdated": "10/30/2025, 3:36:25 AM"
 }
