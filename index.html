@@ -1,61 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KPL Fixtures</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KPL Live Dashboard</title>
   <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #111, #222);
-      color: #fff;
-      text-align: center;
-      padding: 2rem;
-    }
-    h1 { color: #ffcc00; }
-    .fixtures {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .card {
-      background: rgba(255,255,255,0.08);
-      border-radius: 1rem;
-      padding: 1rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    }
-    button {
-      margin-top: 0.5rem;
-      background: #ffcc00;
-      border: none;
-      color: #111;
-      padding: 0.5rem 1rem;
-      border-radius: 0.4rem;
-      cursor: pointer;
-    }
+    body { font-family: Inter, Arial, sans-serif; background:#071025; color:#fff; margin:0; padding:28px; }
+    h1 { color:#ffd54f; text-align:center; margin:0 0 6px 0; }
+    p.sub { text-align:center; color:#bcd3f5; margin-top:6px; margin-bottom:20px; }
+    .grid { display:grid; gap:14px; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); }
+    .card { background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.04); }
+    .match { font-weight:700; font-size:16px; color:#fff; }
+    .status { color:#ffd54f; margin-top:6px; }
+    .score { font-size:20px; margin-top:8px; color:#ffefc2; }
+    .meta { color:#bcd3f5; margin-top:6px; }
+    .btn { display:inline-block; margin-top:10px; padding:8px 12px; background:#ffd54f; color:#071025; border-radius:6px; text-decoration:none; font-weight:700; }
+    footer { text-align:center; color:#9fb6e6; margin-top:20px; font-size:13px; }
   </style>
 </head>
 <body>
-  <h1>🏏 KPL 2025 – Fixtures</h1>
-  <div class="fixtures" id="fixtures"></div>
+  <h1>🏏 KPL 2025 — Live Dashboard</h1>
+  <p class="sub">Click a match to open live view. Data is read from <code>/data/match-x.json</code>.</p>
 
-  <script>
-    const teams = ["Titans", "Strikers", "Warriors", "Blazers", "Chargers", "Rangers", "Royals", "Knights", "Gladiators", "Falcons"];
-    const fixturesContainer = document.getElementById("fixtures");
-    let matchNum = 1;
+  <div id="grid" class="grid"></div>
 
-    for (let i = 0; i < teams.length; i += 2) {
-      const teamA = teams[i];
-      const teamB = teams[i + 1];
-      fixturesContainer.innerHTML += `
-        <div class="card">
-          <h3>Match ${matchNum}: ${teamA} vs ${teamB}</h3>
-          <p>Venue: KPL Arena ${matchNum}</p>
-          <button onclick="window.location='match-1.html'">View Live</button>
-        </div>`;
-      matchNum++;
+  <footer>Admin → <a href="update.html" style="color:#ffd54f; text-decoration:none;">Update Scores</a></footer>
+
+<script>
+const username = "ultron3000";               // ← your GitHub username (already set)
+const repo = "kpl";                          // ← repo name (already set)
+const matches = [
+  {id:1, file:"match-1.json", page:"match-1.html"},
+  {id:2, file:"match-2.json", page:"match-2.html"},
+  {id:3, file:"match-3.json", page:"match-3.html"},
+  {id:4, file:"match-4.json", page:"match-4.html"},
+  {id:5, file:"match-5.json", page:"match-5.html"}
+];
+
+async function fetchData(file) {
+  const raw = `https://raw.githubusercontent.com/${username}/${repo}/main/data/${file}?t=${Date.now()}`;
+  try {
+    const res = await fetch(raw);
+    if (!res.ok) throw new Error('No data');
+    const json = await res.json();
+    return json;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function render() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = 'Loading…';
+  const html = await Promise.all(matches.map(async m => {
+    const data = await fetchData(m.file);
+    if (!data) {
+      return `<div class="card">
+                <div class="match">Match ${m.id}</div>
+                <div class="status">No data (create <code>data/${m.file}</code>)</div>
+                <div style="margin-top:8px;"><a class="btn" href="${m.page}">Open</a></div>
+              </div>`;
     }
-  </script>
+    return `<div class="card">
+              <div class="match">${escapeHtml(data.match || `Match ${m.id}`)}</div>
+              <div class="status">${escapeHtml(data.status || '—')}</div>
+              <div class="score">${escapeHtml(data.score || '—')}</div>
+              <div class="meta">${escapeHtml(data.venue || '')} • Overs: ${escapeHtml(data.overs || '—')}</div>
+              <div style="margin-top:8px;"><a class="btn" href="${m.page}">Open</a></div>
+            </div>`;
+  }));
+  grid.innerHTML = html.join('');
+}
+
+function escapeHtml(s) {
+  if (!s && s !== 0) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+render();
+setInterval(render, 10000);
+</script>
 </body>
 </html>
