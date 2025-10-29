@@ -1,140 +1,62 @@
 {
-  "matchTitle": "Titans vs Strikers - KPL 2025",
+  "match": {
+    "id": 1,
+    "title": "Titans vs Strikers",
+    "venue": "KPL Ground",
+    "status": "live",
+    "currentInnings": 1
+  },
   "teams": {
     "teamA": {
       "name": "Titans",
       "players": [
-        {
-          "name": "R. Sharma",
-          "role": "Batsman"
-        },
-        {
-          "name": "V. Kohli",
-          "role": "Batsman"
-        },
-        {
-          "name": "S. Iyer",
-          "role": "Batsman"
-        },
-        {
-          "name": "S. Yadav",
-          "role": "Batsman"
-        },
-        {
-          "name": "H. Pandya",
-          "role": "All-rounder"
-        },
-        {
-          "name": "R. Jadeja",
-          "role": "All-rounder"
-        },
-        {
-          "name": "D. Karthik",
-          "role": "Wicketkeeper"
-        },
-        {
-          "name": "R. Ashwin",
-          "role": "Bowler"
-        },
-        {
-          "name": "B. Kumar",
-          "role": "Bowler"
-        },
-        {
-          "name": "M. Shami",
-          "role": "Bowler"
-        },
-        {
-          "name": "J. Bumrah",
-          "role": "Bowler"
-        }
+        "R. Sharma (C)",
+        "V. Kohli",
+        "S. Iyer",
+        "S. Yadav",
+        "H. Pandya",
+        "R. Jadeja",
+        "D. Karthik (WK)",
+        "R. Ashwin",
+        "B. Kumar",
+        "M. Shami",
+        "J. Bumrah"
       ]
     },
     "teamB": {
       "name": "Strikers",
       "players": [
-        {
-          "name": "K. Rahul",
-          "role": "Wicketkeeper"
-        },
-        {
-          "name": "S. Gill",
-          "role": "Batsman"
-        },
-        {
-          "name": "R. Gaikwad",
-          "role": "Batsman"
-        },
-        {
-          "name": "S. Samson",
-          "role": "Batsman"
-        },
-        {
-          "name": "A. Patel",
-          "role": "All-rounder"
-        },
-        {
-          "name": "W. Sundar",
-          "role": "All-rounder"
-        },
-        {
-          "name": "D. Hooda",
-          "role": "All-rounder"
-        },
-        {
-          "name": "Y. Chahal",
-          "role": "Bowler"
-        },
-        {
-          "name": "A. Khan",
-          "role": "Bowler"
-        },
-        {
-          "name": "M. Siraj",
-          "role": "Bowler"
-        },
-        {
-          "name": "K. Yadav",
-          "role": "Bowler"
-        }
+        "K. Rahul (C/WK)",
+        "S. Gill",
+        "R. Gaikwad",
+        "S. Samson",
+        "A. Patel",
+        "W. Sundar",
+        "D. Hooda",
+        "Y. Chahal",
+        "A. Khan",
+        "M. Siraj",
+        "K. Yadav"
       ]
     }
   },
   "innings": [
     {
       "team": "Titans",
-      "totalRuns": 0,
+      "runs": 0,
       "wickets": 0,
-      "overs": "0.3",
-      "balls": [
-        {
-          "striker": "R. Sharma",
-          "bowler": "K. Rahul",
-          "runs": 0,
-          "type": "normal",
-          "wicket": "none",
-          "time": "4:17:29 AM"
-        },
-        {
-          "striker": "R. Sharma",
-          "bowler": "K. Rahul",
-          "runs": 0,
-          "type": "normal",
-          "wicket": "none",
-          "time": "4:17:58 AM"
-        }
-      ],
+      "overs": 0,
+      "balls": [],
       "fallOfWickets": []
     },
     {
       "team": "Strikers",
-      "totalRuns": 0,
+      "runs": 0,
       "wickets": 0,
       "overs": 0,
       "balls": [],
       "fallOfWickets": []
     }
   ],
-  "currentInnings": 0,
-  "matchStatus": "Not Started"
+  "lastUpdated": ""
 }
