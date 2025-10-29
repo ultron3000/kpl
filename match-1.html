@@ -1,66 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Titans vs Strikers - Live Score</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Titans vs Strikers — Live</title>
 <style>
-  body {font-family: Arial, sans-serif; background: #0a0a0a; color: #fff; text-align: center; margin: 0; padding: 40px;}
-  h1 {color: #ffcc00;}
-  .scoreboard {background: #111; border-radius: 10px; padding: 20px; display: inline-block; min-width: 300px;}
-  .section {margin-top: 15px;}
-  .updated {font-size: 12px; color: #aaa;}
+  body { font-family: Inter, Arial, sans-serif; background:#071025; color:#fff; padding:28px; }
+  .wrap { max-width:720px; margin:auto; }
+  .header { text-align:center; color:#ffd54f; }
+  .card { background:#081628; border-radius:10px; padding:18px; margin-top:18px; border:1px solid rgba(255,255,255,0.03); }
+  .score { font-size:34px; color:#fff2c6; font-weight:800; margin:8px 0; }
+  .meta { color:#bcd3f5; margin-bottom:8px; }
+  table { width:100%; border-collapse:collapse; margin-top:12px; }
+  th, td { text-align:left; padding:8px; border-bottom:1px solid rgba(255,255,255,0.03); }
+  .small { color:#9fb6e6; font-size:13px; }
+  footer { text-align:center; color:#9fb6e6; margin-top:18px; }
 </style>
 </head>
 <body>
+  <div class="wrap">
+    <h1 class="header">🏏 Live — <span id="matchTitle">Loading…</span></h1>
 
-<h1>Titans 🆚 Strikers</h1>
-<div class="scoreboard">
-  <h2 id="status">Loading...</h2>
-  <div id="score">--</div>
-  <div id="overs">--</div>
-  <div id="runrate">--</div>
+    <div class="card">
+      <div class="meta" id="venue">Loading venue…</div>
+      <div id="status" class="small">Status: —</div>
+      <div id="score" class="score">—</div>
+      <div id="overs" class="small">Overs: —</div>
+      <div id="rr" class="small">Run Rate: —</div>
+      <div id="target" class="small">Target: —</div>
 
-  <div class="section">
-    <h3>Batsmen</h3>
-    <ul id="batsmen"></ul>
+      <h3 style="margin-top:14px;">Batsmen</h3>
+      <table id="batsmenTbl"><thead><tr><th>Player</th><th>R</th><th>B</th></tr></thead><tbody></tbody></table>
+
+      <h3 style="margin-top:14px;">Bowlers</h3>
+      <table id="bowlersTbl"><thead><tr><th>Player</th><th>O</th><th>R</th><th>W</th></tr></thead><tbody></tbody></table>
+
+      <div class="small" id="lastUpdated" style="margin-top:10px;"></div>
+    </div>
+
+    <footer><a href="index.html" style="color:#ffd54f; text-decoration:none;">⬅ Back to Dashboard</a></footer>
   </div>
-
-  <div class="section">
-    <h3>Bowler</h3>
-    <ul id="bowlers"></ul>
-  </div>
-
-  <div class="updated" id="lastUpdated"></div>
-</div>
 
 <script>
-const dataURL = "https://raw.githubusercontent.com/ultron3000/kpl/main/data/live.json";
+const username = "ultron3000";
+const repo = "kpl";
+const file = "match-1.json";
+const rawUrl = `https://raw.githubusercontent.com/${username}/${repo}/main/data/${file}`;
 
-async function loadScore() {
+async function load() {
   try {
-    const res = await fetch(dataURL + '?t=' + new Date().getTime());
-    const data = await res.json();
-    document.getElementById('status').textContent = data.status;
-    document.getElementById('score').innerHTML = `<strong>${data.score}</strong>`;
-    document.getElementById('overs').textContent = `Overs: ${data.overs}`;
-    document.getElementById('runrate').textContent = `Run Rate: ${data.runRate}`;
-    
-    document.getElementById('batsmen').innerHTML = data.batsmen
-      .map(b => `<li>${b.name}: ${b.runs} (${b.balls})</li>`).join('');
-    
-    document.getElementById('bowlers').innerHTML = data.bowlers
-      .map(b => `<li>${b.name} - ${b.overs} overs, ${b.runs} runs, ${b.wickets} wkts</li>`).join('');
-    
-    document.getElementById('lastUpdated').textContent = `Last updated: ${data.lastUpdated}`;
+    const res = await fetch(rawUrl + '?t=' + Date.now());
+    if (!res.ok) throw new Error('No data');
+    const d = await res.json();
+
+    document.getElementById('matchTitle').textContent = d.match || 'Match';
+    document.getElementById('venue').textContent = (d.venue || '') + ' • ' + (d.status || '');
+    document.getElementById('status').textContent = 'Status: ' + (d.status || '—');
+    document.getElementById('score').textContent = d.score || '—';
+    document.getElementById('overs').textContent = 'Overs: ' + (d.overs || '—');
+    document.getElementById('rr').textContent = 'Run Rate: ' + (d.runRate || '—');
+    document.getElementById('target').textContent = 'Target: ' + (d.target || '—');
+
+    const bt = document.querySelector('#batsmenTbl tbody');
+    bt.innerHTML = (d.batsmen && d.batsmen.length) ? d.batsmen.map(b => `<tr><td>${escapeHtml(b.name)}</td><td>${b.runs}</td><td>${b.balls}</td></tr>`).join('') : '<tr><td colspan="3" class="small">No batsmen data</td></tr>';
+
+    const bw = document.querySelector('#bowlersTbl tbody');
+    bw.innerHTML = (d.bowlers && d.bowlers.length) ? d.bowlers.map(b => `<tr><td>${escapeHtml(b.name)}</td><td>${b.overs}</td><td>${b.runs}</td><td>${b.wickets}</td></tr>`).join('') : '<tr><td colspan="4" class="small">No bowlers data</td></tr>';
+
+    document.getElementById('lastUpdated').textContent = 'Last updated: ' + (d.lastUpdated || new Date().toLocaleString());
   } catch (err) {
-    document.getElementById('status').textContent = "Error loading data.";
+    document.getElementById('matchTitle').textContent = 'No data';
+    document.getElementById('score').textContent = '--';
   }
 }
 
-loadScore();
-setInterval(loadScore, 5000); // refresh every 5 sec
-</script>
+function escapeHtml(s) {
+  if (!s && s !== 0) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 
+load();
+setInterval(load, 8000);
+</script>
 </body>
 </html>
