@@ -1,0 +1,179 @@
+{
+  "title": "Titans vs Strikers",
+  "venue": "KPL Arena 1",
+  "status": "LIVE",
+  "toss": "Titans won the toss and chose to bat first",
+  "currentInnings": 0,
+  "matchMeta": {
+    "oversPerInnings": 20,
+    "target": 150
+  },
+  "innings": [
+    {
+      "team": "Titans",
+      "total": 5,
+      "wickets": 0,
+      "overs": 0,
+      "balls": 0,
+      "extras": {
+        "wides": 1,
+        "noballs": 0,
+        "byes": 0,
+        "legbyes": 0,
+        "total": 1
+      },
+      "battingOrder": [
+        {
+          "name": "Player A",
+          "runs": 4,
+          "balls": 4,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Player B",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Player C",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        }
+      ],
+      "bowlers": [
+        {
+          "name": "Bowler X",
+          "overs": 0,
+          "balls": 0,
+          "runs": 5,
+          "wickets": 0
+        }
+      ],
+      "oversSummary": [],
+      "fallOfWickets": [],
+      "ballsDetailed": [
+        {
+          "over": 0,
+          "ballInOver": 1,
+          "batsman": "Player A",
+          "bowler": "Bowler X",
+          "eventType": "run",
+          "runs": 0,
+          "extraType": null,
+          "wicket": null,
+          "summary": "Player A 0",
+          "timestamp": "10/30/2025, 5:02:53 AM"
+        },
+        {
+          "over": 0,
+          "ballInOver": 1,
+          "batsman": "Player A",
+          "bowler": "Bowler X",
+          "eventType": "run",
+          "runs": 1,
+          "extraType": null,
+          "wicket": null,
+          "summary": "Player A 1",
+          "timestamp": "10/30/2025, 5:02:58 AM"
+        },
+        {
+          "over": 0,
+          "ballInOver": 1,
+          "batsman": "Player A",
+          "bowler": "Bowler X",
+          "eventType": "run",
+          "runs": 1,
+          "extraType": null,
+          "wicket": null,
+          "summary": "Player A 1",
+          "timestamp": "10/30/2025, 5:02:59 AM"
+        },
+        {
+          "over": 0,
+          "ballInOver": 1,
+          "batsman": "Player A",
+          "bowler": "Bowler X",
+          "eventType": "run",
+          "runs": 2,
+          "extraType": null,
+          "wicket": null,
+          "summary": "Player A 2",
+          "timestamp": "10/30/2025, 5:02:59 AM"
+        },
+        {
+          "over": 0,
+          "ballInOver": 1,
+          "batsman": "Player A",
+          "bowler": "Bowler X",
+          "eventType": "extra",
+          "runs": 1,
+          "extraType": "wide",
+          "summary": "WIDE +1",
+          "timestamp": "10/30/2025, 5:03:05 AM"
+        }
+      ]
+    },
+    {
+      "team": "Strikers",
+      "total": 0,
+      "wickets": 0,
+      "overs": 0,
+      "balls": 0,
+      "extras": {
+        "wides": 0,
+        "noballs": 0,
+        "byes": 0,
+        "legbyes": 0,
+        "total": 0
+      },
+      "battingOrder": [
+        {
+          "name": "Player F",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Player G",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        }
+      ],
+      "bowlers": [
+        {
+          "name": "Bowler A",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        }
+      ],
+      "oversSummary": [],
+      "fallOfWickets": [],
+      "ballsDetailed": []
+    }
+  ],
+  "current": {
+    "striker": null,
+    "nonStriker": null,
+    "currentBowler": null,
+    "currentOverBalls": [
+      "WIDE +1"
+    ],
+    "isFreeHit": false
+  },
+  "lastSaved": "10/30/2025, 5:03:05 AM"
+}
