@@ -1,88 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KPL Live Score – Titans vs Strikers</title>
-  <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(135deg, #0d1520, #12283f);
-      color: #fff;
-      text-align: center;
-      padding: 2rem;
-    }
-    .scorecard {
-      max-width: 480px;
-      margin: auto;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    }
-    h1 { color: #ffcc00; margin-bottom: 0.3rem; }
-    .info { opacity: 0.8; margin-bottom: 1rem; }
-    .section { margin-top: 1rem; text-align: left; }
-    table { width: 100%; color: #fff; border-collapse: collapse; }
-    th, td { padding: 4px; }
-    .footer { margin-top: 1rem; font-size: 0.8rem; opacity: 0.6; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Titans vs Strikers - Live Score</title>
+<style>
+  body {font-family: Arial, sans-serif; background: #0a0a0a; color: #fff; text-align: center; margin: 0; padding: 40px;}
+  h1 {color: #ffcc00;}
+  .scoreboard {background: #111; border-radius: 10px; padding: 20px; display: inline-block; min-width: 300px;}
+  .section {margin-top: 15px;}
+  .updated {font-size: 12px; color: #aaa;}
+</style>
 </head>
 <body>
-  <div class="scorecard">
-    <h1 id="match"></h1>
-    <div class="info" id="venue"></div>
-    <h2 id="score"></h2>
-    <div id="overs"></div>
-    <div id="runrate"></div>
-    <div id="target"></div>
 
-    <div class="section">
-      <h3>🧢 Batsmen</h3>
-      <table id="batsmen"></table>
-    </div>
+<h1>Titans 🆚 Strikers</h1>
+<div class="scoreboard">
+  <h2 id="status">Loading...</h2>
+  <div id="score">--</div>
+  <div id="overs">--</div>
+  <div id="runrate">--</div>
 
-    <div class="section">
-      <h3>🎯 Bowlers</h3>
-      <table id="bowlers"></table>
-    </div>
-
-    <div class="footer" id="lastUpdated"></div>
+  <div class="section">
+    <h3>Batsmen</h3>
+    <ul id="batsmen"></ul>
   </div>
 
-  <script>
-    const DATA_URL = "https://raw.githubusercontent.com/ultron3000/kpl/main/data/live.json";
+  <div class="section">
+    <h3>Bowler</h3>
+    <ul id="bowlers"></ul>
+  </div>
 
-    async function fetchLiveData() {
-      try {
-        const res = await fetch(DATA_URL + "?t=" + Date.now());
-        const data = await res.json();
+  <div class="updated" id="lastUpdated"></div>
+</div>
 
-        document.getElementById('match').textContent = data.match;
-        document.getElementById('venue').textContent = data.venue + " • " + data.status;
-        document.getElementById('score').textContent = data.score;
-        document.getElementById('overs').textContent = "Overs: " + data.overs;
-        document.getElementById('runrate').textContent = "Run Rate: " + data.runRate;
-        document.getElementById('target').textContent = "Target: " + data.target;
-        document.getElementById('lastUpdated').textContent = "Last updated: " + data.lastUpdated;
+<script>
+const dataURL = "https://raw.githubusercontent.com/ultron3000/kpl/main/data/live.json";
 
-        // Batsmen
-        document.getElementById('batsmen').innerHTML =
-          "<tr><th>Name</th><th>Runs</th><th>Balls</th></tr>" +
-          data.batsmen.map(b => `<tr><td>${b.name}</td><td>${b.runs}</td><td>${b.balls}</td></tr>`).join("");
+async function loadScore() {
+  try {
+    const res = await fetch(dataURL + '?t=' + new Date().getTime());
+    const data = await res.json();
+    document.getElementById('status').textContent = data.status;
+    document.getElementById('score').innerHTML = `<strong>${data.score}</strong>`;
+    document.getElementById('overs').textContent = `Overs: ${data.overs}`;
+    document.getElementById('runrate').textContent = `Run Rate: ${data.runRate}`;
+    
+    document.getElementById('batsmen').innerHTML = data.batsmen
+      .map(b => `<li>${b.name}: ${b.runs} (${b.balls})</li>`).join('');
+    
+    document.getElementById('bowlers').innerHTML = data.bowlers
+      .map(b => `<li>${b.name} - ${b.overs} overs, ${b.runs} runs, ${b.wickets} wkts</li>`).join('');
+    
+    document.getElementById('lastUpdated').textContent = `Last updated: ${data.lastUpdated}`;
+  } catch (err) {
+    document.getElementById('status').textContent = "Error loading data.";
+  }
+}
 
-        // Bowlers
-        document.getElementById('bowlers').innerHTML =
-          "<tr><th>Name</th><th>Overs</th><th>Runs</th><th>Wkts</th></tr>" +
-          data.bowlers.map(b => `<tr><td>${b.name}</td><td>${b.overs}</td><td>${b.runs}</td><td>${b.wickets}</td></tr>`).join("");
+loadScore();
+setInterval(loadScore, 5000); // refresh every 5 sec
+</script>
 
-      } catch (err) {
-        console.error("Fetch error:", err);
-      }
-    }
-
-    fetchLiveData();
-    setInterval(fetchLiveData, 10000); // auto-refresh every 10s
-  </script>
 </body>
 </html>
