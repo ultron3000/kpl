@@ -1,0 +1,18 @@
+{
+  "match": "Titans vs Strikers",
+  "venue": "KPL Arena 1",
+  "status": "LIVE",
+  "score": "89/3",
+  "overs": "10.2",
+  "runRate": "8.65",
+  "target": "150",
+  "batsmen": [
+    {"name": "A. Patel", "runs": 25, "balls": 15},
+    {"name": "R. Sharma", "runs": 14, "balls": 10}
+  ],
+  "bowlers": [
+    {"name": "M. Khan", "overs": 2, "runs": 18, "wickets": 1}
+  ],
+  "lastUpdated": "2025-10-30 12:00 PM"
+}
+Create initial live.json for match data
