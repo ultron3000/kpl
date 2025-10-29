@@ -1,5 +1,5 @@
 {
-  "title": "Titans vs Strikers",
+  "match": "Titans vs Strikers",
   "venue": "KPL Arena 1",
   "status": "LIVE",
   "toss": "Titans won the toss and chose to bat first",
@@ -11,114 +11,39 @@
   "innings": [
     {
       "team": "Titans",
-      "total": 5,
-      "wickets": 0,
-      "overs": 0,
-      "balls": 0,
-      "extras": {
-        "wides": 1,
-        "noballs": 0,
-        "byes": 0,
-        "legbyes": 0,
-        "total": 1
-      },
+      "total": 75,
+      "wickets": 3,
+      "overs": 9,
+      "balls": 2,
+      "extras": { "wides": 2, "noballs": 1, "byes": 0, "legbyes": 0, "total": 3 },
+      "ballsDetailed": [
+        {"over":1,"ballInOver":1,"batsman":"Player A","bowler":"Bowler X","eventType":"run","runs":1,"extraType":null,"wicket":null,"summary":"Player A 1","timestamp":"2025-10-30T05:02:50Z"},
+        {"over":1,"ballInOver":2,"batsman":"Player B","bowler":"Bowler X","eventType":"run","runs":4,"extraType":null,"wicket":null,"summary":"Player B 4","timestamp":"2025-10-30T05:02:55Z"},
+        {"over":2,"ballInOver":1,"batsman":"Player A","bowler":"Bowler Y","eventType":"run","runs":0,"extraType":null,"wicket":null,"summary":"Player A 0","timestamp":"2025-10-30T05:03:00Z"},
+        {"over":2,"ballInOver":2,"batsman":"Player A","bowler":"Bowler Y","eventType":"run","runs":6,"extraType":null,"wicket":null,"summary":"Player A 6","timestamp":"2025-10-30T05:03:05Z"},
+        {"over":3,"ballInOver":5,"batsman":"Player B","bowler":"Bowler X","eventType":"wicket","runs":0,"extraType":null,"wicket":{"how":"bowled","fielder":null,"newBatsman":"Player C"},"summary":"Wicket - bowled - Player B","timestamp":"2025-10-30T05:03:10Z"}
+      ],
       "battingOrder": [
-        {
-          "name": "Player A",
-          "runs": 4,
-          "balls": 4,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "Player B",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "Player C",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        }
+        {"name":"Player A","runs":42,"balls":28,"fours":5,"sixes":1,"status":"not out"},
+        {"name":"Player B","runs":21,"balls":18,"fours":2,"sixes":0,"status":"bowled"},
+        {"name":"Player C","runs":6,"balls":10,"fours":0,"sixes":0,"status":"not out"},
+        {"name":"Player D","runs":0,"balls":0,"fours":0,"sixes":0,"status":"batted"},
+        {"name":"Player E","runs":3,"balls":4,"fours":0,"sixes":0,"status":"batted"},
+        {"name":"Player H","runs":0,"balls":0,"fours":0,"sixes":0,"status":"batted"},
+        {"name":"Player I","runs":0,"balls":0,"fours":0,"sixes":0,"status":"batted"},
+        {"name":"Player J","runs":0,"balls":0,"fours":0,"sixes":0,"status":"batted"},
+        {"name":"Player K","runs":0,"balls":0,"fours":0,"sixes":0,"status":"batted"},
+        {"name":"Player L","runs":0,"balls":0,"fours":0,"sixes":0,"status":"batted"},
+        {"name":"Player M","runs":0,"balls":0,"fours":0,"sixes":0,"status":"batted"}
       ],
       "bowlers": [
-        {
-          "name": "Bowler X",
-          "overs": 0,
-          "balls": 0,
-          "runs": 5,
-          "wickets": 0
-        }
+        {"name":"Bowler X","overs":3,"balls":0,"runs":20,"wickets":1},
+        {"name":"Bowler Y","overs":2,"balls":2,"runs":18,"wickets":0}
       ],
-      "oversSummary": [],
-      "fallOfWickets": [],
-      "ballsDetailed": [
-        {
-          "over": 0,
-          "ballInOver": 1,
-          "batsman": "Player A",
-          "bowler": "Bowler X",
-          "eventType": "run",
-          "runs": 0,
-          "extraType": null,
-          "wicket": null,
-          "summary": "Player A 0",
-          "timestamp": "10/30/2025, 5:02:53 AM"
-        },
-        {
-          "over": 0,
-          "ballInOver": 1,
-          "batsman": "Player A",
-          "bowler": "Bowler X",
-          "eventType": "run",
-          "runs": 1,
-          "extraType": null,
-          "wicket": null,
-          "summary": "Player A 1",
-          "timestamp": "10/30/2025, 5:02:58 AM"
-        },
-        {
-          "over": 0,
-          "ballInOver": 1,
-          "batsman": "Player A",
-          "bowler": "Bowler X",
-          "eventType": "run",
-          "runs": 1,
-          "extraType": null,
-          "wicket": null,
-          "summary": "Player A 1",
-          "timestamp": "10/30/2025, 5:02:59 AM"
-        },
-        {
-          "over": 0,
-          "ballInOver": 1,
-          "batsman": "Player A",
-          "bowler": "Bowler X",
-          "eventType": "run",
-          "runs": 2,
-          "extraType": null,
-          "wicket": null,
-          "summary": "Player A 2",
-          "timestamp": "10/30/2025, 5:02:59 AM"
-        },
-        {
-          "over": 0,
-          "ballInOver": 1,
-          "batsman": "Player A",
-          "bowler": "Bowler X",
-          "eventType": "extra",
-          "runs": 1,
-          "extraType": "wide",
-          "summary": "WIDE +1",
-          "timestamp": "10/30/2025, 5:03:05 AM"
-        }
+      "fallOfWickets": [
+        {"batsman":"Player D","runs":12,"wicket":1,"over":"4.2"},
+        {"batsman":"Player B","runs":21,"wicket":2,"over":"8.5"},
+        {"batsman":"Player E","runs":3,"wicket":3,"over":"9.1"}
       ]
     },
     {
@@ -127,53 +52,20 @@
       "wickets": 0,
       "overs": 0,
       "balls": 0,
-      "extras": {
-        "wides": 0,
-        "noballs": 0,
-        "byes": 0,
-        "legbyes": 0,
-        "total": 0
-      },
+      "extras": { "wides": 0, "noballs": 0, "byes": 0, "legbyes": 0, "total": 0 },
+      "ballsDetailed": [],
       "battingOrder": [
-        {
-          "name": "Player F",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "Player G",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        }
+        {"name":"Player F","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
+        {"name":"Player G","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
+        {"name":"Player H","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"}
       ],
       "bowlers": [
-        {
-          "name": "Bowler A",
-          "overs": 0,
-          "balls": 0,
-          "runs": 0,
-          "wickets": 0
-        }
+        {"name":"Bowler A","overs":0,"balls":0,"runs":0,"wickets":0}
       ],
-      "oversSummary": [],
-      "fallOfWickets": [],
-      "ballsDetailed": []
+      "fallOfWickets": []
     }
   ],
-  "current": {
-    "striker": null,
-    "nonStriker": null,
-    "currentBowler": null,
-    "currentOverBalls": [
-      "WIDE +1"
-    ],
-    "isFreeHit": false
-  },
-  "lastSaved": "10/30/2025, 5:03:07 AM"
+  "target": 150,
+  "runRate": "8.02",
+  "lastUpdated": "2025-10-30T05:03:13Z"
 }
