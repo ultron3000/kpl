@@ -2,26 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KPL Live Scorer (Ball by Ball)</title>
+<title>KPL Live Scorer — Ball by Ball with Over Summary</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body {font-family:Poppins,sans-serif;background:#f5f5f5;margin:0;padding:20px;max-width:950px;margin:auto;}
-.card {background:white;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,0.15);padding:20px;margin-bottom:20px;}
-h1,h3 {text-align:center;}
-input, select {width:100%;padding:8px;margin:6px 0;border:1px solid #ccc;border-radius:6px;}
-button {border:none;background:#007bff;color:white;padding:10px 16px;border-radius:6px;margin:3px;cursor:pointer;}
-button:hover {background:#0056b3;}
-.extras button {background:#ffc107;color:black;}
-.wicket button {background:#dc3545;}
-.success {color:green;} .error {color:red;}
+body {font-family:Poppins,sans-serif;background:#f2f3f8;padding:20px;max-width:1000px;margin:auto;}
+.card {background:white;padding:20px;margin:15px 0;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.1);}
+h1,h3{text-align:center;}
+input,select{width:100%;padding:8px;margin:6px 0;border:1px solid #ccc;border-radius:6px;}
+button{border:none;background:#007bff;color:white;padding:10px 16px;border-radius:6px;margin:3px;cursor:pointer;}
+button:hover{background:#0056b3;}
+.extras button{background:#ffc107;color:black;}
+.wicket button{background:#dc3545;}
+.runButtons{display:flex;flex-wrap:wrap;justify-content:center;}
+.runButtons button{min-width:50px;font-weight:bold;}
+.success{color:green;} .error{color:red;}
 #msg{text-align:center;margin-top:10px;}
-.runButtons {display:flex;flex-wrap:wrap;justify-content:center;}
-.runButtons button {min-width:50px;font-weight:bold;}
+#overSummary{background:#fafafa;padding:10px;border-radius:8px;margin-top:10px;font-family:monospace;line-height:1.5;}
 </style>
 </head>
 <body>
 
-<h1>🏏 KPL Live Scorer</h1>
+<h1>🏏 KPL Live Scorer — Over Summary Mode</h1>
 
 <!-- LOGIN -->
 <div id="loginBox" class="card">
@@ -52,12 +53,15 @@ button:hover {background:#0056b3;}
       <option value="A">Team A Batting</option>
       <option value="B">Team B Batting</option>
     </select>
+    <input id="striker" placeholder="Striker Name">
+    <input id="nonStriker" placeholder="Non-Striker Name">
+    <input id="bowler" placeholder="Bowler Name">
     <input id="venue" placeholder="Venue">
     <input id="status" placeholder="Status (LIVE / Completed)">
   </div>
 
   <div class="card">
-    <h3>🎯 Live Ball Update</h3>
+    <h3>🎯 Ball-by-Ball Scoring</h3>
     <p id="liveScore">Score: 0/0 (0.0)</p>
 
     <div class="runButtons">
@@ -78,7 +82,7 @@ button:hover {background:#0056b3;}
       <button onclick="toggleFreeHit()">Free Hit: <span id="freeHitStatus">OFF</span></button>
     </div>
 
-    <h4>Wicket</h4>
+    <h4>Wickets</h4>
     <div class="wicket runButtons">
       <button onclick="addWicket('bowled')">Bowled</button>
       <button onclick="addWicket('caught')">Caught</button>
@@ -87,31 +91,33 @@ button:hover {background:#0056b3;}
     </div>
 
     <p>Current Over: <span id="balls">0</span> balls</p>
-    <button onclick="nextOver()">➡️ Next Over</button>
+    <div id="overSummary">Over Summary: —</div>
   </div>
 
   <div class="card">
     <button onclick="updateGitHub()">💾 Save & Push to GitHub</button>
     <p id="msg"></p>
   </div>
-
 </div>
 
 <script>
 const PIN = "4278";
 let isFreeHit = false;
+let overBalls = [];
 
 let matchData = {
   teamA: { name:"", score:0, wickets:0, overs:0, balls:0, extras:0 },
   teamB: { name:"", score:0, wickets:0, overs:0, balls:0, extras:0 },
-  venue:"", status:"LIVE", lastUpdated:"", freeHit:false
+  striker:"", nonStriker:"", bowler:"",
+  oversSummary:[], // keeps per-over breakdown
+  venue:"", status:"LIVE", lastUpdated:""
 };
 
 function checkPin(){
   if(document.getElementById("pin").value===PIN){
     document.getElementById("loginBox").style.display="none";
     document.getElementById("scorer").style.display="block";
-  }else{
+  } else {
     document.getElementById("loginMsg").innerHTML='<span class="error">❌ Wrong PIN!</span>';
   }
 }
@@ -119,64 +125,84 @@ function checkPin(){
 function getBatting(){return document.getElementById("battingTeam").value==="A"?"teamA":"teamB";}
 
 function toggleFreeHit(){
-  isFreeHit = !isFreeHit;
-  document.getElementById("freeHitStatus").innerText = isFreeHit ? "ON" : "OFF";
+  isFreeHit=!isFreeHit;
+  document.getElementById("freeHitStatus").innerText=isFreeHit?"ON":"OFF";
 }
 
 function addRun(runs){
-  let t = getBatting();
-  matchData[t].score += runs;
+  const t=getBatting();
+  matchData[t].score+=runs;
+  recordBall(runs);
   if(!isFreeHit) addBall();
   updateDisplay();
 }
 
 function addExtra(type){
-  let t=getBatting();
+  const t=getBatting();
+  let label="";
+  switch(type){
+    case "wide": label="Wd"; break;
+    case "noball": label="Nb"; break;
+    case "bye": label="B"; break;
+    case "legbye": label="Lb"; break;
+  }
   matchData[t].score+=1;
   matchData[t].extras+=1;
+  recordBall(label);
   if(type==="bye"||type==="legbye") addBall();
   updateDisplay();
 }
 
 function addWicket(kind){
-  let t=getBatting();
+  const t=getBatting();
   if(isFreeHit){
+    alert("Free hit! No wicket.");
     isFreeHit=false;
     document.getElementById("freeHitStatus").innerText="OFF";
-    alert("Free hit! No wicket counted.");
     return;
   }
   matchData[t].wickets+=1;
+  recordBall("W");
   addBall();
   updateDisplay();
 }
 
+function recordBall(symbol){
+  overBalls.push(symbol);
+  document.getElementById("overSummary").innerText=`Over Summary: ${overBalls.join(" | ")}`;
+}
+
 function addBall(){
-  let t=getBatting();
+  const t=getBatting();
   matchData[t].balls+=1;
   if(matchData[t].balls===6){
     matchData[t].overs+=1;
     matchData[t].balls=0;
+    // Save over summary
+    matchData.oversSummary.push({
+      over: matchData[t].overs,
+      balls:[...overBalls],
+      bowler: document.getElementById("bowler").value
+    });
+    overBalls=[];
+    document.getElementById("overSummary").innerText="Over Summary: —";
   }
 }
 
-function nextOver(){
-  let t=getBatting();
-  matchData[t].overs+=1;
-  matchData[t].balls=0;
-  updateDisplay();
-}
-
 function updateDisplay(){
-  let t=getBatting();
+  const t=getBatting();
   const d=matchData[t];
-  document.getElementById("liveScore").innerText=`${d.score}/${d.wickets} (${d.overs}.${d.balls}) | Extras: ${d.extras}`;
+  document.getElementById("liveScore").innerText=
+    `${d.score}/${d.wickets} (${d.overs}.${d.balls}) | Extras: ${d.extras}`;
   document.getElementById("balls").innerText=d.balls;
 }
 
 async function updateGitHub(){
   matchData.teamA.name=document.getElementById("teamA").value;
   matchData.teamB.name=document.getElementById("teamB").value;
+  matchData.striker=document.getElementById("striker").value;
+  matchData.nonStriker=document.getElementById("nonStriker").value;
+  matchData.bowler=document.getElementById("bowler").value;
   matchData.venue=document.getElementById("venue").value;
   matchData.status=document.getElementById("status").value;
   matchData.lastUpdated=new Date().toLocaleString();
