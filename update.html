@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KPL Admin Update</title>
+  <style>
+    body { font-family: sans-serif; background:#f7f7f7; padding:2rem; }
+    h1 { text-align:center; }
+    form { max-width:480px; margin:auto; background:#fff; padding:1.5rem; border-radius:1rem; }
+    input, textarea { width:100%; margin-bottom:1rem; padding:0.6rem; }
+    button { width:100%; padding:0.6rem; background:#007bff; color:#fff; border:none; border-radius:0.4rem; }
+    #statusMsg { text-align:center; margin-top:1rem; font-weight:600; }
+  </style>
+</head>
+<body>
+  <h1>🏏 KPL Admin Panel</h1>
+  <form id="updateForm">
+    <input type="text" id="score" placeholder="Score (e.g. 102/4)" required>
+    <input type="text" id="overs" placeholder="Overs (e.g. 12.3)" required>
+    <input type="text" id="runRate" placeholder="Run Rate (e.g. 8.12)" required>
+    <input type="text" id="target" placeholder="Target (e.g. 150)" required>
+    <textarea id="batsmen" placeholder='Batsmen JSON (e.g. [{"name":"R. Sharma","runs":42,"balls":30}] )'></textarea>
+    <textarea id="bowlers" placeholder='Bowlers JSON (e.g. [{"name":"M. Khan","overs":3,"runs":25,"wickets":2}] )'></textarea>
+    <button type="submit">Update Live Score</button>
+  </form>
+  <div id="statusMsg"></div>
+
+  <script>
+    const GITHUB_USERNAME = "ultron3000";
+    const REPO_NAME = "kpl";
+    const FILE_PATH = "data/live.json";
+
+    async function updateGitHubFile(token, content) {
+      const apiURL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
+      const current = await fetch(apiURL, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).then(r => r.json());
+
+      const newContent = btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2))));
+
+      const res = await fetch(apiURL, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: "🏏 Live score auto-updated via Admin Panel",
+          content: newContent,
+          sha: current.sha
+        })
+      });
+
+      if (!res.ok) throw new Error("GitHub update failed");
+      return res.json();
+    }
+
+    document.getElementById('updateForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const token = prompt("🔑 Enter your GitHub Personal Access Token:");
+
+      const payload = {
+        match: "Titans vs Strikers",
+        venue: "KPL Arena 1",
+        status: "LIVE",
+        score: document.getElementById('score').value,
+        overs: document.getElementById('overs').value,
+        runRate: document.getElementById('runRate').value,
+        target: document.getElementById('target').value,
+        batsmen: JSON.parse(document.getElementById('batsmen').value || "[]"),
+        bowlers: JSON.parse(document.getElementById('bowlers').value || "[]"),
+        lastUpdated: new Date().toLocaleString()
+      };
+
+      document.getElementById('statusMsg').textContent = "⏳ Updating GitHub...";
+      try {
+        await updateGitHubFile(token, payload);
+        document.getElementById('statusMsg').textContent = "✅ Live score updated successfully!";
+      } catch (err) {
+        console.error(err);
+        document.getElementById('statusMsg').textContent = "❌ Failed: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
