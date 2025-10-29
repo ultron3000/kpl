@@ -3,33 +3,54 @@
   "venue": "KPL Arena 1",
   "status": "LIVE",
   "toss": "Titans won the toss and chose to bat first",
+  "currentInnings": 0,
   "innings": [
     {
       "team": "Titans",
-      "runs": 0,
-      "wickets": 0,
-      "overs": 0.0,
-      "balls": [],
+      "runs": 75,
+      "wickets": 3,
+      "overs": "9.2",
+      "balls": [
+        {"over": 1, "ball": 1, "batsman": "Player A", "bowler": "Bowler X", "runs": 1, "type": "normal"},
+        {"over": 1, "ball": 2, "batsman": "Player B", "bowler": "Bowler X", "runs": 4, "type": "normal"},
+        {"over": 2, "ball": 1, "batsman": "Player A", "bowler": "Bowler Y", "runs": 0, "type": "dot"},
+        {"over": 2, "ball": 2, "batsman": "Player A", "bowler": "Bowler Y", "runs": 6, "type": "six"},
+        {"over": 3, "ball": 5, "batsman": "Player B", "bowler": "Bowler X", "runs": 0, "type": "wicket"}
+      ],
       "batsmen": [
-        {"name": "Player A", "runs": 0, "balls": 0, "status": "not out"},
-        {"name": "Player B", "runs": 0, "balls": 0, "status": "not out"}
+        {"name": "Player A", "runs": 42, "balls": 28, "status": "not out"},
+        {"name": "Player B", "runs": 21, "balls": 18, "status": "bowled"},
+        {"name": "Player C", "runs": 6, "balls": 10, "status": "not out"}
       ],
       "bowlers": [
-        {"name": "Bowler X", "overs": 0, "runs": 0, "wickets": 0}
+        {"name": "Bowler X", "overs": 3.0, "runs": 20, "wickets": 1},
+        {"name": "Bowler Y", "overs": 2.2, "runs": 18, "wickets": 0}
+      ],
+      "extras": {"wides": 2, "noballs": 1, "byes": 0, "legbyes": 0, "total": 3},
+      "fallOfWickets": [
+        {"batsman": "Player D", "runs": 12, "wicket": 1, "over": "4.2"},
+        {"batsman": "Player B", "runs": 21, "wicket": 2, "over": "8.5"},
+        {"batsman": "Player E", "runs": 3, "wicket": 3, "over": "9.1"}
       ]
     },
     {
       "team": "Strikers",
       "runs": 0,
       "wickets": 0,
-      "overs": 0.0,
+      "overs": "0.0",
       "balls": [],
-      "batsmen": [],
-      "bowlers": []
+      "batsmen": [
+        {"name": "Player F", "runs": 0, "balls": 0, "status": "not out"},
+        {"name": "Player G", "runs": 0, "balls": 0, "status": "not out"}
+      ],
+      "bowlers": [
+        {"name": "Bowler A", "overs": 0, "runs": 0, "wickets": 0}
+      ],
+      "extras": {"wides": 0, "noballs": 0, "byes": 0, "legbyes": 0, "total": 0},
+      "fallOfWickets": []
     }
   ],
-  "currentInnings": 0,
-  "target": 0,
-  "runRate": 0.00,
+  "target": 150,
+  "runRate": "8.02",
   "lastUpdated": "Just now"
 }
