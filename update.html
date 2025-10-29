@@ -1,248 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>KPL Live Scorer Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: Poppins, sans-serif; background:#0b1221; color:#fff; margin:0; padding:20px; }
-    h1,h2 { color:#00eaff; text-align:center; }
-    .hidden { display:none; }
-    .container { max-width:1000px; margin:auto; background:#111a30; border-radius:10px; padding:20px; box-shadow:0 0 10px #0ff3; }
-    select, input, button { padding:8px; margin:5px; border-radius:6px; border:none; font-size:15px; }
-    select, input { width:180px; }
-    button { background:#00eaff; color:#000; cursor:pointer; font-weight:bold; }
-    button:hover { background:#07c7d8; }
-    .flex { display:flex; flex-wrap:wrap; justify-content:space-around; align-items:center; margin-top:15px; }
-    .scoreboard { margin-top:20px; background:#081020; padding:15px; border-radius:10px; }
-    table { width:100%; border-collapse:collapse; color:#fff; margin-top:10px; }
-    th,td { padding:6px; border-bottom:1px solid #222; text-align:center; }
-    .over-summary { background:#0f182e; padding:10px; border-radius:8px; margin-top:10px; min-height:40px; }
-  </style>
+<meta charset="UTF-8">
+<title>KPL Live Scorer Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:Poppins,Arial,sans-serif;background:#0b1221;color:#fff;margin:0;padding:20px;}
+.container{max-width:1000px;margin:auto;background:#111a30;border-radius:10px;padding:20px;box-shadow:0 0 10px #0ff3;}
+h1,h2{color:#00eaff;text-align:center;}
+.hidden{display:none;}
+select,input,button{padding:8px;margin:5px;border-radius:6px;border:none;font-size:15px;}
+button{background:#00eaff;color:#000;font-weight:bold;cursor:pointer;}
+button:hover{background:#07c7d8;}
+.flex{display:flex;flex-wrap:wrap;justify-content:space-around;align-items:center;margin-top:15px;}
+.scoreboard{margin-top:20px;background:#081020;padding:15px;border-radius:10px;}
+table{width:100%;border-collapse:collapse;color:#fff;margin-top:10px;}
+th,td{padding:6px;border-bottom:1px solid #222;text-align:center;}
+.over-summary{background:#0f182e;padding:10px;border-radius:8px;margin-top:10px;min-height:40px;}
+</style>
 </head>
 <body>
-  <h1>🏏 KPL Match Updater</h1>
 
-  <div id="login" class="container">
-    <h2>Enter Admin PIN</h2>
-    <input type="password" id="pinInput" placeholder="Enter PIN">
-    <button onclick="checkPin()">Login</button>
-  </div>
+<h1>🏏 KPL Match Updater</h1>
 
-  <div id="scorerPanel" class="container hidden">
-    <h2 id="matchTitle">Loading...</h2>
+<div id="login" class="container">
+  <h2>Enter Admin PIN</h2>
+  <input type="password" id="pinInput" placeholder="Enter PIN">
+  <button onclick="checkPin()">Login</button>
+</div>
 
-    <div class="flex">
-      <div>
-        <label>Current Inning:</label>
-        <select id="inningSelect"></select>
-      </div>
-      <div>
-        <label>Striker:</label>
-        <select id="strikerSelect"></select>
-      </div>
-      <div>
-        <label>Non-Striker:</label>
-        <select id="nonStrikerSelect"></select>
-      </div>
-      <div>
-        <label>Bowler:</label>
-        <select id="bowlerSelect"></select>
-      </div>
+<div id="scorerPanel" class="container hidden">
+  <h2 id="matchTitle">Loading match...</h2>
+
+  <div class="flex">
+    <div>
+      <label>Inning:</label>
+      <select id="inningSelect" onchange="refreshSelectors()"></select>
     </div>
-
-    <div class="flex">
-      <div>
-        <label>Ball Type:</label>
-        <select id="ballType">
-          <option value="normal">Normal</option>
-          <option value="wide">Wide</option>
-          <option value="noBall">No Ball</option>
-          <option value="freeHit">Free Hit</option>
-        </select>
-      </div>
-      <div>
-        <label>Runs Scored:</label>
-        <select id="runs">
-          <option value="0">0</option><option value="1">1</option><option value="2">2</option>
-          <option value="3">3</option><option value="4">4</option><option value="6">6</option>
-        </select>
-      </div>
-      <div>
-        <label>Wicket?</label>
-        <select id="wicket">
-          <option value="none">No</option>
-          <option value="bowled">Bowled</option>
-          <option value="caught">Caught</option>
-          <option value="lbw">LBW</option>
-          <option value="runout">Run Out</option>
-        </select>
-      </div>
+    <div>
+      <label>Striker:</label>
+      <select id="strikerSelect"></select>
     </div>
-
-    <div class="flex">
-      <button onclick="recordBall()">Add Ball</button>
-      <button onclick="saveToFile()">💾 Save Match Data</button>
+    <div>
+      <label>Non-Striker:</label>
+      <select id="nonStrikerSelect"></select>
     </div>
-
-    <div class="scoreboard">
-      <h3>Live Over Summary</h3>
-      <div id="overSummary" class="over-summary">No balls yet.</div>
-
-      <h3>Current Score</h3>
-      <div id="scoreDisplay">Loading...</div>
-    </div>
-
-    <div class="scoreboard">
-      <h3>Recent Balls</h3>
-      <table id="ballsTable">
-        <thead><tr><th>Over</th><th>Ball</th><th>Event</th><th>Runs</th><th>Wicket</th><th>Bowler</th></tr></thead>
-        <tbody></tbody>
-      </table>
+    <div>
+      <label>Bowler:</label>
+      <select id="bowlerSelect"></select>
     </div>
   </div>
+
+  <div class="flex">
+    <div>
+      <label>Ball Type:</label>
+      <select id="ballType">
+        <option value="normal">Normal</option>
+        <option value="wide">Wide</option>
+        <option value="noBall">No Ball</option>
+        <option value="freeHit">Free Hit</option>
+      </select>
+    </div>
+    <div>
+      <label>Runs:</label>
+      <select id="runs">
+        <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>6</option>
+      </select>
+    </div>
+    <div>
+      <label>Wicket:</label>
+      <select id="wicket">
+        <option value="none">No</option>
+        <option value="bowled">Bowled</option>
+        <option value="caught">Caught</option>
+        <option value="lbw">LBW</option>
+        <option value="runout">Run Out</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="flex">
+    <button onclick="recordBall()">Add Ball</button>
+    <button onclick="saveToFile()">💾 Save Match Data</button>
+  </div>
+
+  <div class="scoreboard">
+    <h3>Current Score</h3>
+    <div id="scoreDisplay">–</div>
+
+    <h3>Over Summary</h3>
+    <div id="overSummary" class="over-summary">–</div>
+  </div>
+
+  <div class="scoreboard">
+    <h3>Recent Balls</h3>
+    <table id="ballsTable">
+      <thead><tr><th>#</th><th>Ball</th><th>Type</th><th>Runs</th><th>Wicket</th><th>Bowler</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
 
 <script>
 const PIN = "4278";
 let matchData = null;
 
-async function loadMatchData() {
-  const res = await fetch("./data/match-1.json?_=" + Date.now());
-  matchData = await res.json();
-  document.getElementById("matchTitle").textContent = matchData.title;
-
-  const inningSel = document.getElementById("inningSelect");
-  inningSel.innerHTML = "";
-  matchData.innings.forEach(i => {
-    const opt = document.createElement("option");
-    opt.value = i.inningNumber;
-    opt.textContent = "Inning " + i.inningNumber + " (" + matchData.teams[i.battingTeam].name + ")";
-    inningSel.appendChild(opt);
-  });
-
-  updatePlayerSelectors();
-  updateScoreboard();
+function checkPin(){
+  const pin=document.getElementById("pinInput").value;
+  if(pin===PIN){
+    document.getElementById("login").classList.add("hidden");
+    document.getElementById("scorerPanel").classList.remove("hidden");
+    loadMatchData();
+  }else alert("❌ Incorrect PIN");
 }
 
-function updatePlayerSelectors() {
-  const inningNum = parseInt(document.getElementById("inningSelect").value || 1);
-  const inning = matchData.innings[inningNum - 1];
-  const batting = matchData.teams[inning.battingTeam];
-  const bowling = matchData.teams[inning.bowlingTeam];
+async function loadMatchData(){
+  try{
+    const res=await fetch("./data/match-1.json?_="+Date.now());
+    matchData=await res.json();
+    document.getElementById("matchTitle").innerText=matchData.title;
 
-  const strikerSel = document.getElementById("strikerSelect");
-  const nonSel = document.getElementById("nonStrikerSelect");
-  const bowlSel = document.getElementById("bowlerSelect");
+    const inningSel=document.getElementById("inningSelect");
+    inningSel.innerHTML="";
+    matchData.innings.forEach(i=>{
+      const opt=document.createElement("option");
+      opt.value=i.inningNumber;
+      opt.textContent=`Inning ${i.inningNumber} (${matchData.teams[i.battingTeam].name})`;
+      inningSel.appendChild(opt);
+    });
 
-  [strikerSel, nonSel].forEach(sel => {
-    sel.innerHTML = "";
-    batting.squad.forEach(p => {
-      const opt = document.createElement("option");
-      opt.value = p.name;
-      opt.textContent = p.name;
+    refreshSelectors();
+    updateScoreboard();
+  }catch(e){
+    alert("Error loading match data.");
+    console.error(e);
+  }
+}
+
+function refreshSelectors(){
+  if(!matchData) return;
+  const inningNum=parseInt(document.getElementById("inningSelect").value||1);
+  const inning=matchData.innings[inningNum-1];
+  const batting=matchData.teams[inning.battingTeam];
+  const bowling=matchData.teams[inning.bowlingTeam];
+
+  const strikerSel=document.getElementById("strikerSelect");
+  const nonSel=document.getElementById("nonStrikerSelect");
+  const bowlSel=document.getElementById("bowlerSelect");
+
+  [strikerSel,nonSel].forEach(sel=>{
+    sel.innerHTML="";
+    batting.squad.forEach(p=>{
+      const opt=document.createElement("option");
+      opt.value=p.name; opt.textContent=p.name;
       sel.appendChild(opt);
     });
   });
 
-  bowlSel.innerHTML = "";
-  bowling.squad.forEach(p => {
-    const opt = document.createElement("option");
-    opt.value = p.name;
-    opt.textContent = p.name;
+  bowlSel.innerHTML="";
+  bowling.squad.forEach(p=>{
+    const opt=document.createElement("option");
+    opt.value=p.name; opt.textContent=p.name;
     bowlSel.appendChild(opt);
   });
-
-  strikerSel.selectedIndex = 0;
-  nonSel.selectedIndex = 1;
-  bowlSel.selectedIndex = 0;
 }
 
-function recordBall() {
-  const inningNum = parseInt(document.getElementById("inningSelect").value);
-  const inning = matchData.innings[inningNum - 1];
+function recordBall(){
+  const inningNum=parseInt(document.getElementById("inningSelect").value);
+  const inning=matchData.innings[inningNum-1];
 
-  const striker = document.getElementById("strikerSelect").value;
-  const nonStriker = document.getElementById("nonStrikerSelect").value;
-  const bowler = document.getElementById("bowlerSelect").value;
-  const runs = parseInt(document.getElementById("runs").value);
-  const ballType = document.getElementById("ballType").value;
-  const wicket = document.getElementById("wicket").value;
+  const striker=document.getElementById("strikerSelect").value;
+  const nonStriker=document.getElementById("nonStrikerSelect").value;
+  const bowler=document.getElementById("bowlerSelect").value;
+  const runs=parseInt(document.getElementById("runs").value);
+  const ballType=document.getElementById("ballType").value;
+  const wicket=document.getElementById("wicket").value;
 
-  const ballObj = {
-    striker, nonStriker, bowler, runs, ballType, wicket,
-    timestamp: new Date().toISOString()
-  };
+  const ball={striker,nonStriker,bowler,runs,ballType,wicket,time:new Date().toLocaleTimeString()};
+  inning.ballsDetailed.push(ball);
 
-  inning.ballsDetailed.push(ballObj);
-
-  if (ballType === "wide" || ballType === "noBall") {
-    inning.extras += 1;
-    inning.total += (runs + 1);
+  if(ballType==="wide"||ballType==="noBall"){
+    inning.extras++; inning.total+=runs+1;
   } else {
-    inning.total += runs;
+    inning.total+=runs;
     inning.balls++;
-    if (inning.balls % 6 === 0) inning.overs++;
+    if(inning.balls%6===0) inning.overs++;
   }
-
-  if (wicket !== "none") {
+  if(wicket!=="none"){
     inning.wickets++;
-    inning.fallOfWickets.push({
-      name: striker,
-      over: `${inning.overs}.${inning.balls % 6}`,
-      type: wicket
-    });
+    inning.fallOfWickets.push({batsman:striker,type:wicket,over:`${inning.overs}.${inning.balls%6}`});
   }
-
   updateScoreboard();
 }
 
-function updateScoreboard() {
-  const inningNum = parseInt(document.getElementById("inningSelect").value || 1);
-  const inning = matchData.innings[inningNum - 1];
-  const scoreText = `${inning.total}/${inning.wickets} in ${inning.overs}.${inning.balls % 6} overs (Extras: ${inning.extras})`;
-  document.getElementById("scoreDisplay").textContent = scoreText;
+function updateScoreboard(){
+  const inningNum=parseInt(document.getElementById("inningSelect").value||1);
+  const inning=matchData.innings[inningNum-1];
 
-  // Recent balls table
-  const tbody = document.querySelector("#ballsTable tbody");
-  tbody.innerHTML = "";
-  inning.ballsDetailed.slice(-10).reverse().forEach((b, i) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${inning.overs}</td>
-      <td>${(inning.balls % 6)}</td>
-      <td>${b.ballType}</td>
-      <td>${b.runs}</td>
-      <td>${b.wicket}</td>
-      <td>${b.bowler}</td>
-    `;
+  document.getElementById("scoreDisplay").innerText=
+    `${inning.total}/${inning.wickets} in ${inning.overs}.${inning.balls%6} overs (Extras: ${inning.extras})`;
+
+  const tbody=document.querySelector("#ballsTable tbody");
+  tbody.innerHTML="";
+  inning.ballsDetailed.slice(-10).reverse().forEach((b,i)=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${i+1}</td><td>${b.time}</td><td>${b.ballType}</td><td>${b.runs}</td><td>${b.wicket}</td><td>${b.bowler}</td>`;
     tbody.appendChild(tr);
   });
 
-  // Over summary
-  const last6 = inning.ballsDetailed.slice(-6).map(b => b.wicket!=="none"?"W":b.runs).join(" ");
-  document.getElementById("overSummary").textContent = last6 ? last6 : "No balls yet.";
+  const last6=inning.ballsDetailed.slice(-6).map(b=>b.wicket!=="none"?"W":b.runs).join(" ");
+  document.getElementById("overSummary").innerText=last6||"–";
 }
 
-function saveToFile() {
-  const blob = new Blob([JSON.stringify(matchData, null, 2)], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "match-1.json";
-  a.click();
+function saveToFile(){
+  const blob=new Blob([JSON.stringify(matchData,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url; a.download="match-1.json"; a.click();
   URL.revokeObjectURL(url);
-  alert("✅ File downloaded. Commit this updated JSON to GitHub to reflect changes live.");
-}
-
-function checkPin() {
-  const input = document.getElementById("pinInput").value;
-  if (input === PIN) {
-    document.getElementById("login").classList.add("hidden");
-    document.getElementById("scorerPanel").classList.remove("hidden");
-    loadMatchData();
-  } else {
-    alert("❌ Incorrect PIN");
-  }
+  alert("✅ JSON downloaded — upload to /data/match-1.json on GitHub to update live.");
 }
 </script>
 </body>
