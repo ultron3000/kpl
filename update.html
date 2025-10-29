@@ -1,226 +1,218 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>KPL Match Updater | Titans vs Strikers</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body{font-family:Arial,Helvetica,sans-serif;background:#0d1117;color:#fff;margin:0;padding:0;}
-.container{max-width:900px;margin:20px auto;padding:20px;background:#161b22;border-radius:8px;box-shadow:0 0 10px #0ff4;}
-h1{text-align:center;color:#00d0ff;}
-label{display:block;margin-top:10px;}
-select,input,button{padding:8px;margin:5px 0;width:100%;border:none;border-radius:6px;font-size:15px;}
-button{background:#00d0ff;color:#000;font-weight:bold;cursor:pointer;}
-button:hover{background:#00b4cc;}
-.flex{display:flex;gap:10px;flex-wrap:wrap;}
-.flex > div{flex:1;min-width:200px;}
-hr{border:1px solid #222;margin:15px 0;}
-#status{margin-top:10px;color:#00ff99;font-weight:bold;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KPL Match Update Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #38bdf8;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px #0005;
+    }
+    select, input, button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+    button {
+      background: #38bdf8;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0ea5e9;
+    }
+    .over-summary {
+      background: #0ea5e933;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .score-preview {
+      text-align: center;
+      font-size: 22px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
-<div class="container">
-<h1>🏏 KPL Match Updater</h1>
-
-<div id="loginSection">
-  <label>Enter Admin PIN:</label>
-  <input type="password" id="pinInput" placeholder="Enter PIN">
-  <button onclick="checkPin()">Login</button>
-</div>
-
-<div id="dashboard" style="display:none;">
-  <h2 id="matchTitle"></h2>
-  <div class="flex">
-    <div>
-      <label>Inning:</label>
-      <select id="inningSelect"></select>
-    </div>
-    <div>
-      <label>Striker:</label>
-      <select id="strikerSelect"></select>
-    </div>
-    <div>
-      <label>Non-Striker:</label>
-      <select id="nonStrikerSelect"></select>
-    </div>
-    <div>
-      <label>Bowler:</label>
-      <select id="bowlerSelect"></select>
-    </div>
-  </div>
-
-  <hr>
-  <div class="flex">
-    <div>
-      <label>Ball Type:</label>
+  <h1>🏏 KPL Live Score Dashboard</h1>
+  <div class="container">
+    <div class="card">
+      <h2>Match Setup</h2>
+      <p id="matchTitle"></p>
+      <p><b>Innings:</b> <span id="inningsTeam"></span></p>
+      <select id="striker"></select>
+      <select id="nonStriker"></select>
+      <select id="bowler"></select>
       <select id="ballType">
         <option value="normal">Normal</option>
         <option value="wide">Wide</option>
-        <option value="noBall">No Ball</option>
+        <option value="no-ball">No Ball</option>
         <option value="bye">Bye</option>
-        <option value="legBye">Leg Bye</option>
+        <option value="leg-bye">Leg Bye</option>
+        <option value="wicket">Wicket</option>
       </select>
+      <input type="number" id="runs" placeholder="Runs on this ball" min="0" max="7" />
+      <button id="addBall">Add Ball</button>
+      <button id="changeInnings">Change Innings</button>
+      <button id="pushGitHub">Push to GitHub</button>
+
+      <div class="score-preview" id="scorePreview"></div>
+      <div class="over-summary" id="overSummary"></div>
     </div>
-    <div>
-      <label>Runs:</label>
-      <select id="runs">
-        <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>6</option>
-      </select>
-    </div>
-    <div>
-      <label>Wicket:</label>
-      <select id="wicket">
-        <option value="none">No</option>
-        <option value="bowled">Bowled</option>
-        <option value="caught">Caught</option>
-        <option value="lbw">LBW</option>
-        <option value="runout">Run Out</option>
-      </select>
+
+    <div class="card">
+      <h2>Live JSON Preview</h2>
+      <pre id="jsonPreview" style="white-space: pre-wrap; font-size: 13px; background:#0004; padding:10px; border-radius:10px;"></pre>
     </div>
   </div>
 
-  <button onclick="addBall()">➕ Add Ball</button>
-  <button onclick="saveJSON()">💾 Save JSON</button>
-  <button onclick="pushToGitHub()">🚀 Push to GitHub</button>
+  <script>
+    const jsonUrl = 'data/match-1.json';
+    let matchData = null;
 
-  <div id="status"></div>
-  <hr>
-  <pre id="jsonPreview" style="background:#0a0f16;padding:10px;border-radius:8px;max-height:400px;overflow:auto;"></pre>
-</div>
+    async function loadData() {
+      const res = await fetch(jsonUrl + '?t=' + Date.now());
+      matchData = await res.json();
+      document.getElementById('matchTitle').textContent = matchData.match.title;
+      const inning = matchData.match.currentInnings;
+      document.getElementById('inningsTeam').textContent = matchData.innings[inning - 1].team;
+      const teamPlayers = matchData.teams[
+        inning === 1 ? 'teamA' : 'teamB'
+      ].players;
+      const opponentPlayers = matchData.teams[
+        inning === 1 ? 'teamB' : 'teamA'
+      ].players;
 
-<script>
-const ADMIN_PIN = "4278";
-let matchData = null;
+      populateDropdown('striker', teamPlayers);
+      populateDropdown('nonStriker', teamPlayers);
+      populateDropdown('bowler', opponentPlayers);
+      refreshPreview();
+    }
 
-function checkPin() {
-  const pin = document.getElementById("pinInput").value;
-  if (pin === ADMIN_PIN) {
-    document.getElementById("loginSection").style.display = "none";
-    document.getElementById("dashboard").style.display = "block";
-    loadData();
-  } else alert("❌ Incorrect PIN");
-}
+    function populateDropdown(id, players) {
+      const sel = document.getElementById(id);
+      sel.innerHTML = '';
+      players.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p;
+        opt.textContent = p;
+        sel.appendChild(opt);
+      });
+    }
 
-async function loadData() {
-  try {
-    const res = await fetch("data/match-1.json?_=" + Date.now());
-    matchData = await res.json();
-    document.getElementById("matchTitle").innerText = matchData.matchTitle;
+    document.getElementById('addBall').addEventListener('click', () => {
+      const inning = matchData.match.currentInnings - 1;
+      const type = document.getElementById('ballType').value;
+      const runs = parseInt(document.getElementById('runs').value || 0);
+      const striker = document.getElementById('striker').value;
+      const bowler = document.getElementById('bowler').value;
 
-    const inningSel = document.getElementById("inningSelect");
-    inningSel.innerHTML = "";
-    matchData.innings.forEach((inn, i) => {
-      const opt = document.createElement("option");
-      opt.value = i;
-      opt.text = `Innings ${i + 1} - ${inn.team}`;
-      inningSel.appendChild(opt);
+      const ball = {
+        striker,
+        bowler,
+        runs,
+        type,
+        timestamp: new Date().toISOString()
+      };
+
+      const inningsData = matchData.innings[inning];
+      inningsData.balls.push(ball);
+
+      if (type === 'wicket') {
+        inningsData.wickets += 1;
+        inningsData.fallOfWickets.push({
+          batsman: striker,
+          bowler,
+          over: inningsData.balls.length / 6
+        });
+      }
+
+      let totalRuns = inningsData.runs;
+      if (type === 'wide' || type === 'no-ball' || type === 'bye' || type === 'leg-bye') {
+        totalRuns += runs + 1;
+      } else {
+        totalRuns += runs;
+      }
+      inningsData.runs = totalRuns;
+      inningsData.overs = Math.floor(inningsData.balls.length / 6);
+
+      matchData.lastUpdated = new Date().toISOString();
+      refreshPreview();
     });
-    refreshSelectors();
-    preview();
-  } catch (e) {
-    alert("⚠️ Error loading JSON");
-    console.error(e);
-  }
-}
 
-function refreshSelectors() {
-  const inning = matchData.innings[document.getElementById("inningSelect").value];
-  const battingTeam = matchData.teams.teamA.name === inning.team ? matchData.teams.teamA : matchData.teams.teamB;
-  const bowlingTeam = battingTeam === matchData.teams.teamA ? matchData.teams.teamB : matchData.teams.teamA;
+    document.getElementById('changeInnings').addEventListener('click', () => {
+      matchData.match.currentInnings = matchData.match.currentInnings === 1 ? 2 : 1;
+      loadData();
+    });
 
-  fillSelect("strikerSelect", battingTeam.players);
-  fillSelect("nonStrikerSelect", battingTeam.players);
-  fillSelect("bowlerSelect", bowlingTeam.players);
-}
+    function refreshPreview() {
+      document.getElementById('jsonPreview').textContent = JSON.stringify(matchData, null, 2);
+      const inning = matchData.match.currentInnings - 1;
+      const i = matchData.innings[inning];
+      document.getElementById('scorePreview').textContent = `${i.team}: ${i.runs}/${i.wickets} in ${i.overs} overs`;
 
-function fillSelect(id, players) {
-  const sel = document.getElementById(id);
-  sel.innerHTML = "";
-  players.forEach(p => {
-    const opt = document.createElement("option");
-    opt.value = p.name;
-    opt.text = `${p.name} (${p.role})`;
-    sel.appendChild(opt);
-  });
-}
+      const balls = i.balls.slice(-6);
+      document.getElementById('overSummary').innerHTML = `<b>Last over:</b> ${balls.map(b => b.type === 'wicket' ? 'W' : b.runs).join(' | ')}`;
+    }
 
-function addBall() {
-  const innIndex = parseInt(document.getElementById("inningSelect").value);
-  const inning = matchData.innings[innIndex];
-  const striker = document.getElementById("strikerSelect").value;
-  const bowler = document.getElementById("bowlerSelect").value;
-  const runs = parseInt(document.getElementById("runs").value);
-  const type = document.getElementById("ballType").value;
-  const wicket = document.getElementById("wicket").value;
+    // GitHub push automation
+    document.getElementById('pushGitHub').addEventListener('click', async () => {
+      const username = localStorage.getItem('gh_user') || prompt('GitHub Username:');
+      const token = localStorage.getItem('gh_token') || prompt('GitHub Personal Access Token:');
+      localStorage.setItem('gh_user', username);
+      localStorage.setItem('gh_token', token);
 
-  const ball = { striker, bowler, runs, type, wicket, time: new Date().toLocaleTimeString() };
-  inning.balls.push(ball);
+      const repo = 'ultron3000/kpl';
+      const path = 'data/match-1.json';
+      const apiUrl = `https://api.github.com/repos/${repo}/contents/${path}`;
 
-  if (type === "wide" || type === "noBall") inning.totalRuns += runs + 1;
-  else inning.totalRuns += runs;
+      const getRes = await fetch(apiUrl);
+      const getData = await getRes.json();
+      const sha = getData.sha;
 
-  if (wicket !== "none") inning.wickets++;
+      await fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          Authorization: `token ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: 'Update live match data',
+          content: btoa(unescape(encodeURIComponent(JSON.stringify(matchData, null, 2)))),
+          sha
+        })
+      });
 
-  inning.overs = (inning.balls.length / 6).toFixed(1);
-  preview();
-}
+      alert('✅ Match data pushed to GitHub successfully!');
+    });
 
-function preview() {
-  document.getElementById("jsonPreview").innerText = JSON.stringify(matchData, null, 2);
-}
-
-function saveJSON() {
-  const blob = new Blob([JSON.stringify(matchData, null, 2)], { type: "application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "match-1.json";
-  a.click();
-  URL.revokeObjectURL(a.href);
-  document.getElementById("status").innerText = "✅ JSON file downloaded. Upload to GitHub or push below.";
-}
-
-/* 🔐 GitHub Push Setup */
-let githubUsername = localStorage.getItem("gh_user") || "";
-let githubToken = localStorage.getItem("gh_token") || "";
-
-async function pushToGitHub() {
-  if (!githubUsername || !githubToken) {
-    githubUsername = prompt("GitHub Username:");
-    githubToken = prompt("GitHub Personal Access Token:");
-    localStorage.setItem("gh_user", githubUsername);
-    localStorage.setItem("gh_token", githubToken);
-  }
-
-  const repo = "ultron3000/kpl";
-  const filePath = "data/match-1.json";
-  const content = btoa(unescape(encodeURIComponent(JSON.stringify(matchData, null, 2))));
-
-  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
-    headers: { "Authorization": "token " + githubToken }
-  });
-  const json = await res.json();
-  const sha = json.sha;
-
-  const update = await fetch(`https://api.github.com/repos/${repo}/contents/${filePath}`, {
-    method: "PUT",
-    headers: {
-      "Authorization": "token " + githubToken,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      message: "Update live score",
-      content: content,
-      sha: sha
-    })
-  });
-
-  if (update.ok) {
-    document.getElementById("status").innerText = "✅ Successfully pushed to GitHub!";
-  } else {
-    document.getElementById("status").innerText = "❌ Failed to push. Check token permissions.";
-  }
-}
-</script>
-</div>
+    loadData();
+  </script>
 </body>
 </html>
