@@ -1,19 +1,22 @@
 {
   "teamA": {
     "name": "Titans",
-    "score": 20,
-    "wickets": 3,
-    "overs": 2,
-    "balls": 3
+    "score": 27,
+    "wickets": 5,
+    "overs": 4,
+    "balls": 2,
+    "extras": 4
   },
   "teamB": {
     "name": "Strikers",
     "score": 0,
     "wickets": 0,
     "overs": 0,
-    "balls": 0
+    "balls": 0,
+    "extras": 0
   },
   "venue": "Ground",
   "status": "Live",
-  "lastUpdated": "10/30/2025, 2:58:04 AM"
+  "lastUpdated": "10/30/2025, 3:04:58 AM",
+  "freeHit": false
 }
