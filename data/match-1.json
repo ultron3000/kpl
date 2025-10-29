@@ -1,126 +1,57 @@
 {
-  "matchId": "match-1",
-  "title": "Titans vs Strikers",
-  "venue": "KPL Arena 1",
-  "date": "2025-10-30",
-  "status": "NOT_STARTED",
+  "matchTitle": "Titans vs Strikers - KPL 2025",
   "teams": {
     "teamA": {
-      "code": "TITANS",
       "name": "Titans",
-      "squad": [
-        {"number":1,"name":"R. Sharma","role":"Batsman"},
-        {"number":2,"name":"V. Kohli","role":"Batsman"},
-        {"number":3,"name":"S. Iyer","role":"Batsman"},
-        {"number":4,"name":"S. Yadav","role":"Batsman"},
-        {"number":5,"name":"H. Pandya","role":"All-Rounder"},
-        {"number":6,"name":"R. Jadeja","role":"All-Rounder"},
-        {"number":7,"name":"D. Karthik","role":"Wicketkeeper"},
-        {"number":8,"name":"R. Ashwin","role":"Bowler"},
-        {"number":9,"name":"B. Kumar","role":"Bowler"},
-        {"number":10,"name":"M. Shami","role":"Bowler"},
-        {"number":11,"name":"J. Bumrah","role":"Bowler"}
+      "players": [
+        {"name": "R. Sharma", "role": "Batsman"},
+        {"name": "V. Kohli", "role": "Batsman"},
+        {"name": "S. Iyer", "role": "Batsman"},
+        {"name": "S. Yadav", "role": "Batsman"},
+        {"name": "H. Pandya", "role": "All-rounder"},
+        {"name": "R. Jadeja", "role": "All-rounder"},
+        {"name": "D. Karthik", "role": "Wicketkeeper"},
+        {"name": "R. Ashwin", "role": "Bowler"},
+        {"name": "B. Kumar", "role": "Bowler"},
+        {"name": "M. Shami", "role": "Bowler"},
+        {"name": "J. Bumrah", "role": "Bowler"}
       ]
     },
     "teamB": {
-      "code": "STRIKERS",
       "name": "Strikers",
-      "squad": [
-        {"number":1,"name":"K. Rahul","role":"Wicketkeeper-Batsman"},
-        {"number":2,"name":"S. Gill","role":"Batsman"},
-        {"number":3,"name":"R. Gaikwad","role":"Batsman"},
-        {"number":4,"name":"S. Samson","role":"Batsman"},
-        {"number":5,"name":"A. Patel","role":"All-Rounder"},
-        {"number":6,"name":"W. Sundar","role":"All-Rounder"},
-        {"number":7,"name":"D. Hooda","role":"All-Rounder"},
-        {"number":8,"name":"Y. Chahal","role":"Bowler"},
-        {"number":9,"name":"A. Khan","role":"Bowler"},
-        {"number":10,"name":"M. Siraj","role":"Bowler"},
-        {"number":11,"name":"K. Yadav","role":"Bowler"}
+      "players": [
+        {"name": "K. Rahul", "role": "Wicketkeeper"},
+        {"name": "S. Gill", "role": "Batsman"},
+        {"name": "R. Gaikwad", "role": "Batsman"},
+        {"name": "S. Samson", "role": "Batsman"},
+        {"name": "A. Patel", "role": "All-rounder"},
+        {"name": "W. Sundar", "role": "All-rounder"},
+        {"name": "D. Hooda", "role": "All-rounder"},
+        {"name": "Y. Chahal", "role": "Bowler"},
+        {"name": "A. Khan", "role": "Bowler"},
+        {"name": "M. Siraj", "role": "Bowler"},
+        {"name": "K. Yadav", "role": "Bowler"}
       ]
     }
   },
-  "matchMeta": {
-    "oversPerInnings": 20,
-    "result": null,
-    "winner": null
-  },
-
   "innings": [
     {
-      "inningNumber": 1,
-      "battingTeam": "teamA",
-      "bowlingTeam": "teamB",
-      "total": 0,
+      "team": "Titans",
+      "totalRuns": 0,
       "wickets": 0,
       "overs": 0,
-      "balls": 0,
-      "extras": 0,
-      "battingOrder": [
-        {"name":"R. Sharma","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"V. Kohli","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"S. Iyer","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"S. Yadav","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"H. Pandya","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"R. Jadeja","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"D. Karthik","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"R. Ashwin","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"B. Kumar","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"M. Shami","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"J. Bumrah","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"}
-      ],
-      "bowlers": [
-        {"name":"Y. Chahal","overs":0,"balls":0,"runs":0,"wickets":0},
-        {"name":"A. Khan","overs":0,"balls":0,"runs":0,"wickets":0},
-        {"name":"M. Siraj","overs":0,"balls":0,"runs":0,"wickets":0},
-        {"name":"K. Yadav","overs":0,"balls":0,"runs":0,"wickets":0}
-      ],
-      "oversSummary": [],
-      "fallOfWickets": [],
-      "ballsDetailed": []  /* ball-by-ball log for inning 1 */
+      "balls": [],
+      "fallOfWickets": []
     },
     {
-      "inningNumber": 2,
-      "battingTeam": "teamB",
-      "bowlingTeam": "teamA",
-      "total": 0,
+      "team": "Strikers",
+      "totalRuns": 0,
       "wickets": 0,
       "overs": 0,
-      "balls": 0,
-      "extras": 0,
-      "battingOrder": [
-        {"name":"K. Rahul","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"S. Gill","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"R. Gaikwad","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"S. Samson","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"A. Patel","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"W. Sundar","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"D. Hooda","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"Y. Chahal","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"A. Khan","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"M. Siraj","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"K. Yadav","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"}
-      ],
-      "bowlers": [
-        {"name":"R. Ashwin","overs":0,"balls":0,"runs":0,"wickets":0},
-        {"name":"B. Kumar","overs":0,"balls":0,"runs":0,"wickets":0},
-        {"name":"M. Shami","overs":0,"balls":0,"runs":0,"wickets":0},
-        {"name":"J. Bumrah","overs":0,"balls":0,"runs":0,"wickets":0}
-      ],
-      "oversSummary": [],
-      "fallOfWickets": [],
-      "ballsDetailed": []  /* ball-by-ball log for inning 2 */
+      "balls": [],
+      "fallOfWickets": []
     }
   ],
-
-  "current": {
-    "currentInning": 1,
-    "striker": null,
-    "nonStriker": null,
-    "currentBowler": null,
-    "currentOverBalls": [],
-    "isFreeHit": false
-  },
-
-  "notes": "This file stores full match log. After the match completes, the innings[].ballsDetailed and oversSummary and fallOfWickets will reflect all events."
+  "currentInnings": 0,
+  "matchStatus": "Not Started"
 }
