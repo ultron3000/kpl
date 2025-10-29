@@ -7,32 +7,125 @@
   "innings": [
     {
       "team": "Titans",
-      "runs": 86,
-      "wickets": 4,
-      "overs": "10.3",
+      "runs": 0,
+      "wickets": 2,
+      "overs": "2",
       "ballsDetailed": [
-        {"over":1,"ball":1,"batsman":"R. Sharma","bowler":"A. Khan","runs":1,"type":"normal"},
-        {"over":1,"ball":2,"batsman":"V. Kohli","bowler":"A. Khan","runs":4,"type":"four"},
-        {"over":2,"ball":1,"batsman":"R. Sharma","bowler":"R. Patel","runs":0,"type":"dot"},
-        {"over":2,"ball":2,"batsman":"R. Sharma","bowler":"R. Patel","runs":6,"type":"six"},
-        {"over":3,"ball":5,"batsman":"V. Kohli","bowler":"A. Khan","runs":0,"type":"wicket"}
+        {
+          "over": 1,
+          "ball": 1,
+          "batsman": "R. Sharma",
+          "bowler": "A. Khan",
+          "runs": 1,
+          "type": "normal"
+        },
+        {
+          "over": 1,
+          "ball": 2,
+          "batsman": "V. Kohli",
+          "bowler": "A. Khan",
+          "runs": 4,
+          "type": "four"
+        },
+        {
+          "over": 2,
+          "ball": 1,
+          "batsman": "R. Sharma",
+          "bowler": "R. Patel",
+          "runs": 0,
+          "type": "dot"
+        },
+        {
+          "over": 2,
+          "ball": 2,
+          "batsman": "R. Sharma",
+          "bowler": "R. Patel",
+          "runs": 6,
+          "type": "six"
+        },
+        {
+          "over": 3,
+          "ball": 5,
+          "batsman": "V. Kohli",
+          "bowler": "A. Khan",
+          "runs": 0,
+          "type": "wicket"
+        }
       ],
       "batsmen": [
-        {"name":"R. Sharma","runs":47,"balls":31,"fours":5,"sixes":2,"status":"not out"},
-        {"name":"V. Kohli","runs":22,"balls":19,"fours":2,"sixes":0,"status":"bowled"},
-        {"name":"S. Iyer","runs":9,"balls":7,"fours":1,"sixes":0,"status":"not out"}
+        {
+          "name": "R. Sharma",
+          "runs": 47,
+          "balls": 31,
+          "fours": 5,
+          "sixes": 2,
+          "status": "not out"
+        },
+        {
+          "name": "V. Kohli",
+          "runs": 22,
+          "balls": 19,
+          "fours": 2,
+          "sixes": 0,
+          "status": "bowled"
+        },
+        {
+          "name": "S. Iyer",
+          "runs": 9,
+          "balls": 7,
+          "fours": 1,
+          "sixes": 0,
+          "status": "not out"
+        }
       ],
       "bowlers": [
-        {"name":"A. Khan","overs":"4.0","runs":28,"wickets":2},
-        {"name":"R. Patel","overs":"3.3","runs":25,"wickets":1},
-        {"name":"N. Yadav","overs":"3.0","runs":30,"wickets":1}
+        {
+          "name": "A. Khan",
+          "overs": "4.0",
+          "runs": 28,
+          "wickets": 2
+        },
+        {
+          "name": "R. Patel",
+          "overs": "3.3",
+          "runs": 25,
+          "wickets": 1
+        },
+        {
+          "name": "N. Yadav",
+          "overs": "3.0",
+          "runs": 30,
+          "wickets": 1
+        }
       ],
-      "extras": {"wides":2,"noballs":1,"byes":0,"legbyes":0,"total":3},
+      "extras": {
+        "wides": 2,
+        "noballs": 1,
+        "byes": 0,
+        "legbyes": 0,
+        "total": 3
+      },
       "fallOfWickets": [
-        {"batsman":"V. Kohli","score":35,"over":"3.5"},
-        {"batsman":"S. Gill","score":48,"over":"6.2"},
-        {"batsman":"K. Pandya","score":60,"over":"8.1"},
-        {"batsman":"R. Pant","score":75,"over":"9.5"}
+        {
+          "batsman": "V. Kohli",
+          "score": 35,
+          "over": "3.5"
+        },
+        {
+          "batsman": "S. Gill",
+          "score": 48,
+          "over": "6.2"
+        },
+        {
+          "batsman": "K. Pandya",
+          "score": 60,
+          "over": "8.1"
+        },
+        {
+          "batsman": "R. Pant",
+          "score": 75,
+          "over": "9.5"
+        }
       ]
     },
     {
@@ -42,17 +135,42 @@
       "overs": "0.0",
       "ballsDetailed": [],
       "batsmen": [
-        {"name":"P. Shaw","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"},
-        {"name":"S. Dhawan","runs":0,"balls":0,"fours":0,"sixes":0,"status":"not out"}
+        {
+          "name": "P. Shaw",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "S. Dhawan",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        }
       ],
       "bowlers": [
-        {"name":"B. Kumar","overs":"0.0","runs":0,"wickets":0}
+        {
+          "name": "B. Kumar",
+          "overs": "0.0",
+          "runs": 0,
+          "wickets": 0
+        }
       ],
-      "extras": {"wides":0,"noballs":0,"byes":0,"legbyes":0,"total":0},
+      "extras": {
+        "wides": 0,
+        "noballs": 0,
+        "byes": 0,
+        "legbyes": 0,
+        "total": 0
+      },
       "fallOfWickets": []
     }
   ],
   "target": 150,
   "runRate": "8.19",
-  "lastUpdated": "Just now"
+  "lastUpdated": "10/30/2025, 5:23:02 AM"
 }
