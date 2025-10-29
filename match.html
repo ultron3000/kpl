@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>KPL Live Score — Titans vs Strikers</title>
+<style>
+  :root{--bg:#071025;--card:#0f1726;--accent:#00d4ff;--muted:#94a3b8}
+  body{margin:0;font-family:Inter, system-ui, Arial, sans-serif;background:linear-gradient(180deg,#031022,#071025);color:#e6f0fb}
+  header{background:var(--card);padding:12px 18px;box-shadow:0 6px 20px rgba(2,6,23,0.6)}
+  header h1{margin:0;color:var(--accent);font-weight:700}
+  .wrap{max-width:980px;margin:18px auto;padding:0 12px}
+  .card{background:rgba(255,255,255,0.02);border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 6px 20px rgba(0,0,0,0.4)}
+  .top {display:flex;justify-content:space-between;align-items:center; gap:12px; flex-wrap:wrap}
+  .team {font-size:1.25rem;font-weight:700;color:#fff}
+  .score {font-size:1.6rem;font-weight:800;color:var(--accent)}
+  .small{color:var(--muted);font-size:0.9rem}
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:8px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left;font-size:0.95rem}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .footer{text-align:center;color:var(--muted);padding:12px}
+  @media(max-width:700px){ .cols{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>🏏 KPL Live — Titans vs Strikers</h1>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="liveCard" class="card">
+    <div class="top">
+      <div>
+        <div id="matchTitle" class="team">Loading match…</div>
+        <div id="matchVenue" class="small"></div>
+        <div id="matchToss" class="small" style="margin-top:6px"></div>
+      </div>
+      <div style="text-align:right">
+        <div class="small">Status</div>
+        <div id="matchStatus" class="small" style="font-weight:700;color:var(--accent)"></div>
+        <div class="small" id="lastUpdated" style="margin-top:8px"></div>
+      </div>
+    </div>
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.03);margin:12px 0">
+    <div class="cols">
+      <div>
+        <div class="small">Current Innings</div>
+        <div id="innHeader" style="display:flex;justify-content:space-between;align-items:center">
+          <div><span id="innTeam" class="team"></span></div>
+          <div style="text-align:right">
+            <div class="score" id="innScore">0/0</div>
+            <div class="small" id="innOvers">0.0 overs</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <div class="small">Batsmen</div>
+          <table id="batsmenTable"><thead><tr><th>Name</th><th>R</th><th>B</th><th>Status</th></tr></thead><tbody></tbody></table>
+        </div>
+      </div>
+
+      <div>
+        <div class="small">Bowling</div>
+        <table id="bowlersTable"><thead><tr><th>Name</th><th>O</th><th>R</th><th>W</th></tr></thead><tbody></tbody></table>
+
+        <div style="margin-top:12px">
+          <div class="small">Extras</div>
+          <div id="extras" class="small">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:14px">
+      <div class="small">Recent (last 12 balls)</div>
+      <pre id="recentBalls" style="background:rgba(0,0,0,0.12);padding:10px;border-radius:8px">-</pre>
+    </div>
+
+    <div style="margin-top:10px">
+      <div class="small">Fall of Wickets</div>
+      <pre id="fow" style="background:rgba(0,0,0,0.06);padding:10px;border-radius:8px">-</pre>
+    </div>
+  </div>
+
+  <div id="otherCard" class="card">
+    <h3 style="margin:0 0 8px 0;color:var(--accent)">Other Innings</h3>
+    <div id="otherInnings">Loading…</div>
+  </div>
+
+  <div class="footer">Auto-refresh every 8 seconds · Data: <code>/data/live.json</code></div>
+</main>
+
+<script>
+const LIVE_JSON = 'data/live.json';
+async function fetchLive(){
+  try{
+    const res = await fetch(LIVE_JSON + '?t=' + Date.now());
+    if(!res.ok) throw new Error('Failed to fetch live.json');
+    const d = await res.json();
+    render(d);
+  }catch(e){
+    document.getElementById('matchTitle').innerText = 'Error loading match';
+    console.error(e);
+  }
+}
+function render(d){
+  document.getElementById('matchTitle').innerText = d.match || 'Match';
+  document.getElementById('matchVenue').innerText = d.venue ? 'Venue: ' + d.venue : '';
+  document.getElementById('matchToss').innerText = d.toss || '';
+  document.getElementById('matchStatus').innerText = d.status || '';
+  document.getElementById('lastUpdated').innerText = 'Last: ' + (d.lastUpdated || '');
+
+  const idx = d.currentInnings || 0;
+  const inn = d.innings[idx];
+  document.getElementById('innTeam').innerText = inn.team;
+  document.getElementById('innScore').innerText = (inn.runs||0) + '/' + (inn.wickets||0);
+  document.getElementById('innOvers').innerText = (inn.overs || '0.0') + ' overs';
+  // batsmen
+  const bt = document.querySelector('#batsmenTable tbody'); bt.innerHTML = '';
+  (inn.batsmen || []).forEach(b => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${b.name}</td><td>${b.runs}</td><td>${b.balls}</td><td>${b.status}</td>`;
+    bt.appendChild(tr);
+  });
+  // bowlers
+  const bb = document.querySelector('#bowlersTable tbody'); bb.innerHTML = '';
+  (inn.bowlers || []).forEach(b => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${b.name}</td><td>${b.overs}</td><td>${b.runs}</td><td>${b.wickets}</td>`;
+    bb.appendChild(tr);
+  });
+  // extras
+  const ex = inn.extras || {total:0,wides:0,noballs:0,byes:0,legbyes:0};
+  document.getElementById('extras').innerText = `Total ${ex.total} (Wides ${ex.wides}, No-balls ${ex.noballs}, Byes ${ex.byes}, Leg-byes ${ex.legbyes})`;
+  // recent balls
+  document.getElementById('recentBalls').innerText = (inn.balls || []).slice(-12).map((b,i)=>`O${b.over}.${b.ball} ${b.summary || (b.type || '') + (b.runs? ' ' + b.runs: '')}`).join('  ');
+  // fow
+  document.getElementById('fow').innerText = (inn.fallOfWickets || []).length ? (inn.fallOfWickets.map(f=>`${f.batsman} ${f.runs} (${f.over})`).join('\n')) : '-';
+
+  // other innings
+  const otherIdx = idx === 0 ? 1 : 0;
+  const other = d.innings[otherIdx];
+  document.getElementById('otherInnings').innerHTML = `<div><strong>${other.team}</strong> — ${other.runs}/${other.wickets} (${other.overs})</div>
+    <div style="margin-top:8px"><strong>Batsmen</strong><br>${(other.batsmen||[]).map(b=>`${b.name} ${b.runs}(${b.balls})`).join(' · ') || '-'}</div>
+    <div style="margin-top:8px"><strong>Bowlers</strong><br>${(other.bowlers||[]).map(b=>`${b.name} ${b.overs}-${b.runs}-${b.wickets}`).join(' · ') || '-'}</div>`;
+}
+fetchLive();
+setInterval(fetchLive, 8000);
+</script>
+</body>
+</html>
