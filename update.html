@@ -1,229 +1,599 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KPL Score Update Panel</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>KPL Admin Scorer — Titans vs Strikers</title>
 <style>
-  body {
-    background: #0b1120;
-    color: #fff;
-    font-family: 'Segoe UI', sans-serif;
-    padding: 20px;
-  }
-  .hidden { display: none; }
-  h1 {
-    text-align: center;
-    color: #38bdf8;
-  }
-  .card {
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 800px;
-    margin: 20px auto;
-    box-shadow: 0 0 10px #0005;
-  }
-  label {
-    display: block;
-    margin-top: 10px;
-    font-weight: bold;
-  }
-  input, select, button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: none;
-    border-radius: 6px;
-    font-size: 15px;
-  }
-  button {
-    background: #38bdf8;
-    color: #000;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  button:hover {
-    background: #0ea5e9;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-  }
-  th, td {
-    border-bottom: 1px solid #334155;
-    padding: 6px;
-  }
-  pre {
-    background: #0005;
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 13px;
-    overflow-x: auto;
-  }
+  body{font-family:Inter,Arial, sans-serif;background:#f7fbff;padding:18px;max-width:1200px;margin:auto}
+  h1{margin:0 0 12px;color:#073047}
+  .grid{display:grid;grid-template-columns:1fr 420px;gap:16px}
+  .card{background:#fff;border-radius:10px;padding:12px;box-shadow:0 6px 20px rgba(18,38,63,0.06)}
+  label{display:block;font-weight:600;margin-top:8px;color:#073047}
+  input,select,button,textarea{width:100%;padding:8px;margin-top:6px;border-radius:6px;border:1px solid #dbeafe;box-sizing:border-box}
+  button{cursor:pointer;background:#0b69ff;color:white;border:0;font-weight:700}
+  .secondary{background:#06b6d4}
+  .muted{color:#6b7280;font-size:13px}
+  .actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .runsBtn{background:#0b69ff;color:white;padding:8px 10px;border-radius:6px;border:0;font-weight:700}
+  .extraBtn{background:#f59e0b;border:0;color:#07122a;padding:8px 10px;border-radius:6px}
+  .wktBtn{background:#ef4444;border:0;color:white;padding:8px 10px;border-radius:6px}
+  pre{background:#0b1220;color:#dff3c6;padding:10px;border-radius:8px;overflow:auto;max-height:260px}
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:6px;border-bottom:1px solid #eef2ff;text-align:left;font-size:13px}
+  .ok{color:green;font-weight:700}
+  .err{color:red;font-weight:700}
+  .hint{font-size:13px;color:#4b5563}
 </style>
 </head>
 <body>
-<h1>🏏 KPL Admin Score Updater</h1>
+<h1>🏏 KPL Admin Scorer — Titans vs Strikers (Advanced)</h1>
 
-<div id="pinCard" class="card">
-  <label>Enter Admin PIN</label>
-  <input type="password" id="pinInput" placeholder="Enter PIN">
-  <button onclick="checkPIN()">Login</button>
+<div class="card" id="loginCard">
+  <label>Admin PIN</label>
+  <input id="pin" type="password" placeholder="Enter PIN (4278)"/>
+  <div style="display:flex;gap:8px;margin-top:8px">
+    <button onclick="unlock()">Unlock</button>
+    <button class="secondary" onclick="clearStoredCreds()">Reset GitHub creds</button>
+  </div>
+  <div id="loginMsg" class="muted"></div>
 </div>
 
-<div id="adminPanel" class="hidden">
-  <div class="card">
-    <label>Select Batting Team</label>
-    <select id="battingTeam"></select>
+<div id="main" style="display:none">
+  <div class="grid">
+    <!-- left: controls -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="muted">Match file</div>
+          <h2 id="matchTitle">Titans vs Strikers</h2>
+        </div>
+        <div style="text-align:right">
+          <div class="muted">Status</div>
+          <div id="matchStatus">LIVE</div>
+          <div class="hint" style="margin-top:6px">Last saved: <span id="lastSaved">-</span></div>
+        </div>
+      </div>
 
-    <label>Striker</label>
-    <select id="striker"></select>
+      <hr>
 
-    <label>Non-Striker</label>
-    <select id="nonStriker"></select>
+      <div style="display:flex;gap:8px">
+        <div style="flex:1">
+          <label>Innings</label>
+          <select id="inningSelect"><option value="0">Innings 1 (Titans)</option><option value="1">Innings 2 (Strikers)</option></select>
+        </div>
+        <div style="width:220px">
+          <label>Over controls</label>
+          <div style="display:flex;gap:6px">
+            <input id="oversInput" placeholder="e.g. 9.3" />
+            <button class="secondary" onclick="setOvers()">Set</button>
+          </div>
+        </div>
+      </div>
 
-    <label>Bowler</label>
-    <select id="bowler"></select>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <div style="flex:1">
+          <label>Striker</label><select id="strikerSelect"></select>
+        </div>
+        <div style="flex:1">
+          <label>Non-Striker</label><select id="nonStrikerSelect"></select>
+        </div>
+        <div style="flex:1">
+          <label>Bowler</label><select id="bowlerSelect"></select>
+        </div>
+      </div>
 
-    <label>Ball Type</label>
-    <select id="ballType">
-      <option value="normal">Normal</option>
-      <option value="wide">Wide</option>
-      <option value="noball">No Ball</option>
-      <option value="bye">Bye</option>
-      <option value="legbye">Leg Bye</option>
-      <option value="wicket">Wicket</option>
-    </select>
+      <div style="margin-top:10px">
+        <label>Ball input</label>
+        <div class="actions">
+          <button class="runsBtn" onclick="handleRun(0)">0</button>
+          <button class="runsBtn" onclick="handleRun(1)">1</button>
+          <button class="runsBtn" onclick="handleRun(2)">2</button>
+          <button class="runsBtn" onclick="handleRun(3)">3</button>
+          <button class="runsBtn" onclick="handleRun(4)">4</button>
+          <button class="runsBtn" onclick="handleRun(6)">6</button>
+          <button class="extraBtn" onclick="handleExtra('wide')">Wide</button>
+          <button class="extraBtn" onclick="handleExtra('noball')">No-ball</button>
+          <button class="extraBtn" onclick="handleExtra('bye')">Bye</button>
+          <button class="extraBtn" onclick="handleExtra('legbye')">Leg-bye</button>
+          <button class="wktBtn" onclick="handleWicket()">Wicket</button>
+        </div>
+        <div class="muted" style="margin-top:6px">Wides/No-balls do not count as legal balls. No-ball → next legal delivery is free-hit.</div>
+      </div>
 
-    <label>Runs Scored</label>
-    <input type="number" id="runs" min="0" max="6" value="0">
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button onclick="previewLocal()">Preview & Download JSON</button>
+        <button onclick="pushToGitHub()">Save & Push to GitHub</button>
+      </div>
 
-    <button onclick="recordBall()">Record Ball</button>
-    <button onclick="saveToFile()">💾 Save to live.json</button>
-  </div>
+      <div id="status" class="muted" style="margin-top:8px"></div>
+    </div>
 
-  <div class="card">
-    <h3>Over Summary</h3>
-    <div id="overSummary">No balls yet.</div>
+    <!-- right: display -->
+    <div class="card">
+      <h3>Match Snapshot</h3>
+      <div class="muted">Teams & squads</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <div style="flex:1"><label>Team A (Titans)</label><pre id="teamAList" class="muted"></pre></div>
+        <div style="flex:1"><label>Team B (Strikers)</label><pre id="teamBList" class="muted"></pre></div>
+      </div>
 
-    <h3>Live JSON Preview</h3>
-    <pre id="jsonPreview"></pre>
+      <hr>
+
+      <div>
+        <label>Batting order (current inning)</label>
+        <table id="batTable"><thead><tr><th>Player</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>Status</th></tr></thead><tbody></tbody></table>
+      </div>
+
+      <div style="margin-top:8px">
+        <label>Bowling figures (current inning)</label>
+        <table id="bowlTable"><thead><tr><th>Bowler</th><th>O</th><th>R</th><th>W</th></tr></thead><tbody></tbody></table>
+      </div>
+
+      <div style="margin-top:8px">
+        <label>Over summary (completed)</label>
+        <pre id="oversSummary">—</pre>
+      </div>
+
+      <div style="margin-top:8px">
+        <label>Ball-by-ball (current inning)</label>
+        <pre id="ballsDetailed">—</pre>
+      </div>
+
+      <div style="margin-top:8px">
+        <label>Raw JSON preview</label>
+        <pre id="jsonPreview">—</pre>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-const PIN = "4278";
-let matchData = {};
-let currentInnings = 0;
+/* ---------- CONFIG ---------- */
+const ADMIN_PIN = '4278';
+const REPO_OWNER_DEFAULT = 'ultron3000';
+const REPO = 'kpl';
+const BRANCH = 'main';
+const MATCH_PATH = 'data/match-1.json';
+const LIVE_PATH = 'data/live.json';
 
-async function loadData() {
-  const res = await fetch('data/live.json?' + new Date().getTime());
-  matchData = await res.json();
-  populateDropdowns();
-  updatePreview();
+/* ---------- state ---------- */
+let data = null; // full match object
+let creds = { user: localStorage.getItem('kpl_gh_user') || '', token: localStorage.getItem('kpl_gh_token') || '' };
+
+/* ---------- utility ---------- */
+const $ = id => document.getElementById(id);
+function status(msg, ok=true){ $('status').innerHTML = ok ? `<span class="ok">${msg}</span>` : `<span class="err">${msg}</span>`; }
+
+/* ---------- unlock ---------- */
+function unlock(){
+  const v = $('pin').value.trim();
+  if(v !== ADMIN_PIN){ $('loginMsg').innerText = 'Wrong PIN'; return; }
+  $('loginCard').style.display = 'none'; $('main').style.display = 'block';
+  loadOrInit();
 }
 
-function populateDropdowns() {
-  const battingTeam = document.getElementById("battingTeam");
-  const striker = document.getElementById("striker");
-  const nonStriker = document.getElementById("nonStriker");
-  const bowler = document.getElementById("bowler");
+/* ---------- initial load / skeleton ---------- */
+async function loadOrInit(){
+  // try raw from repo owner stored or default
+  const owner = creds.user || REPO_OWNER_DEFAULT;
+  try{
+    const rawUrl = `https://raw.githubusercontent.com/${owner}/${REPO}/${BRANCH}/${MATCH_PATH}?t=${Date.now()}`;
+    const res = await fetch(rawUrl);
+    if(res.ok){ data = await res.json(); normalize(); renderAll(); status('Loaded match-1.json from repo', true); return; }
+    // fallback to local data/live.json (GH Pages)
+    const res2 = await fetch(`/data/live.json?t=${Date.now()}`);
+    if(res2.ok){ const live = await res2.json(); // convert live -> full structure skeleton
+      data = fromLiveToMatch(live);
+      normalize(); renderAll(); status('Loaded local live.json (converted to match structure)', true); return;
+    }
+  }catch(e){
+    console.warn('load error',e);
+  }
+  // else initialize skeleton
+  data = createSkeleton();
+  normalize(); renderAll();
+  status('Initialized local skeleton — use Save & Push to create files on GitHub', false);
+}
 
-  battingTeam.innerHTML = "";
-  striker.innerHTML = "";
-  nonStriker.innerHTML = "";
-  bowler.innerHTML = "";
+/* ---------- skeleton and normalization ---------- */
+function createSkeleton(){
+  return {
+    title: 'Titans vs Strikers',
+    venue: 'KPL Arena 1',
+    status: 'LIVE',
+    toss: 'Titans won the toss and chose to bat first',
+    currentInnings: 0,
+    matchMeta: { oversPerInnings: 20, target: 150 },
+    innings: [
+      {
+        team: 'Titans',
+        total: 0,
+        wickets: 0,
+        overs: 0,
+        balls: 0,
+        extras: { wides:0, noballs:0, byes:0, legbyes:0, total:0 },
+        battingOrder: [
+          {name:'Player A', runs:0, balls:0, fours:0, sixes:0, status:'not out'},
+          {name:'Player B', runs:0, balls:0, fours:0, sixes:0, status:'not out'},
+          {name:'Player C', runs:0, balls:0, fours:0, sixes:0, status:'not out'}
+        ],
+        bowlers: [
+          {name:'Bowler X', overs:0, balls:0, runs:0, wickets:0}
+        ],
+        oversSummary: [],
+        fallOfWickets: [],
+        ballsDetailed: []
+      },
+      {
+        team: 'Strikers',
+        total: 0,
+        wickets: 0,
+        overs: 0,
+        balls: 0,
+        extras: { wides:0, noballs:0, byes:0, legbyes:0, total:0 },
+        battingOrder: [
+          {name:'Player F', runs:0, balls:0, fours:0, sixes:0, status:'not out'},
+          {name:'Player G', runs:0, balls:0, fours:0, sixes:0, status:'not out'}
+        ],
+        bowlers: [{name:'Bowler A', overs:0, balls:0, runs:0, wickets:0}],
+        oversSummary: [],
+        fallOfWickets: [],
+        ballsDetailed: []
+      }
+    ],
+    current: { striker:null, nonStriker:null, currentBowler:null, currentOverBalls:[], isFreeHit:false },
+    lastSaved: null
+  };
+}
 
-  matchData.innings.forEach((inn, i) => {
-    battingTeam.innerHTML += `<option value="${i}">${inn.team}</option>`;
+function fromLiveToMatch(live){
+  // convert lightweight live.json into full match skeleton with dummy arrays
+  const sk = createSkeleton();
+  sk.title = live.match || sk.title;
+  sk.venue = live.venue || sk.venue;
+  sk.status = live.status || sk.status;
+  sk.toss = live.toss || sk.toss;
+  sk.currentInnings = live.currentInnings || 0;
+  // populate innings minimal
+  (live.innings || []).forEach((src,i)=>{
+    sk.innings[i].team = src.team || sk.innings[i].team;
+    sk.innings[i].total = src.runs || 0;
+    sk.innings[i].wickets = src.wickets || 0;
+    sk.innings[i].overs = parseOversString(src.overs || '0.0').overs;
+    sk.innings[i].balls = parseOversString(src.overs || '0.0').balls;
+    sk.innings[i].extras = src.extras || sk.innings[i].extras;
+    sk.innings[i].battingOrder = src.batsmen && src.batsmen.length ? src.batsmen.map(b=>({name:b.name,runs:b.runs,balls:b.balls,fours:0,sixes:0,status:b.status||'not out'})) : sk.innings[i].battingOrder;
+    sk.innings[i].bowlers = src.bowlers && src.bowlers.length ? src.bowlers.map(b=>({name:b.name,overs:b.overs,balls:0,runs:b.runs,wickets:b.wickets})) : sk.innings[i].bowlers;
+    sk.innings[i].ballsDetailed = src.balls || [];
   });
+  return sk;
+}
 
-  const team = matchData.innings[currentInnings];
-  team.batsmen.forEach(b => {
-    striker.innerHTML += `<option value="${b.name}">${b.name}</option>`;
-    nonStriker.innerHTML += `<option value="${b.name}">${b.name}</option>`;
-  });
-
-  team.bowlers.forEach(b => {
-    bowler.innerHTML += `<option value="${b.name}">${b.name}</option>`;
+function normalize(){
+  if(!data.current) data.current = { striker:null, nonStriker:null, currentBowler:null, currentOverBalls:[], isFreeHit:false };
+  data.innings = data.innings || createSkeleton().innings;
+  data.innings.forEach((inn, idx)=>{
+    inn.battingOrder = inn.battingOrder || createSkeleton().innings[idx].battingOrder;
+    inn.bowlers = inn.bowlers || createSkeleton().innings[idx].bowlers;
+    inn.oversSummary = inn.oversSummary || [];
+    inn.fallOfWickets = inn.fallOfWickets || [];
+    inn.ballsDetailed = inn.ballsDetailed || [];
+    inn.total = inn.total || inn.total === 0 ? inn.total : (inn.runs || 0);
+    inn.wickets = inn.wickets || 0;
+    inn.overs = inn.overs || 0;
+    inn.balls = inn.balls || 0;
+    inn.extras = inn.extras || {wides:0,noballs:0,byes:0,legbyes:0,total:0};
   });
 }
 
-function checkPIN() {
-  const pin = document.getElementById("pinInput").value;
-  if (pin === PIN) {
-    document.getElementById("pinCard").classList.add("hidden");
-    document.getElementById("adminPanel").classList.remove("hidden");
-    loadData();
+/* ---------- rendering ---------- */
+function renderAll(){
+  if(!data) return;
+  $('matchTitle').innerText = data.title;
+  $('matchStatus').innerText = data.status;
+  $('lastSaved').innerText = data.lastSaved || '-';
+
+  const idx = Number($('inningSelect').value);
+  const inn = data.innings[idx];
+  // squads
+  $('teamAList').innerText = data.innings[0].battingOrder.map((p,i)=>`${i+1}. ${p.name} — ${p.status}`).join('\n');
+  $('teamBList').innerText = data.innings[1].battingOrder.map((p,i)=>`${i+1}. ${p.name} — ${p.status}`).join('\n');
+
+  // selectors
+  populateSelect($('strikerSelect'), inn.battingOrder.map(p=>p.name), data.current.striker);
+  populateSelect($('nonStrikerSelect'), inn.battingOrder.map(p=>p.name), data.current.nonStriker);
+  populateSelect($('bowlerSelect'), (inn.bowlers.length?inn.bowlers: data.innings[(idx===0?1:0)].battingOrder.map(p=>({name:p.name}))).map(x=>x.name), data.current.currentBowler);
+
+  // tables
+  const btb = $('batTable').querySelector('tbody'); btb.innerHTML = '';
+  inn.battingOrder.forEach(p=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${p.name}</td><td>${p.runs||0}</td><td>${p.balls||0}</td><td>${p.fours||0}</td><td>${p.sixes||0}</td><td>${p.status||''}</td>`;
+    btb.appendChild(tr);
+  });
+  const bltb = $('bowlTable').querySelector('tbody'); bltb.innerHTML = '';
+  inn.bowlers.forEach(b=>{
+    const oversStr = (b.overs||0) + (b.balls?'.'+b.balls:'');
+    const tr = document.createElement('tr'); tr.innerHTML = `<td>${b.name}</td><td>${oversStr}</td><td>${b.runs||0}</td><td>${b.wickets||0}</td>`;
+    bltb.appendChild(tr);
+  });
+
+  // over summary & balls
+  $('oversSummary').innerText = inn.oversSummary.length ? inn.oversSummary.map(o=>`Over ${o.over}: ${o.balls.join(' ')} — ${o.bowler}`).join('\n') : '—';
+  $('ballsDetailed').innerText = inn.ballsDetailed.length ? inn.ballsDetailed.map((b,i)=>`${i+1}. O${b.over}.${b.ballInOver} ${b.summary}`).join('\n') : '—';
+  $('jsonPreview').innerText = JSON.stringify(data, null, 2);
+}
+
+/* ---------- helpers ---------- */
+function populateSelect(sel, list, selected){
+  sel.innerHTML = '';
+  (list||[]).forEach(item=>{
+    const name = typeof item === 'string' ? item : item;
+    const opt = document.createElement('option');
+    opt.value = typeof item === 'string' ? item : (item.name || item);
+    opt.textContent = typeof item === 'string' ? item : (item.name || item);
+    if(selected && (opt.value === selected)) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+function parseOversString(s){
+  // "9.2" -> {overs:9, balls:2}
+  const parts = (s||'0.0').toString().split('.');
+  const overs = parseInt(parts[0])||0; const balls = parseInt(parts[1])||0; return {overs, balls};
+}
+
+/* ---------- scoring core ---------- */
+function handleRun(runs){
+  const idx = Number($('inningSelect').value);
+  const inn = data.innings[idx];
+  // ensure selections
+  const striker = $('strikerSelect').value || inn.battingOrder[0].name;
+  const nonStriker = $('nonStrikerSelect').value || (inn.battingOrder[1] && inn.battingOrder[1].name);
+  const bowler = $('bowlerSelect').value || (data.innings[idx===0?1:0].battingOrder[0].name);
+  // create ball obj
+  const ball = {
+    over: inn.overs,
+    ballInOver: (inn.balls % 6) + 1,
+    batsman: striker,
+    bowler,
+    eventType: 'run',
+    runs,
+    extraType: null,
+    wicket: null,
+    summary: `${striker} ${runs}`,
+    timestamp: new Date().toLocaleString()
+  };
+  // append
+  inn.ballsDetailed.push(ball);
+  // update totals & stats
+  inn.total = (inn.total||0) + runs;
+  const bat = inn.battingOrder.find(p=>p.name===striker); if(bat){ bat.runs += runs; bat.balls +=1; if(runs===4) bat.fours++; if(runs===6) bat.sixes++; }
+  const bw = getOrCreateBowler(inn, bowler); bw.runs += runs;
+  // legal
+  progressLegal(inn, bow);
+  // swap strike on odd
+  if(runs %2 ===1) swapStrikersLocal();
+  data.current.striker = $('strikerSelect').value;
+  data.current.nonStriker = $('nonStrikerSelect').value;
+  data.current.currentBowler = bowler;
+  // add to current over display
+  data.current.currentOverBalls = data.current.currentOverBalls || [];
+  data.current.currentOverBalls.push(ball.summary);
+  data.lastSaved = new Date().toLocaleString();
+  renderAll();
+  autoPush();
+}
+
+function handleExtra(type){
+  const idx = Number($('inningSelect').value);
+  const inn = data.innings[idx];
+  const striker = $('strikerSelect').value || inn.battingOrder[0].name;
+  const bowler = $('bowlerSelect').value || (data.innings[idx===0?1:0].battingOrder[0].name);
+  let extraRuns = 1;
+  if(type === 'wide' || type === 'noball'){
+    const r = prompt('Enter total runs for this delivery (including penalty). Press Enter for 1:'); if(r===null) return;
+    extraRuns = parseInt(r) || 1;
   } else {
-    alert("Incorrect PIN");
+    const r = prompt('Runs taken as bye/leg-bye (0 if none):'); if(r===null) return;
+    extraRuns = parseInt(r) || 0;
   }
-}
-
-function recordBall() {
-  const ballType = document.getElementById("ballType").value;
-  const runs = parseInt(document.getElementById("runs").value);
-  const strikerName = document.getElementById("striker").value;
-  const bowlerName = document.getElementById("bowler").value;
-  const inn = matchData.innings[currentInnings];
-
-  // Update batsman
-  const batsman = inn.batsmen.find(b => b.name === strikerName);
-  const bowler = inn.bowlers.find(b => b.name === bowlerName);
-  let legalBall = true;
-  let displayBall = runs;
-
-  if (ballType === "wide" || ballType === "noball") {
-    inn.runs += runs + 1;
-    bowler.runs += runs + 1;
-    displayBall = ballType === "wide" ? "Wd" : "Nb";
-    legalBall = false;
-  } else if (ballType === "bye" || ballType === "legbye") {
-    inn.runs += runs;
-    bowler.runs += runs;
-    displayBall = ballType === "bye" ? "B" + runs : "LB" + runs;
-  } else if (ballType === "wicket") {
-    inn.wickets++;
-    bowler.wickets++;
-    displayBall = "W";
-  } else {
-    inn.runs += runs;
-    batsman.runs += runs;
-    batsman.balls++;
-    bowler.runs += runs;
+  const ball = { over: inn.overs, ballInOver: (inn.balls%6)+1, batsman: striker, bowler, eventType:'extra', runs:extraRuns, extraType:type, summary:`${type.toUpperCase()} +${extraRuns}`, timestamp:new Date().toLocaleString()};
+  inn.ballsDetailed.push(ball);
+  inn.total = (inn.total||0) + extraRuns;
+  inn.extras[type === 'wide' ? 'wides' : (type==='noball'?'noballs':(type==='bye'?'byes':'legbyes'))] += extraRuns;
+  inn.extras.total = (inn.extras.total||0) + extraRuns;
+  // if legal (bye/legbye) then progress legal
+  const legal = (type === 'bye' || type === 'legbye');
+  if(legal){
+    // give batsman a ball but runs not to batsman
+    const b = inn.battingOrder.find(p=>p.name===striker); if(b) b.balls += 1;
+    const bw = getOrCreateBowler(inn, bowler); bw.runs += extraRuns;
+    progressLegal(inn);
+  } else { // wide or noball -> bowler gets runs as extras; if noball -> free-hit
+    const bw = getOrCreateBowler(inn, bowler); bw.runs += extraRuns;
+    if(type === 'noball'){ data.current.isFreeHit = true; }
   }
+  data.current.currentOverBalls = data.current.currentOverBalls || [];
+  data.current.currentOverBalls.push(ball.summary);
+  data.lastSaved = new Date().toLocaleString();
+  renderAll();
+  autoPush();
+}
 
-  if (legalBall) {
-    bowler.overs = (bowler.overs * 10 + 1) / 10; // increment ball
-    if (bowler.overs % 1 >= 0.6) bowler.overs = Math.floor(bowler.overs) + 1;
-    inn.overs = (inn.overs * 10 + 1) / 10;
-    if (inn.overs % 1 >= 0.6) inn.overs = Math.floor(inn.overs) + 1;
+function handleWicket(){
+  const idx = Number($('inningSelect').value);
+  const inn = data.innings[idx];
+  const striker = $('strikerSelect').value || inn.battingOrder[0].name;
+  const bowler = $('bowlerSelect').value || (data.innings[idx===0?1:0].battingOrder[0].name);
+  const how = prompt('Wicket type (bowled, caught, run out, lbw, stumped):') || 'bowled';
+  const fielder = (how==='caught' || how==='run out' || how==='stumped') ? (prompt('Fielder (if any)')||null) : null;
+  const newBats = prompt('New batsman name (leave blank if none)') || null;
+  const ball = { over:inn.overs, ballInOver:(inn.balls%6)+1, batsman:striker, bowler, eventType:'wicket', runs:0, wicket:{how, fielder, newBats}, summary:`W ${how} ${striker}`, timestamp:new Date().toLocaleString()};
+  inn.ballsDetailed.push(ball);
+  inn.wickets += 1;
+  const b = inn.battingOrder.find(p=>p.name===striker); if(b){ b.status = `out (${how}${fielder? ', '+fielder:''})`; }
+  inn.fallOfWickets.push({batsman:striker, runs: inn.total, wicket: inn.wickets, over: `${inn.overs}.${(inn.balls%6)+1}`});
+  const bw = getOrCreateBowler(inn, bowler); bw.wickets = (bw.wickets||0) + 1;
+  progressLegal(inn);
+  if(newBats) inn.battingOrder.push({name:newBats,runs:0,balls:0,fours:0,sixes:0,status:'not out'});
+  data.current.striker = newBats || null;
+  data.lastSaved = new Date().toLocaleString();
+  renderAll();
+  autoPush();
+}
+
+function progressLegal(inn){
+  // increment ball, update bowler balls/overs
+  inn.balls = (inn.balls||0) + 1;
+  // increment bowler ball count
+  const bowName = $('bowlerSelect').value;
+  if(bowName){
+    const bw = getOrCreateBowler(inn, bowName);
+    bw.balls = (bw.balls||0) + 1;
+    if(bw.balls >= 6){ bw.overs = (bw.overs||0) + 1; bw.balls = 0; }
   }
-
-  inn.balls.push(displayBall);
-  matchData.runRate = (inn.runs / (Math.floor(inn.overs) + (inn.overs % 1) * 10 / 6)).toFixed(2);
-  matchData.lastUpdated = new Date().toLocaleTimeString();
-
-  updatePreview();
+  if(inn.balls >= 6){
+    inn.overs = (inn.overs||0) + 1;
+    // push over summary
+    inn.oversSummary.push({over:inn.overs, balls: (data.current.currentOverBalls||[]).slice(), bowler: $('bowlerSelect').value || ''});
+    data.current.currentOverBalls = [];
+    inn.balls = 0;
+    swapStrikersAtOverEnd();
+  }
+  // update runRate might be calculated later
 }
 
-function updatePreview() {
-  document.getElementById("jsonPreview").textContent = JSON.stringify(matchData, null, 2);
-  document.getElementById("overSummary").innerHTML = matchData.innings[currentInnings].balls.slice(-6).join(" ");
+/* helper get or create bowler record */
+function getOrCreateBowler(inn, name){
+  if(!name) return null;
+  let b = inn.bowlers.find(x=>x.name===name);
+  if(!b){ b = {name, overs:0, balls:0, runs:0, wickets:0}; inn.bowlers.push(b); }
+  return b;
 }
 
-function saveToFile() {
-  const blob = new Blob([JSON.stringify(matchData, null, 2)], {type: "application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "live.json";
-  a.click();
-  URL.revokeObjectURL(url);
-  alert("✅ live.json downloaded — upload to /data/ folder in GitHub");
+/* swaps */
+function swapStrikersLocal(){
+  const tmp = data.current.striker; data.current.striker = data.current.nonStriker; data.current.nonStriker = tmp;
 }
+function swapStrikersAtOverEnd(){ swapStrikersLocal(); }
+
+/* ---------- push / github ---------- */
+function saveCreds(user, token){ localStorage.setItem('kpl_gh_user', user); localStorage.setItem('kpl_gh_token', token); creds.user = user; creds.token = token; }
+function clearStoredCreds(){ localStorage.removeItem('kpl_gh_user'); localStorage.removeItem('kpl_gh_token'); creds = {user:'', token:''}; alert('Cleared stored credentials'); }
+
+async function autoPush(){
+  const c = { user: localStorage.getItem('kpl_gh_user') || '', token: localStorage.getItem('kpl_gh_token') || '' };
+  if(!c.user || !c.token){ $('status').innerText = 'GitHub creds not set — use Save & Push'; return; }
+  try{ await pushAllToGitHub(c.user, c.token); }catch(e){ console.error(e); $('status').innerText = 'Auto-push failed: ' + (e.message||e); }
+}
+
+async function pushToGitHub(){
+  let user = localStorage.getItem('kpl_gh_user') || '';
+  let token = localStorage.getItem('kpl_gh_token') || '';
+  if(!user) user = prompt('GitHub username (owner):') || '';
+  if(!token) token = prompt('Personal Access Token (ghp_...):') || '';
+  if(!user || !token) return alert('username + token required');
+  saveCreds(user, token);
+  try{ await pushAllToGitHub(user, token); alert('Pushed to GitHub ✅'); }catch(e){ alert('Push failed: ' + e.message); console.error(e); }
+}
+
+/* get file sha or null */
+async function getSha(user, repo, path, token){
+  const api = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+  const res = await fetch(api, { headers: { Authorization: 'token ' + token }});
+  if(res.status === 200){ const j = await res.json(); return j.sha; }
+  if(res.status === 404) return null;
+  const txt = await res.text(); throw new Error('GET sha failed: ' + txt);
+}
+
+/* put file */
+async function putFile(user, repo, path, content, message, token, sha){
+  const api = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+  const body = { message, content: btoa(unescape(encodeURIComponent(content))) };
+  if(sha) body.sha = sha;
+  const res = await fetch(api, { method:'PUT', headers:{ Authorization:'token '+token, 'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  const j = await res.json();
+  if(!res.ok) throw new Error(j.message || 'PUT failed');
+  return j;
+}
+
+async function pushAllToGitHub(user, token){
+  $('status').innerText = 'Pushing to GitHub...';
+  // build contents
+  const matchContent = JSON.stringify(data, null, 2);
+  const live = buildLiveJson();
+  const liveContent = JSON.stringify(live, null, 2);
+
+  // get sha for both if exists
+  let shaMatch = null; let shaLive = null;
+  try{ shaMatch = await getSha(user, REPO, MATCH_PATH, token); }catch(e){ console.warn('sha match err',e); }
+  try{ shaLive = await getSha(user, REPO, LIVE_PATH, token); }catch(e){ console.warn('sha live err',e); }
+
+  // put both
+  await putFile(user, REPO, MATCH_PATH, matchContent, `KPL: update ${MATCH_PATH}`, token, shaMatch);
+  await putFile(user, REPO, LIVE_PATH, liveContent, `KPL: update ${LIVE_PATH}`, token, shaLive);
+
+  data.lastSaved = new Date().toLocaleString(); renderAll();
+  $('status').innerText = 'Saved to GitHub ✅';
+}
+
+/* build lightweight live.json for viewer */
+function buildLiveJson(){
+  const idx = Number($('inningSelect').value);
+  const inn = data.innings[idx];
+  return {
+    match: data.title,
+    venue: data.venue || '',
+    status: data.status || '',
+    toss: data.toss || '',
+    currentInnings: idx,
+    innings: data.innings.map(i=>({
+      team: i.team,
+      runs: i.total || i.runs || 0,
+      wickets: i.wickets || 0,
+      overs: `${i.overs}.${i.balls||0}`,
+      balls: i.ballsDetailed || [],
+      batsmen: (i.battingOrder || []).slice(0,11).map(p=>({name:p.name,runs:p.runs||0,balls:p.balls||0,status:p.status||'not out'})),
+      bowlers: (i.bowlers || []).map(b=>({name:b.name,overs:b.overs? b.overs : 0, runs:b.runs||0, wickets:b.wickets||0})),
+      extras: i.extras || {total:0,wides:0,noballs:0,byes:0,legbyes:0},
+      fallOfWickets: i.fallOfWickets || []
+    })),
+    target: data.matchMeta && data.matchMeta.target ? data.matchMeta.target : 0,
+    runRate: calculateRunRate(data.innings[idx]),
+    lastUpdated: new Date().toLocaleString()
+  };
+}
+
+function calculateRunRate(i){
+  const runs = i.total || 0;
+  const overs = (i.overs || 0) + ((i.balls||0)/6);
+  if(!overs) return '0.00';
+  return (runs/overs).toFixed(2);
+}
+
+/* preview local download */
+function previewLocal(){
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'match-1.json'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+
+/* ---------- helpers ---------- */
+function getOrCreateBowler(inn, name){
+  if(!name) return null;
+  let b = inn.bowlers.find(x=>x.name===name);
+  if(!b){ b = {name, overs:0, balls:0, runs:0, wickets:0}; inn.bowlers.push(b); }
+  return b;
+}
+
+/* ---------- event bindings ---------- */
+$('inningSelect').addEventListener('change', ()=>{ renderAll(); });
+
+/* ---------- init ---------- */
+(function init(){
+  // nothing until unlock
+})();
 </script>
 </body>
 </html>
