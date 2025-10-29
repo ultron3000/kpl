@@ -1,56 +1,102 @@
 {
   "match": "Titans vs Strikers",
-  "venue": "KPL Arena 1",
-  "status": "LIVE",
-  "toss": "Titans won the toss and chose to bat first",
+  "venue": "",
+  "status": "NOT_STARTED",
+  "toss": "",
   "currentInnings": 0,
   "innings": [
     {
-      "team": "Titans",
-      "runs": 75,
-      "wickets": 3,
-      "overs": "9.2",
-      "balls": [
-        {"over": 1, "ball": 1, "batsman": "Player A", "bowler": "Bowler X", "runs": 1, "type": "normal"},
-        {"over": 1, "ball": 2, "batsman": "Player B", "bowler": "Bowler X", "runs": 4, "type": "normal"},
-        {"over": 2, "ball": 1, "batsman": "Player A", "bowler": "Bowler Y", "runs": 0, "type": "dot"},
-        {"over": 2, "ball": 2, "batsman": "Player A", "bowler": "Bowler Y", "runs": 6, "type": "six"},
-        {"over": 3, "ball": 5, "batsman": "Player B", "bowler": "Bowler X", "runs": 0, "type": "wicket"}
-      ],
-      "batsmen": [
-        {"name": "Player A", "runs": 42, "balls": 28, "status": "not out"},
-        {"name": "Player B", "runs": 21, "balls": 18, "status": "bowled"},
-        {"name": "Player C", "runs": 6, "balls": 10, "status": "not out"}
-      ],
-      "bowlers": [
-        {"name": "Bowler X", "overs": 3.0, "runs": 20, "wickets": 1},
-        {"name": "Bowler Y", "overs": 2.2, "runs": 18, "wickets": 0}
-      ],
-      "extras": {"wides": 2, "noballs": 1, "byes": 0, "legbyes": 0, "total": 3},
-      "fallOfWickets": [
-        {"batsman": "Player D", "runs": 12, "wicket": 1, "over": "4.2"},
-        {"batsman": "Player B", "runs": 21, "wicket": 2, "over": "8.5"},
-        {"batsman": "Player E", "runs": 3, "wicket": 3, "over": "9.1"}
-      ]
-    },
-    {
-      "team": "Strikers",
       "runs": 0,
       "wickets": 0,
       "overs": "0.0",
       "balls": [],
+      "batsmen": [],
+      "bowlers": [],
+      "extras": {
+        "wides": 0,
+        "noballs": 0,
+        "byes": 0,
+        "legbyes": 0,
+        "total": 0
+      },
+      "fallOfWickets": []
+    },
+    {
+      "runs": 3,
+      "wickets": 1,
+      "overs": "0.3",
+      "balls": [
+        {
+          "over": 0,
+          "ballInOver": 1,
+          "batsman": null,
+          "bowler": "R. Sharma",
+          "eventType": "run",
+          "runs": 3,
+          "extraType": null,
+          "wicket": null,
+          "summary": "null 3",
+          "timestamp": "10/30/2025, 4:37:13 AM"
+        },
+        {
+          "over": 0,
+          "ballInOver": 2,
+          "batsman": null,
+          "bowler": "R. Sharma",
+          "eventType": "run",
+          "runs": 0,
+          "extraType": null,
+          "wicket": null,
+          "summary": "null 0",
+          "timestamp": "10/30/2025, 4:37:19 AM"
+        },
+        {
+          "over": 0,
+          "ballInOver": 3,
+          "batsman": null,
+          "bowler": "R. Sharma",
+          "eventType": "wicket",
+          "runs": 0,
+          "extraType": null,
+          "wicket": {
+            "outPlayer": "rohit",
+            "how": "bowled",
+            "fielder": null,
+            "newBatsman": "kohli"
+          },
+          "summary": "Wicket - bowled - rohit",
+          "timestamp": "10/30/2025, 4:37:58 AM"
+        }
+      ],
       "batsmen": [
-        {"name": "Player F", "runs": 0, "balls": 0, "status": "not out"},
-        {"name": "Player G", "runs": 0, "balls": 0, "status": "not out"}
+        {
+          "name": "kohli",
+          "runs": 0,
+          "balls": 0,
+          "status": "not out"
+        }
       ],
       "bowlers": [
-        {"name": "Bowler A", "overs": 0, "runs": 0, "wickets": 0}
+        {
+          "name": "R. Sharma",
+          "overs": 0,
+          "runs": 3,
+          "wickets": 1
+        }
       ],
-      "extras": {"wides": 0, "noballs": 0, "byes": 0, "legbyes": 0, "total": 0},
-      "fallOfWickets": []
+      "extras": {
+        "wides": 0,
+        "noballs": 0,
+        "byes": 0,
+        "legbyes": 0,
+        "total": 0
+      },
+      "fallOfWickets": [
+        "3-1 (rohit, 0.3 ov, bowled)"
+      ]
     }
   ],
-  "target": 150,
-  "runRate": "8.02",
-  "lastUpdated": "Just now"
+  "target": 0,
+  "runRate": "0.00",
+  "lastUpdated": "10/30/2025, 4:58:54 AM"
 }
