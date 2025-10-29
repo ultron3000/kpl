@@ -1,12 +1,17 @@
 {
   "match": "Titans vs Strikers",
-  "venue": "Khandelwal Mansion",
-  "status": "Live",
-  "score": "100",
-  "overs": "50",
-  "runRate": "10.5",
-  "target": "101",
-  "batsmen": "Sachin",
-  "bowlers": "Bumrah",
-  "lastUpdated": "10/30/2025, 2:26:30 AM"
+  "venue": "KPL Arena 1",
+  "status": "LIVE",
+  "score": "0/0",
+  "overs": "0.0",
+  "runRate": "0.00",
+  "target": "150",
+  "batsmen": [
+    { "name": "-", "runs": 0, "balls": 0 },
+    { "name": "-", "runs": 0, "balls": 0 }
+  ],
+  "bowlers": [
+    { "name": "-", "overs": 0, "runs": 0, "wickets": 0 }
+  ],
+  "lastUpdated": "Just now"
 }
