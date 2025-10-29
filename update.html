@@ -2,17 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KPL Live Scorer (Protected)</title>
+<title>KPL Live Scorer (Ball by Ball)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body {font-family:Poppins,sans-serif;background:#f5f5f5;padding:20px;max-width:900px;margin:auto;}
-.card{background:white;padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:15px;}
-h1{text-align:center;}
-button{background:#007bff;color:white;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;margin:2px;}
-button:hover{background:#0056b3;}
-input{padding:8px;border:1px solid #ccc;border-radius:5px;width:100%;margin:5px 0;}
-#msg{font-weight:600;text-align:center;}
-.success{color:green;} .error{color:red;}
+body {font-family:Poppins,sans-serif;background:#f5f5f5;margin:0;padding:20px;max-width:950px;margin:auto;}
+.card {background:white;border-radius:12px;box-shadow:0 3px 8px rgba(0,0,0,0.15);padding:20px;margin-bottom:20px;}
+h1,h3 {text-align:center;}
+input, select {width:100%;padding:8px;margin:6px 0;border:1px solid #ccc;border-radius:6px;}
+button {border:none;background:#007bff;color:white;padding:10px 16px;border-radius:6px;margin:3px;cursor:pointer;}
+button:hover {background:#0056b3;}
+.extras button {background:#ffc107;color:black;}
+.wicket button {background:#dc3545;}
+.success {color:green;} .error {color:red;}
+#msg{text-align:center;margin-top:10px;}
+.runButtons {display:flex;flex-wrap:wrap;justify-content:center;}
+.runButtons button {min-width:50px;font-weight:bold;}
 </style>
 </head>
 <body>
@@ -27,8 +31,9 @@ input{padding:8px;border:1px solid #ccc;border-radius:5px;width:100%;margin:5px 
   <p id="loginMsg"></p>
 </div>
 
-<!-- SCORER PANEL -->
+<!-- SCORER -->
 <div id="scorer" style="display:none;">
+
   <div class="card">
     <h3>⚙️ GitHub Setup</h3>
     <input id="username" placeholder="GitHub Username (e.g. ultron3000)">
@@ -36,7 +41,7 @@ input{padding:8px;border:1px solid #ccc;border-radius:5px;width:100%;margin:5px 
   </div>
 
   <div class="card">
-    <h3>🏆 Select Match</h3>
+    <h3>🏆 Match Setup</h3>
     <select id="matchFile">
       <option value="match-1.json">Match 1: Titans vs Strikers</option>
       <option value="match-2.json">Match 2: Warriors vs Challengers</option>
@@ -47,78 +52,126 @@ input{padding:8px;border:1px solid #ccc;border-radius:5px;width:100%;margin:5px 
       <option value="A">Team A Batting</option>
       <option value="B">Team B Batting</option>
     </select>
+    <input id="venue" placeholder="Venue">
+    <input id="status" placeholder="Status (LIVE / Completed)">
   </div>
 
   <div class="card">
-    <h3>🎯 Live Scoring</h3>
-    <p id="liveScore">0/0 (0.0)</p>
-    <div>
+    <h3>🎯 Live Ball Update</h3>
+    <p id="liveScore">Score: 0/0 (0.0)</p>
+
+    <div class="runButtons">
       <button onclick="addRun(0)">0</button>
       <button onclick="addRun(1)">1</button>
       <button onclick="addRun(2)">2</button>
       <button onclick="addRun(3)">3</button>
       <button onclick="addRun(4)">4</button>
       <button onclick="addRun(6)">6</button>
-      <button style="background:#dc3545" onclick="addWicket()">Wicket</button>
     </div>
+
+    <h4>Extras</h4>
+    <div class="extras runButtons">
+      <button onclick="addExtra('wide')">Wide</button>
+      <button onclick="addExtra('noball')">No Ball</button>
+      <button onclick="addExtra('bye')">Bye</button>
+      <button onclick="addExtra('legbye')">Leg Bye</button>
+      <button onclick="toggleFreeHit()">Free Hit: <span id="freeHitStatus">OFF</span></button>
+    </div>
+
+    <h4>Wicket</h4>
+    <div class="wicket runButtons">
+      <button onclick="addWicket('bowled')">Bowled</button>
+      <button onclick="addWicket('caught')">Caught</button>
+      <button onclick="addWicket('runout')">Run Out</button>
+      <button onclick="addWicket('lbw')">LBW</button>
+    </div>
+
     <p>Current Over: <span id="balls">0</span> balls</p>
+    <button onclick="nextOver()">➡️ Next Over</button>
   </div>
 
   <div class="card">
-    <input id="venue" placeholder="Venue">
-    <input id="status" placeholder="Status (LIVE / Completed)">
-    <button onclick="updateGitHub()">💾 Save to GitHub</button>
+    <button onclick="updateGitHub()">💾 Save & Push to GitHub</button>
     <p id="msg"></p>
   </div>
+
 </div>
 
 <script>
-const PIN = "4278"; // admin pin
+const PIN = "4278";
+let isFreeHit = false;
+
 let matchData = {
-  teamA: { name:"", score:0, wickets:0, overs:0, balls:0 },
-  teamB: { name:"", score:0, wickets:0, overs:0, balls:0 },
-  venue:"", status:"", lastUpdated:""
+  teamA: { name:"", score:0, wickets:0, overs:0, balls:0, extras:0 },
+  teamB: { name:"", score:0, wickets:0, overs:0, balls:0, extras:0 },
+  venue:"", status:"LIVE", lastUpdated:"", freeHit:false
 };
 
 function checkPin(){
-  const val=document.getElementById("pin").value;
-  if(val===PIN){document.getElementById("loginBox").style.display="none";
-    document.getElementById("scorer").style.display="block";}
-  else document.getElementById("loginMsg").innerHTML='<span class="error">❌ Wrong PIN!</span>';
+  if(document.getElementById("pin").value===PIN){
+    document.getElementById("loginBox").style.display="none";
+    document.getElementById("scorer").style.display="block";
+  }else{
+    document.getElementById("loginMsg").innerHTML='<span class="error">❌ Wrong PIN!</span>';
+  }
 }
 
-function getBatting(){
-  return document.getElementById("battingTeam").value==="A"?"teamA":"teamB";
+function getBatting(){return document.getElementById("battingTeam").value==="A"?"teamA":"teamB";}
+
+function toggleFreeHit(){
+  isFreeHit = !isFreeHit;
+  document.getElementById("freeHitStatus").innerText = isFreeHit ? "ON" : "OFF";
 }
 
 function addRun(runs){
-  let team=getBatting();
-  matchData[team].score+=runs;
-  addBall();
+  let t = getBatting();
+  matchData[t].score += runs;
+  if(!isFreeHit) addBall();
+  updateDisplay();
 }
 
-function addWicket(){
-  let team=getBatting();
-  matchData[team].wickets+=1;
+function addExtra(type){
+  let t=getBatting();
+  matchData[t].score+=1;
+  matchData[t].extras+=1;
+  if(type==="bye"||type==="legbye") addBall();
+  updateDisplay();
+}
+
+function addWicket(kind){
+  let t=getBatting();
+  if(isFreeHit){
+    isFreeHit=false;
+    document.getElementById("freeHitStatus").innerText="OFF";
+    alert("Free hit! No wicket counted.");
+    return;
+  }
+  matchData[t].wickets+=1;
   addBall();
+  updateDisplay();
 }
 
 function addBall(){
-  let team=getBatting();
-  matchData[team].balls+=1;
-  if(matchData[team].balls===6){
-    matchData[team].overs+=1;
-    matchData[team].balls=0;
+  let t=getBatting();
+  matchData[t].balls+=1;
+  if(matchData[t].balls===6){
+    matchData[t].overs+=1;
+    matchData[t].balls=0;
   }
+}
+
+function nextOver(){
+  let t=getBatting();
+  matchData[t].overs+=1;
+  matchData[t].balls=0;
   updateDisplay();
 }
 
 function updateDisplay(){
-  const team=getBatting();
-  const t=matchData[team];
-  const ballsDisplay=`${t.overs}.${t.balls}`;
-  document.getElementById("liveScore").innerText=`${t.score}/${t.wickets} (${ballsDisplay})`;
-  document.getElementById("balls").innerText=t.balls;
+  let t=getBatting();
+  const d=matchData[t];
+  document.getElementById("liveScore").innerText=`${d.score}/${d.wickets} (${d.overs}.${d.balls}) | Extras: ${d.extras}`;
+  document.getElementById("balls").innerText=d.balls;
 }
 
 async function updateGitHub(){
@@ -140,7 +193,7 @@ async function updateGitHub(){
     const sha=getData.sha;
 
     const putBody={
-      message:`Update ${file}`,
+      message:`Live update ${file}`,
       content:btoa(unescape(encodeURIComponent(jsonStr))),
       sha
     };
@@ -151,8 +204,9 @@ async function updateGitHub(){
       body:JSON.stringify(putBody)
     });
 
-    if(putRes.ok) document.getElementById("msg").innerHTML='<span class="success">✅ Score saved!</span>';
-    else{
+    if(putRes.ok){
+      document.getElementById("msg").innerHTML='<span class="success">✅ Updated successfully!</span>';
+    }else{
       const err=await putRes.json();
       document.getElementById("msg").innerHTML=`<span class="error">${err.message}</span>`;
     }
