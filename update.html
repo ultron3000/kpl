@@ -2,138 +2,125 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KPL Live Score Admin Panel</title>
+<title>KPL Live Admin (Auto Update)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body {
-    font-family: "Poppins", Arial, sans-serif;
-    background: #f7f7f7;
-    padding: 20px;
-    max-width: 800px;
-    margin: auto;
-  }
-  h1 { text-align: center; color: #222; }
-  p { text-align: center; color: #666; }
+  body { font-family: Poppins, sans-serif; background:#f4f4f4; padding:20px; max-width:800px; margin:auto; }
+  h1 { text-align:center; color:#111; }
   select, input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 15px;
+    width:100%; padding:10px; margin-bottom:10px; border:1px solid #ccc; border-radius:6px;
   }
-  button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-size: 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  button:hover { background: #0056b3; }
-  pre {
-    background: #111;
-    color: #0f0;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 14px;
-    overflow-x: auto;
-  }
-  .note {
-    background: #fff3cd;
-    border-left: 4px solid #ffeeba;
-    color: #856404;
-    padding: 10px;
-    margin-bottom: 15px;
-  }
+  button { background:#007bff; color:white; border:none; padding:10px 16px; border-radius:6px; cursor:pointer; }
+  button:hover { background:#0056b3; }
+  pre { background:#111; color:#0f0; padding:10px; border-radius:8px; overflow-x:auto; }
+  #msg { text-align:center; margin-top:15px; font-weight:600; }
+  .success { color:green; } .error { color:red; }
 </style>
 </head>
 <body>
 
-<h1>🏏 KPL Admin Score Updater</h1>
-<p>Fill in the details and click <strong>Generate JSON</strong>. Then copy the JSON output into the correct file inside <code>/data/</code> on GitHub (e.g. <code>match-1.json</code>).</p>
+<h1>🏏 KPL Admin — Live GitHub Auto Update</h1>
+<p>Use this panel to update live scores directly to your GitHub repo.</p>
 
-<div class="note">
-  <strong>Tip:</strong> Use valid JSON in the Batsmen and Bowlers boxes. Example:<br>
-  <code>[{"name":"A. Patel","runs":25,"balls":15},{"name":"R. Sharma","runs":14,"balls":10}]</code>
-</div>
+<h3>🔐 Step 1 — Connect GitHub</h3>
+<input type="text" id="username" placeholder="Your GitHub Username (e.g. ultron3000)">
+<input type="password" id="token" placeholder="Personal Access Token (starts with ghp_...)">
 
-<form id="form">
-  <label>Select Match File:</label>
-  <select id="matchFile">
-    <option value="match-1.json">Match 1: Titans vs Strikers</option>
-    <option value="match-2.json">Match 2: Warriors vs Challengers</option>
-    <option value="match-3.json">Match 3: Blazers vs Spartans</option>
-    <option value="match-4.json">Match 4: Royals vs Mavericks</option>
-    <option value="match-5.json">Match 5: Thunderbolts vs Gladiators</option>
-  </select>
+<h3>⚙️ Step 2 — Match Details</h3>
+<select id="matchFile">
+  <option value="match-1.json">Match 1: Titans vs Strikers</option>
+  <option value="match-2.json">Match 2: Warriors vs Challengers</option>
+  <option value="match-3.json">Match 3: Blazers vs Spartans</option>
+  <option value="match-4.json">Match 4: Royals vs Mavericks</option>
+  <option value="match-5.json">Match 5: Thunderbolts vs Gladiators</option>
+</select>
 
-  <label>Match Name:</label>
-  <input id="match" placeholder="Titans vs Strikers" required>
+<input id="match" placeholder="Match (e.g. Titans vs Strikers)">
+<input id="venue" placeholder="Venue">
+<input id="status" placeholder="Status (LIVE / Completed / Upcoming)">
+<input id="score" placeholder="Score (e.g. 120/4)">
+<input id="overs" placeholder="Overs (e.g. 12.3)">
+<input id="runRate" placeholder="Run Rate (e.g. 9.45)">
+<input id="target" placeholder="Target (optional)">
+<textarea id="batsmen" placeholder='[{"name":"A. Patel","runs":25,"balls":15}]'></textarea>
+<textarea id="bowlers" placeholder='[{"name":"M. Khan","overs":2,"runs":18,"wickets":1}]'></textarea>
 
-  <label>Venue:</label>
-  <input id="venue" placeholder="KPL Arena 1">
-
-  <label>Status:</label>
-  <input id="status" placeholder="LIVE / Completed / Upcoming">
-
-  <label>Score:</label>
-  <input id="score" placeholder="e.g. 89/3">
-
-  <label>Overs:</label>
-  <input id="overs" placeholder="e.g. 10.2">
-
-  <label>Run Rate:</label>
-  <input id="runRate" placeholder="e.g. 8.65">
-
-  <label>Target:</label>
-  <input id="target" placeholder="e.g. 150">
-
-  <label>Batsmen (JSON format):</label>
-  <textarea id="batsmen" rows="4" placeholder='[{"name":"A. Patel","runs":25,"balls":15}]'></textarea>
-
-  <label>Bowlers (JSON format):</label>
-  <textarea id="bowlers" rows="4" placeholder='[{"name":"M. Khan","overs":2,"runs":18,"wickets":1}]'></textarea>
-
-  <button type="button" onclick="generate()">Generate JSON</button>
-</form>
-
-<h2>📄 Generated JSON</h2>
+<button onclick="generate()">Generate JSON</button>
 <pre id="output">-- JSON output will appear here --</pre>
 
+<h3>🚀 Step 3 — Push to GitHub</h3>
+<button onclick="updateGitHub()">Save Live to GitHub</button>
+<div id="msg"></div>
+
 <script>
+let latestJSON = "";
+
 function generate() {
-  let batsmen = [];
-  let bowlers = [];
-  try { batsmen = JSON.parse(document.getElementById('batsmen').value || '[]'); }
-  catch { alert("Invalid Batsmen JSON"); return; }
-  try { bowlers = JSON.parse(document.getElementById('bowlers').value || '[]'); }
-  catch { alert("Invalid Bowlers JSON"); return; }
+  try {
+    const batsmen = JSON.parse(document.getElementById('batsmen').value || "[]");
+    const bowlers = JSON.parse(document.getElementById('bowlers').value || "[]");
+    const data = {
+      match: document.getElementById('match').value,
+      venue: document.getElementById('venue').value,
+      status: document.getElementById('status').value,
+      score: document.getElementById('score').value,
+      overs: document.getElementById('overs').value,
+      runRate: document.getElementById('runRate').value,
+      target: document.getElementById('target').value,
+      batsmen, bowlers,
+      lastUpdated: new Date().toLocaleString()
+    };
+    latestJSON = JSON.stringify(data, null, 2);
+    document.getElementById('output').textContent = latestJSON;
+    document.getElementById('msg').innerHTML = "";
+  } catch (err) {
+    alert("Error parsing player data. Check JSON format.");
+  }
+}
 
-  const obj = {
-    match: document.getElementById('match').value,
-    venue: document.getElementById('venue').value,
-    status: document.getElementById('status').value,
-    score: document.getElementById('score').value,
-    overs: document.getElementById('overs').value,
-    runRate: document.getElementById('runRate').value,
-    target: document.getElementById('target').value,
-    batsmen,
-    bowlers,
-    lastUpdated: new Date().toLocaleString()
-  };
+async function updateGitHub() {
+  const user = document.getElementById('username').value.trim();
+  const token = document.getElementById('token').value.trim();
+  const file = document.getElementById('matchFile').value;
 
-  const jsonStr = JSON.stringify(obj, null, 2);
-  document.getElementById('output').textContent = jsonStr;
+  if (!user || !token) return alert("Please enter your GitHub username and token first!");
+  if (!latestJSON) return alert("Generate JSON first!");
 
-  // Display filename suggestion
-  const matchFile = document.getElementById('matchFile').value;
-  document.getElementById('output').insertAdjacentHTML(
-    'beforebegin',
-    `<p><strong>💾 Save this to:</strong> <code>/data/${matchFile}</code></p>`
-  );
+  const repo = "kpl"; // your repo name
+  const path = "data/" + file;
+  const apiURL = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+
+  try {
+    // Step 1: get current file SHA
+    const getRes = await fetch(apiURL, { headers: { Authorization: `token ${token}` }});
+    const getData = await getRes.json();
+    const sha = getData.sha;
+
+    // Step 2: push updated content
+    const body = {
+      message: `Auto update ${file}`,
+      content: btoa(unescape(encodeURIComponent(latestJSON))),
+      sha
+    };
+
+    const putRes = await fetch(apiURL, {
+      method: "PUT",
+      headers: {
+        Authorization: `token ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (putRes.ok) {
+      document.getElementById('msg').innerHTML = `<span class="success">✅ Updated ${file} successfully!</span>`;
+    } else {
+      const err = await putRes.json();
+      document.getElementById('msg').innerHTML = `<span class="error">❌ Error: ${err.message}</span>`;
+    }
+  } catch (err) {
+    document.getElementById('msg').innerHTML = `<span class="error">❌ ${err.message}</span>`;
+  }
 }
 </script>
 
