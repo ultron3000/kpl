@@ -1,0 +1,17 @@
+{
+  "match": "Titans vs Strikers",
+  "venue": "KPL Arena 1",
+  "status": "LIVE",
+  "score": "0/0",
+  "overs": "0.0",
+  "runRate": "0.00",
+  "target": "150",
+  "batsmen": [
+    {"name": "-", "runs": 0, "balls": 0},
+    {"name": "-", "runs": 0, "balls": 0}
+  ],
+  "bowlers": [
+    {"name": "-", "overs": 0, "runs": 0, "wickets": 0}
+  ],
+  "lastUpdated": "Just now"
+}
