@@ -2,40 +2,37 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Match 1 — Titans vs Strikers</title>
+<title>Match 1 Live — Titans vs Strikers</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body { font-family:Poppins, sans-serif; background:#f7f7f7; text-align:center; padding:20px; }
-  .scorecard { background:white; display:inline-block; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); width:90%; max-width:500px; }
-  h2 { color:#007bff; }
-  .team { margin:10px 0; font-size:1.2em; }
-  .meta { font-size:0.9em; color:#666; margin-top:10px; }
+body{text-align:center;font-family:Poppins,sans-serif;background:#f9f9f9;padding:20px;}
+.card{background:white;padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1);display:inline-block;width:90%;max-width:500px;}
+h2{color:#007bff;}
 </style>
 </head>
 <body>
 
-<div class="scorecard">
+<div class="card">
   <h2 id="title">🏏 Match 1</h2>
-  <div class="team" id="teamA"></div>
-  <div class="team" id="teamB"></div>
-  <div class="meta" id="venue"></div>
-  <div class="meta" id="status"></div>
-  <div class="meta" id="updated"></div>
+  <p id="teamA"></p>
+  <p id="teamB"></p>
+  <p id="venue"></p>
+  <p id="status"></p>
+  <p id="updated"></p>
 </div>
 
 <script>
-async function loadScore() {
-  const res = await fetch("data/match-1.json?cache=" + Date.now());
-  const data = await res.json();
-  document.getElementById("teamA").innerHTML = `${data.teamA.name}: ${data.teamA.score} (${data.teamA.overs} overs)`;
-  document.getElementById("teamB").innerHTML = `${data.teamB.name}: ${data.teamB.score} (${data.teamB.overs} overs)`;
-  document.getElementById("venue").textContent = "📍 " + data.venue;
-  document.getElementById("status").textContent = "⏱️ " + data.status;
-  document.getElementById("updated").textContent = "🕒 Last Updated: " + data.lastUpdated;
+async function loadScore(){
+  const res=await fetch("data/match-1.json?cache="+Date.now());
+  const d=await res.json();
+  document.getElementById("teamA").innerText=`${d.teamA.name}: ${d.teamA.score}/${d.teamA.wickets} (${d.teamA.overs}.${d.teamA.balls})`;
+  document.getElementById("teamB").innerText=`${d.teamB.name}: ${d.teamB.score}/${d.teamB.wickets} (${d.teamB.overs}.${d.teamB.balls})`;
+  document.getElementById("venue").innerText=`📍 ${d.venue}`;
+  document.getElementById("status").innerText=`⏱️ ${d.status}`;
+  document.getElementById("updated").innerText=`🕒 Updated: ${d.lastUpdated}`;
 }
 loadScore();
-setInterval(loadScore, 15000); // auto refresh every 15s
+setInterval(loadScore,10000);
 </script>
-
 </body>
 </html>
