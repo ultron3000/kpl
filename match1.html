@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>KPL 2025 | Titans vs Strikers - Live Score</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body{background:linear-gradient(135deg,#0d1b2a,#1b263b,#415a77);color:#fff;font-family:'Poppins',sans-serif}
+    .card{background:rgba(255,255,255,0.08);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.06)}
+    .status-live{color:#f87171;font-weight:700;animation:blink 1.5s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+    table td, table th{padding:6px 8px}
+  </style>
+</head>
+<body class="p-6">
+  <header class="text-center mb-6">
+    <h1 class="text-2xl font-bold">🏏 Titans vs Strikers — Live</h1>
+    <p class="text-gray-300">KPL Arena 1 • 10 overs per side</p>
+    <p class="status-live mt-2">🔴 LIVE</p>
+  </header>
+
+  <main class="max-w-4xl mx-auto space-y-6">
+    <section class="card text-center">
+      <h2 class="text-xl font-semibold">Titans Innings</h2>
+      <p id="score" class="text-4xl font-bold text-yellow-400 mt-2">—</p>
+      <p id="overs" class="text-gray-300 mt-1">— Overs</p>
+      <p id="rr" class="text-gray-400 mt-1">Run Rate: —</p>
+    </section>
+
+    <section class="card">
+      <h3 class="text-lg font-semibold text-yellow-400 mb-3">Batsmen</h3>
+      <table class="w-full">
+        <thead><tr class="text-left text-gray-300"><th>Player</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>SR</th></tr></thead>
+        <tbody id="batting"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h3 class="text-lg font-semibold text-yellow-400 mb-3">Bowlers</h3>
+      <table class="w-full">
+        <thead><tr class="text-left text-gray-300"><th>Player</th><th>O</th><th>M</th><th>R</th><th>W</th><th>Econ</th></tr></thead>
+        <tbody id="bowling"></tbody>
+      </table>
+    </section>
+
+    <section class="card text-center">
+      <p>Target for Strikers: <span id="target" class="text-yellow-400 font-bold">—</span></p>
+      <p class="text-gray-400 mt-2" id="lastUpdated">Last updated: —</p>
+    </section>
+  </main>
+
+  <footer class="text-center text-gray-400 mt-8 text-sm">
+    <a href="index.html" class="text-yellow-400 hover:underline">⬅ Back to Fixtures</a>
+  </footer>
+
+  <script>
+    async function loadLiveData(){
+      try{
+        const res = await fetch('data/live.json?_=' + new Date().getTime());
+        if(!res.ok) throw new Error('Could not fetch live data');
+        const data = await res.json();
+
+        document.getElementById('score').textContent = data.score || '—';
+        document.getElementById('overs').textContent = (data.overs ? data.overs + ' Overs' : '— Overs');
+        document.getElementById('rr').textContent = 'Run Rate: ' + (data.runRate || '—');
+        document.getElementById('target').textContent = data.target || '—';
+        document.getElementById('lastUpdated').textContent = 'Last updated: ' + (data.lastUpdated || '—');
+
+        const bat = document.getElementById('batting');
+        bat.innerHTML = (data.batsmen || []).map(p => `
+          <tr><td>${p.name}</td><td>${p.r}</td><td>${p.b}</td><td>${p.fours ?? ''}</td><td>${p.sixes ?? ''}</td><td>${p.sr ?? ''}</td></tr>
+        `).join('') || '<tr><td colspan="6" class="text-gray-400">No batsmen data</td></tr>';
+
+        const bowl = document.getElementById('bowling');
+        bowl.innerHTML = (data.bowlers || []).map(p => `
+          <tr><td>${p.name}</td><td>${p.o}</td><td>${p.m}</td><td>${p.r}</td><td>${p.w}</td><td>${p.econ}</td></tr>
+        `).join('') || '<tr><td colspan="6" class="text-gray-400">No bowlers data</td></tr>';
+      }catch(err){
+        console.error(err);
+      }
+    }
+    loadLiveData();
+    setInterval(loadLiveData, 5000);
+  </script>
+</body>
+</html>
