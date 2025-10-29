@@ -2,35 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>KPL Live Admin — Protected</title>
+<title>KPL Live Scorer (Protected)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body { font-family:Poppins, sans-serif; background:#f4f4f4; padding:20px; max-width:900px; margin:auto; }
-  h1 { text-align:center; color:#111; }
-  input, select, textarea {
-    width:100%; padding:10px; margin:6px 0; border:1px solid #ccc; border-radius:6px;
-  }
-  button { background:#007bff; color:white; border:none; padding:10px 16px; border-radius:6px; cursor:pointer; }
-  button:hover { background:#0056b3; }
-  .card { background:white; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); margin-bottom:15px; }
-  pre { background:#111; color:#0f0; padding:10px; border-radius:8px; overflow-x:auto; }
-  .error{color:red;} .success{color:green;}
+body {font-family:Poppins,sans-serif;background:#f5f5f5;padding:20px;max-width:900px;margin:auto;}
+.card{background:white;padding:20px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:15px;}
+h1{text-align:center;}
+button{background:#007bff;color:white;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;margin:2px;}
+button:hover{background:#0056b3;}
+input{padding:8px;border:1px solid #ccc;border-radius:5px;width:100%;margin:5px 0;}
+#msg{font-weight:600;text-align:center;}
+.success{color:green;} .error{color:red;}
 </style>
 </head>
 <body>
 
-<h1>🏏 KPL Live Score Admin</h1>
+<h1>🏏 KPL Live Scorer</h1>
 
 <!-- LOGIN -->
 <div id="loginBox" class="card">
-  <h3>🔐 Enter Admin PIN</h3>
-  <input type="password" id="adminPin" placeholder="Enter PIN">
+  <h3>🔐 Enter PIN</h3>
+  <input type="password" id="pin" placeholder="Enter Admin PIN">
   <button onclick="checkPin()">Login</button>
   <p id="loginMsg"></p>
 </div>
 
-<!-- ADMIN PANEL -->
-<div id="adminPanel" style="display:none;">
+<!-- SCORER PANEL -->
+<div id="scorer" style="display:none;">
   <div class="card">
     <h3>⚙️ GitHub Setup</h3>
     <input id="username" placeholder="GitHub Username (e.g. ultron3000)">
@@ -42,121 +40,124 @@
     <select id="matchFile">
       <option value="match-1.json">Match 1: Titans vs Strikers</option>
       <option value="match-2.json">Match 2: Warriors vs Challengers</option>
-      <option value="match-3.json">Match 3: Blazers vs Spartans</option>
-      <option value="match-4.json">Match 4: Royals vs Mavericks</option>
-      <option value="match-5.json">Match 5: Thunderbolts vs Gladiators</option>
+    </select>
+    <input id="teamA" placeholder="Team A Name">
+    <input id="teamB" placeholder="Team B Name">
+    <select id="battingTeam">
+      <option value="A">Team A Batting</option>
+      <option value="B">Team B Batting</option>
     </select>
   </div>
 
   <div class="card">
-    <h3>🏏 Team A — 1st Innings</h3>
-    <input id="teamA" placeholder="Team A Name">
-    <input id="teamAScore" placeholder="Score (e.g. 125/5)">
-    <input id="teamAOvers" placeholder="Overs (e.g. 15.3)">
+    <h3>🎯 Live Scoring</h3>
+    <p id="liveScore">0/0 (0.0)</p>
+    <div>
+      <button onclick="addRun(0)">0</button>
+      <button onclick="addRun(1)">1</button>
+      <button onclick="addRun(2)">2</button>
+      <button onclick="addRun(3)">3</button>
+      <button onclick="addRun(4)">4</button>
+      <button onclick="addRun(6)">6</button>
+      <button style="background:#dc3545" onclick="addWicket()">Wicket</button>
+    </div>
+    <p>Current Over: <span id="balls">0</span> balls</p>
   </div>
 
   <div class="card">
-    <h3>🏏 Team B — 2nd Innings</h3>
-    <input id="teamB" placeholder="Team B Name">
-    <input id="teamBScore" placeholder="Score (e.g. 110/4)">
-    <input id="teamBOvers" placeholder="Overs (e.g. 14.5)">
-  </div>
-
-  <div class="card">
-    <h3>📊 Match Info</h3>
-    <input id="venue" placeholder="Venue (e.g. KPL Ground)">
-    <input id="status" placeholder="Status (LIVE / Completed / Upcoming)">
-  </div>
-
-  <div class="card">
-    <button onclick="generate()">Generate JSON</button>
-    <pre id="output">-- JSON will appear here --</pre>
-    <button onclick="updateGitHub()">Save to GitHub</button>
+    <input id="venue" placeholder="Venue">
+    <input id="status" placeholder="Status (LIVE / Completed)">
+    <button onclick="updateGitHub()">💾 Save to GitHub</button>
     <p id="msg"></p>
   </div>
 </div>
 
 <script>
-const ADMIN_PIN = "4278"; // ✅ Your PIN
-
-function checkPin() {
-  const entered = document.getElementById("adminPin").value.trim();
-  if (entered === ADMIN_PIN) {
-    localStorage.setItem("kplAdmin", "true");
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("adminPanel").style.display = "block";
-  } else {
-    document.getElementById("loginMsg").innerHTML = '<span class="error">❌ Wrong PIN!</span>';
-  }
-}
-window.onload = () => {
-  if (localStorage.getItem("kplAdmin") === "true") {
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("adminPanel").style.display = "block";
-  }
+const PIN = "4278"; // admin pin
+let matchData = {
+  teamA: { name:"", score:0, wickets:0, overs:0, balls:0 },
+  teamB: { name:"", score:0, wickets:0, overs:0, balls:0 },
+  venue:"", status:"", lastUpdated:""
 };
 
-let latestJSON = "";
-
-function generate() {
-  const data = {
-    teamA: {
-      name: document.getElementById("teamA").value,
-      score: document.getElementById("teamAScore").value,
-      overs: document.getElementById("teamAOvers").value
-    },
-    teamB: {
-      name: document.getElementById("teamB").value,
-      score: document.getElementById("teamBScore").value,
-      overs: document.getElementById("teamBOvers").value
-    },
-    venue: document.getElementById("venue").value,
-    status: document.getElementById("status").value,
-    lastUpdated: new Date().toLocaleString()
-  };
-
-  latestJSON = JSON.stringify(data, null, 2);
-  document.getElementById("output").textContent = latestJSON;
-  document.getElementById("msg").innerHTML = "";
+function checkPin(){
+  const val=document.getElementById("pin").value;
+  if(val===PIN){document.getElementById("loginBox").style.display="none";
+    document.getElementById("scorer").style.display="block";}
+  else document.getElementById("loginMsg").innerHTML='<span class="error">❌ Wrong PIN!</span>';
 }
 
-async function updateGitHub() {
-  const user = document.getElementById("username").value.trim();
-  const token = document.getElementById("token").value.trim();
-  const file = document.getElementById("matchFile").value;
+function getBatting(){
+  return document.getElementById("battingTeam").value==="A"?"teamA":"teamB";
+}
 
-  if (!user || !token) return alert("Enter GitHub username and token");
-  if (!latestJSON) return alert("Generate JSON first!");
+function addRun(runs){
+  let team=getBatting();
+  matchData[team].score+=runs;
+  addBall();
+}
 
-  const repo = "kpl";
-  const path = "data/" + file;
-  const apiURL = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+function addWicket(){
+  let team=getBatting();
+  matchData[team].wickets+=1;
+  addBall();
+}
 
-  try {
-    const getRes = await fetch(apiURL, { headers: { Authorization: `token ${token}` }});
-    const getData = await getRes.json();
-    const sha = getData.sha;
+function addBall(){
+  let team=getBatting();
+  matchData[team].balls+=1;
+  if(matchData[team].balls===6){
+    matchData[team].overs+=1;
+    matchData[team].balls=0;
+  }
+  updateDisplay();
+}
 
-    const body = {
-      message: `Auto update ${file}`,
-      content: btoa(unescape(encodeURIComponent(latestJSON))),
+function updateDisplay(){
+  const team=getBatting();
+  const t=matchData[team];
+  const ballsDisplay=`${t.overs}.${t.balls}`;
+  document.getElementById("liveScore").innerText=`${t.score}/${t.wickets} (${ballsDisplay})`;
+  document.getElementById("balls").innerText=t.balls;
+}
+
+async function updateGitHub(){
+  matchData.teamA.name=document.getElementById("teamA").value;
+  matchData.teamB.name=document.getElementById("teamB").value;
+  matchData.venue=document.getElementById("venue").value;
+  matchData.status=document.getElementById("status").value;
+  matchData.lastUpdated=new Date().toLocaleString();
+
+  const jsonStr=JSON.stringify(matchData,null,2);
+  const user=document.getElementById("username").value.trim();
+  const token=document.getElementById("token").value.trim();
+  const file=document.getElementById("matchFile").value;
+  const apiURL=`https://api.github.com/repos/${user}/kpl/contents/data/${file}`;
+
+  try{
+    const getRes=await fetch(apiURL,{headers:{Authorization:`token ${token}`}});
+    const getData=await getRes.json();
+    const sha=getData.sha;
+
+    const putBody={
+      message:`Update ${file}`,
+      content:btoa(unescape(encodeURIComponent(jsonStr))),
       sha
     };
 
-    const putRes = await fetch(apiURL, {
-      method: "PUT",
-      headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify(body)
+    const putRes=await fetch(apiURL,{
+      method:"PUT",
+      headers:{Authorization:`token ${token}`,"Content-Type":"application/json"},
+      body:JSON.stringify(putBody)
     });
 
-    if (putRes.ok) {
-      document.getElementById("msg").innerHTML = `<span class="success">✅ Updated ${file} successfully!</span>`;
-    } else {
-      const err = await putRes.json();
-      document.getElementById("msg").innerHTML = `<span class="error">❌ ${err.message}</span>`;
+    if(putRes.ok) document.getElementById("msg").innerHTML='<span class="success">✅ Score saved!</span>';
+    else{
+      const err=await putRes.json();
+      document.getElementById("msg").innerHTML=`<span class="error">${err.message}</span>`;
     }
-  } catch (err) {
-    document.getElementById("msg").innerHTML = `<span class="error">❌ ${err.message}</span>`;
+  }catch(err){
+    document.getElementById("msg").innerHTML=`<span class="error">${err.message}</span>`;
   }
 }
 </script>
