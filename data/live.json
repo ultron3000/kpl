@@ -1,31 +1,35 @@
 {
   "match": "Titans vs Strikers",
-  "venue": "",
-  "status": "NOT_STARTED",
-  "score": "3/1",
-  "overs": "0.3",
-  "runRate": "6.00",
-  "target": "",
-  "batsmen": [
+  "venue": "KPL Arena 1",
+  "status": "LIVE",
+  "toss": "Titans won the toss and chose to bat first",
+  "innings": [
     {
-      "name": "-",
+      "team": "Titans",
       "runs": 0,
-      "balls": 0
+      "wickets": 0,
+      "overs": 0.0,
+      "balls": [],
+      "batsmen": [
+        {"name": "Player A", "runs": 0, "balls": 0, "status": "not out"},
+        {"name": "Player B", "runs": 0, "balls": 0, "status": "not out"}
+      ],
+      "bowlers": [
+        {"name": "Bowler X", "overs": 0, "runs": 0, "wickets": 0}
+      ]
     },
     {
-      "name": "-",
+      "team": "Strikers",
       "runs": 0,
-      "balls": 0
+      "wickets": 0,
+      "overs": 0.0,
+      "balls": [],
+      "batsmen": [],
+      "bowlers": []
     }
   ],
-  "bowlers": [
-    {
-      "name": "R. Sharma",
-      "overs": 0,
-      "balls": 3,
-      "runs": 3,
-      "wickets": 1
-    }
-  ],
-  "lastUpdated": "10/30/2025, 4:38:20 AM"
+  "currentInnings": 0,
+  "target": 0,
+  "runRate": 0.00,
+  "lastUpdated": "Just now"
 }
