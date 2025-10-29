@@ -4,33 +4,99 @@
     "teamA": {
       "name": "Titans",
       "players": [
-        {"name": "R. Sharma", "role": "Batsman"},
-        {"name": "V. Kohli", "role": "Batsman"},
-        {"name": "S. Iyer", "role": "Batsman"},
-        {"name": "S. Yadav", "role": "Batsman"},
-        {"name": "H. Pandya", "role": "All-rounder"},
-        {"name": "R. Jadeja", "role": "All-rounder"},
-        {"name": "D. Karthik", "role": "Wicketkeeper"},
-        {"name": "R. Ashwin", "role": "Bowler"},
-        {"name": "B. Kumar", "role": "Bowler"},
-        {"name": "M. Shami", "role": "Bowler"},
-        {"name": "J. Bumrah", "role": "Bowler"}
+        {
+          "name": "R. Sharma",
+          "role": "Batsman"
+        },
+        {
+          "name": "V. Kohli",
+          "role": "Batsman"
+        },
+        {
+          "name": "S. Iyer",
+          "role": "Batsman"
+        },
+        {
+          "name": "S. Yadav",
+          "role": "Batsman"
+        },
+        {
+          "name": "H. Pandya",
+          "role": "All-rounder"
+        },
+        {
+          "name": "R. Jadeja",
+          "role": "All-rounder"
+        },
+        {
+          "name": "D. Karthik",
+          "role": "Wicketkeeper"
+        },
+        {
+          "name": "R. Ashwin",
+          "role": "Bowler"
+        },
+        {
+          "name": "B. Kumar",
+          "role": "Bowler"
+        },
+        {
+          "name": "M. Shami",
+          "role": "Bowler"
+        },
+        {
+          "name": "J. Bumrah",
+          "role": "Bowler"
+        }
       ]
     },
     "teamB": {
       "name": "Strikers",
       "players": [
-        {"name": "K. Rahul", "role": "Wicketkeeper"},
-        {"name": "S. Gill", "role": "Batsman"},
-        {"name": "R. Gaikwad", "role": "Batsman"},
-        {"name": "S. Samson", "role": "Batsman"},
-        {"name": "A. Patel", "role": "All-rounder"},
-        {"name": "W. Sundar", "role": "All-rounder"},
-        {"name": "D. Hooda", "role": "All-rounder"},
-        {"name": "Y. Chahal", "role": "Bowler"},
-        {"name": "A. Khan", "role": "Bowler"},
-        {"name": "M. Siraj", "role": "Bowler"},
-        {"name": "K. Yadav", "role": "Bowler"}
+        {
+          "name": "K. Rahul",
+          "role": "Wicketkeeper"
+        },
+        {
+          "name": "S. Gill",
+          "role": "Batsman"
+        },
+        {
+          "name": "R. Gaikwad",
+          "role": "Batsman"
+        },
+        {
+          "name": "S. Samson",
+          "role": "Batsman"
+        },
+        {
+          "name": "A. Patel",
+          "role": "All-rounder"
+        },
+        {
+          "name": "W. Sundar",
+          "role": "All-rounder"
+        },
+        {
+          "name": "D. Hooda",
+          "role": "All-rounder"
+        },
+        {
+          "name": "Y. Chahal",
+          "role": "Bowler"
+        },
+        {
+          "name": "A. Khan",
+          "role": "Bowler"
+        },
+        {
+          "name": "M. Siraj",
+          "role": "Bowler"
+        },
+        {
+          "name": "K. Yadav",
+          "role": "Bowler"
+        }
       ]
     }
   },
