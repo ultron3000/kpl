@@ -6,32 +6,32 @@
   "innings": [
     {
       "team": "Titans",
-      "total": 25,
+      "total": 24,
       "wickets": 0,
       "overs": 1,
       "balls": 0,
       "extras": {
-        "wides": 1,
-        "noballs": 1,
+        "wides": 0,
+        "noballs": 0,
         "byes": 0,
         "legbyes": 0,
-        "total": 2
+        "total": 0
       },
       "battingOrder": [
         {
           "name": "Rohit Sharma",
-          "runs": 5,
-          "balls": 2,
-          "fours": 0,
-          "sixes": 0,
+          "runs": 19,
+          "balls": 4,
+          "fours": 1,
+          "sixes": 2,
           "status": "not out"
         },
         {
           "name": "Virat Kohli",
-          "runs": 18,
-          "balls": 4,
-          "fours": 1,
-          "sixes": 2,
+          "runs": 5,
+          "balls": 2,
+          "fours": 0,
+          "sixes": 0,
           "status": "not out"
         },
         {
@@ -182,7 +182,7 @@
           "name": "Umran Malik",
           "overs": 1,
           "balls": 0,
-          "runs": 25,
+          "runs": 24,
           "wickets": 0
         }
       ],
@@ -193,42 +193,42 @@
           "ball": 1,
           "striker": "Rohit Sharma",
           "bowler": "Umran Malik",
-          "runs": 2
+          "runs": 3
         },
         {
           "over": 0,
           "ball": 2,
-          "striker": "Rohit Sharma",
+          "striker": "Virat Kohli",
           "bowler": "Umran Malik",
-          "runs": 3
+          "runs": 2
         },
         {
           "over": 0,
           "ball": 3,
           "striker": "Virat Kohli",
           "bowler": "Umran Malik",
-          "runs": 6
+          "runs": 3
         },
         {
           "over": 0,
           "ball": 4,
-          "striker": "Virat Kohli",
-          "bowler": "Umran Malik",
-          "runs": 6
-        },
-        {
-          "over": 0,
-          "ball": 5,
-          "striker": "Virat Kohli",
+          "striker": "Rohit Sharma",
           "bowler": "Umran Malik",
           "runs": 4
         },
         {
           "over": 0,
-          "ball": 6,
-          "striker": "Virat Kohli",
+          "ball": 5,
+          "striker": "Rohit Sharma",
           "bowler": "Umran Malik",
-          "runs": 2
+          "runs": 6
+        },
+        {
+          "over": 0,
+          "ball": 6,
+          "striker": "Rohit Sharma",
+          "bowler": "Umran Malik",
+          "runs": 6
         }
       ]
     },
@@ -280,8 +280,8 @@
     ]
   },
   "current": {
-    "striker": "Rohit Sharma",
-    "nonStriker": "Virat Kohli",
+    "striker": "Virat Kohli",
+    "nonStriker": "Rohit Sharma",
     "bowler": "Umran Malik"
   }
 }
