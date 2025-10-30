@@ -7,7 +7,7 @@
   "innings": [
     {
       "team": "Titans",
-      "runs": 0,
+      "runs": 50,
       "wickets": 2,
       "overs": "2",
       "ballsDetailed": [
@@ -172,5 +172,5 @@
   ],
   "target": 150,
   "runRate": "8.19",
-  "lastUpdated": "10/30/2025, 5:23:02 AM"
+  "lastUpdated": "10/30/2025, 5:33:09 AM"
 }
