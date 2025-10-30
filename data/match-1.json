@@ -11,10 +11,10 @@
   "innings": [
     {
       "team": "Titans",
-      "total": 4,
+      "total": 10,
       "wickets": 0,
       "overs": 0,
-      "balls": 4,
+      "balls": 5,
       "extras": {
         "wides": 0,
         "noballs": 0,
@@ -70,15 +70,27 @@
           "wicket": null,
           "summary": "R. Sharma 1",
           "timestamp": "2025-10-30T00:09:50.422Z"
+        },
+        {
+          "over": 0,
+          "ballInOver": 5,
+          "batsman": "R. Sharma",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 6,
+          "extraType": null,
+          "wicket": null,
+          "summary": "R. Sharma 6",
+          "timestamp": "2025-10-30T00:09:52.086Z"
         }
       ],
       "battingOrder": [
         {
           "name": "R. Sharma",
-          "runs": 4,
-          "balls": 4,
+          "runs": 10,
+          "balls": 5,
           "fours": 0,
-          "sixes": 0,
+          "sixes": 1,
           "status": "not out"
         },
         {
@@ -187,8 +199,8 @@
         {
           "name": "P. Shaw",
           "overs": 0,
-          "balls": 4,
-          "runs": 4,
+          "balls": 5,
+          "runs": 10,
           "wickets": 0
         }
       ],
@@ -256,9 +268,10 @@
       "R. Sharma 0",
       "R. Sharma 1",
       "R. Sharma 2",
-      "R. Sharma 1"
+      "R. Sharma 1",
+      "R. Sharma 6"
     ],
     "isFreeHit": false
   },
-  "lastSaved": "10/30/2025, 5:39:50 AM"
+  "lastSaved": "10/30/2025, 5:39:52 AM"
 }
