@@ -1,75 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>KPL League — Live Fixtures & Scores</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>KPL — Fixtures & Live Scores</title>
 <style>
-  body{font-family:Inter,Arial,sans-serif;background:#0b132b;color:#fff;margin:0;padding:0}
-  header{background:#1c2541;padding:20px 0;text-align:center;border-bottom:2px solid #00c6ff}
-  header h1{color:#ffcc00;margin:0;font-size:28px}
-  main{max-width:1100px;margin:30px auto;padding:0 20px}
-  .matches{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
-  .card{background:#1c2541;border-radius:10px;padding:16px;box-shadow:0 0 10px rgba(0,0,0,0.3);transition:transform .2s}
-  .card:hover{transform:scale(1.02)}
-  .team{font-weight:700;color:#00c6ff}
-  .score{font-size:20px;margin-top:6px}
-  .status{font-size:13px;color:#aaa;margin-top:4px}
-  .btns{display:flex;justify-content:space-between;margin-top:10px}
-  .btn{background:#00c6ff;color:#0b132b;font-weight:700;padding:6px 10px;border-radius:6px;text-decoration:none;transition:0.2s}
-  .btn:hover{background:#ffcc00;color:#000}
-  footer{text-align:center;color:#bbb;padding:20px 0;margin-top:30px;font-size:13px}
+  :root{--bg:#071025;--card:#0f1a2b;--accent:#00c6ff;--muted:#94a3b8;--accent2:#ffcc00}
+  body{margin:0;font-family:Inter,Arial,sans-serif;background:linear-gradient(180deg,#031022,#071025);color:#fff}
+  header{padding:22px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.03)}
+  header h1{margin:0;color:var(--accent2)}
+  .container{max-width:1100px;margin:28px auto;padding:0 16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px}
+  .card{background:var(--card);border-radius:10px;padding:14px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+  .match-head{display:flex;justify-content:space-between;align-items:center}
+  .teams{font-weight:700;color:var(--accent)}
+  .scoreline{font-size:14px;margin-top:6px}
+  .meta{color:var(--muted);font-size:13px;margin-top:6px}
+  .small{font-size:13px;color:var(--muted)}
+  .btns{display:flex;gap:8px;margin-top:10px}
+  .btn{background:var(--accent);color:#021; padding:6px 10px;border-radius:6px;text-decoration:none;font-weight:700}
+  .btn.secondary{background:var(--accent2);color:#041}
+  details{margin-top:12px;border-top:1px dashed rgba(255,255,255,0.04);padding-top:12px}
+  table{width:100%;border-collapse:collapse;margin-top:8px}
+  th,td{padding:6px;border-bottom:1px solid rgba(255,255,255,0.03);text-align:left;font-size:13px}
+  th{color:var(--accent2)}
+  .live-pill{background:#052e2f;padding:4px 8px;border-radius:999px;color:#7ef2d6;font-weight:700;font-size:12px}
+  .completed{background:#183b2b;padding:6px;border-radius:6px;color:#d1fae5;font-weight:700}
+  .muted{color:var(--muted)}
+  footer{padding:18px;text-align:center;color:var(--muted)}
 </style>
 </head>
 <body>
 <header>
-  <h1>🏏 KPL Box Cricket League — Live Fixtures</h1>
+  <h1>🏏 KPL — Fixtures & Live Scores</h1>
+  <div class="muted">Auto-refresh every 12s · Click View to open full match</div>
 </header>
-<main>
-  <div id="matches" class="matches">Loading fixtures...</div>
-</main>
+
+<div class="container">
+  <div id="matches" class="grid">
+    <!-- cards inserted here -->
+  </div>
+</div>
+
 <footer>
-  © 2025 KPL Live | Auto-refreshing every 20s
+  © KPL Live — Powered by your scorer • data: /data/*.json
 </footer>
 
 <script>
-async function loadFixtures(){
-  try{
-    const res = await fetch('data/live.json?nocache='+Date.now());
-    if(!res.ok) throw new Error("Couldn't load live.json");
+/* Load live.json — supports single object or array of matches */
+async function load() {
+  try {
+    const res = await fetch('data/live.json?nocache=' + Date.now());
+    if(!res.ok) throw new Error('Could not load data/live.json');
     const data = await res.json();
-    renderMatches(data);
-  }catch(err){
-    document.getElementById('matches').innerHTML = `<div style='color:#f87171'>${err.message}</div>`;
+    const matches = Array.isArray(data) ? data : [data];
+    render(matches);
+  } catch (e) {
+    document.getElementById('matches').innerHTML = `<div style="color:#f87171">${e.message}</div>`;
   }
 }
 
-function renderMatches(data){
-  // Supports multiple matches in live.json or one
-  const matches = Array.isArray(data) ? data : [data];
-  const html = matches.map((m, i)=>{
-    const inn = m.innings && m.innings[m.currentInnings||0];
-    const score = inn ? `${inn.team}: ${inn.runs}/${inn.wickets} (${inn.overs})` : "—";
-    const target = m.target ? `<div class='status'>Target: ${m.target}</div>` : '';
-    const status = (m.status || "LIVE").toUpperCase();
-    const fileSuffix = i+1; // match-1, match-2, etc.
+function render(matches){
+  const container = document.getElementById('matches');
+  container.innerHTML = matches.map((m, i) => {
+    const idx = i + 1; // match-1, match-2
+    // current innings
+    const ci = (m.currentInnings === 0 || m.currentInnings === 1) ? m.currentInnings : 0;
+    const inn = (m.innings && m.innings[ci]) ? m.innings[ci] : null;
+    const score = inn ? `${inn.team} ${inn.runs}/${inn.wickets} (${inn.overs})` : '—';
+    const statusLabel = (m.status||'').toLowerCase() === 'live' ? `<span class="live-pill">LIVE</span>` :
+                        (m.status||'').toLowerCase() === 'completed' ? `<span class="completed">COMPLETED</span>` :
+                        `<span class="small">${m.status||'—'}</span>`;
+    // mini innings breakdown
+    const inningsHtml = (m.innings||[]).map((x, j) => {
+      const label = x.team || `Innings ${j+1}`;
+      return `<tr><td style="width:60%"><b>${label}</b></td><td style="width:40%">${x.runs}/${x.wickets} <span class="small">(${x.overs})</span></td></tr>`;
+    }).join('');
     return `
       <div class="card">
-        <div class="team">${m.match || m.title || `Match ${fileSuffix}`}</div>
-        <div class="score">${score}</div>
-        ${target}
-        <div class="status">${status} • ${m.venue || 'KPL Arena'}</div>
-        <div class="btns">
-          <a class="btn" href="match-${fileSuffix}.html">View Live</a>
-          <a class="btn" href="summary.html">Summary</a>
+        <div class="match-head">
+          <div>
+            <div class="teams">${escape(m.match || m.title || ('Match ' + idx))}</div>
+            <div class="scoreline">${score}</div>
+            <div class="meta">${escape(m.venue||'—')} • ${m.toss ? escape(m.toss) : ''}</div>
+          </div>
+          <div style="text-align:right">
+            ${statusLabel}
+            <div class="small" style="margin-top:8px">${escape(m.lastUpdated||'')}</div>
+          </div>
         </div>
-      </div>`;
+
+        <div class="btns">
+          <a class="btn" href="match-${idx}.html">View Live</a>
+          <a class="btn secondary" href="summary.html">Summary</a>
+        </div>
+
+        <details>
+          <summary class="small">Innings breakdown & recent overs</summary>
+          <table><tbody>${inningsHtml}</tbody></table>
+          ${renderOversMini(m)}
+        </details>
+      </div>
+    `;
   }).join('');
-  document.getElementById('matches').innerHTML = html;
 }
 
-loadFixtures();
-setInterval(loadFixtures, 20000);
+function renderOversMini(m){
+  // attempt to show last 3 overs from current innings
+  const inn = (m.innings && m.innings[m.currentInnings || 0]) ? m.innings[m.currentInnings || 0] : null;
+  if(!inn) return '';
+  const overs = inn.oversSummary || [];
+  if(!overs.length) return `<div class="small muted" style="margin-top:8px">No overs recorded yet</div>`;
+  const last = overs.slice(-4).reverse().map(o => {
+    const balls = (o.balls || []).join(' | ');
+    return `<div style="margin-top:8px"><b>Over ${o.over}</b> — ${escape(o.bowler || '')}<div class="small" style="color:#cfeffd;margin-top:6px">${escape(balls)}</div></div>`;
+  }).join('');
+  return `<div style="margin-top:10px">${last}</div>`;
+}
+
+function escape(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+load();
+setInterval(load, 12000);
 </script>
 </body>
 </html>
