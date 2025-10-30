@@ -7,14 +7,14 @@
   "innings": [
     {
       "team": "Titans",
-      "runs": 1,
+      "runs": 4,
       "wickets": 0,
-      "overs": "0.2",
+      "overs": "0.4",
       "batsmen": [
         {
           "name": "R. Sharma",
-          "runs": 1,
-          "balls": 2,
+          "runs": 4,
+          "balls": 4,
           "status": "not out"
         },
         {
@@ -99,8 +99,8 @@
         },
         {
           "name": "P. Shaw",
-          "overs": "0.2",
-          "runs": 1,
+          "overs": "0.4",
+          "runs": 4,
           "wickets": 0
         }
       ],
@@ -135,6 +135,30 @@
           "wicket": null,
           "summary": "R. Sharma 1",
           "timestamp": "2025-10-30T00:09:48.478Z"
+        },
+        {
+          "over": 0,
+          "ballInOver": 3,
+          "batsman": "R. Sharma",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 2,
+          "extraType": null,
+          "wicket": null,
+          "summary": "R. Sharma 2",
+          "timestamp": "2025-10-30T00:09:49.230Z"
+        },
+        {
+          "over": 0,
+          "ballInOver": 4,
+          "batsman": "R. Sharma",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 1,
+          "extraType": null,
+          "wicket": null,
+          "summary": "R. Sharma 1",
+          "timestamp": "2025-10-30T00:09:50.422Z"
         }
       ],
       "fallOfWickets": []
@@ -184,6 +208,6 @@
     }
   ],
   "target": 150,
-  "runRate": "3.00",
-  "lastUpdated": "10/30/2025, 5:39:48 AM"
+  "runRate": "6.00",
+  "lastUpdated": "10/30/2025, 5:39:50 AM"
 }
