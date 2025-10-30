@@ -11,10 +11,10 @@
   "innings": [
     {
       "team": "Titans",
-      "total": 40,
+      "total": 52,
       "wickets": 0,
-      "overs": 1,
-      "balls": 4,
+      "overs": 2,
+      "balls": 0,
       "extras": {
         "wides": 0,
         "noballs": 0,
@@ -142,6 +142,30 @@
           "wicket": null,
           "summary": "V. Kohli 6",
           "timestamp": "2025-10-30T00:16:08.404Z"
+        },
+        {
+          "over": 1,
+          "ballInOver": 5,
+          "batsman": "V. Kohli",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 6,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 6",
+          "timestamp": "2025-10-30T00:16:08.722Z"
+        },
+        {
+          "over": 1,
+          "ballInOver": 6,
+          "batsman": "V. Kohli",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 6,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 6",
+          "timestamp": "2025-10-30T00:16:09.140Z"
         }
       ],
       "battingOrder": [
@@ -155,10 +179,10 @@
         },
         {
           "name": "V. Kohli",
-          "runs": 24,
-          "balls": 4,
+          "runs": 36,
+          "balls": 6,
           "fours": 0,
-          "sixes": 4,
+          "sixes": 6,
           "status": "not out"
         },
         {
@@ -258,9 +282,9 @@
         },
         {
           "name": "P. Shaw",
-          "overs": 1,
-          "balls": 4,
-          "runs": 40,
+          "overs": 2,
+          "balls": 0,
+          "runs": 52,
           "wickets": 0
         }
       ],
@@ -274,6 +298,18 @@
             "R. Sharma 1",
             "R. Sharma 6",
             "R. Sharma 6"
+          ],
+          "bowler": "P. Shaw"
+        },
+        {
+          "over": 2,
+          "balls": [
+            "V. Kohli 6",
+            "V. Kohli 6",
+            "V. Kohli 6",
+            "V. Kohli 6",
+            "V. Kohli 6",
+            "V. Kohli 6"
           ],
           "bowler": "P. Shaw"
         }
@@ -337,13 +373,8 @@
     "striker": "V. Kohli",
     "nonStriker": "R. Sharma",
     "currentBowler": "P. Shaw",
-    "currentOverBalls": [
-      "V. Kohli 6",
-      "V. Kohli 6",
-      "V. Kohli 6",
-      "V. Kohli 6"
-    ],
+    "currentOverBalls": [],
     "isFreeHit": false
   },
-  "lastSaved": "10/30/2025, 5:46:08 AM"
+  "lastSaved": "10/30/2025, 5:46:10 AM"
 }
