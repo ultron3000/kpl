@@ -86,6 +86,30 @@
           "wicket": null,
           "summary": "V. Kohli 2",
           "timestamp": "2025-10-30T00:05:29.351Z"
+        },
+        {
+          "over": "2",
+          "ballInOver": 4,
+          "batsman": "V. Kohli",
+          "bowler": "R. Patel",
+          "eventType": "run",
+          "runs": 2,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 2",
+          "timestamp": "2025-10-30T00:05:29.759Z"
+        },
+        {
+          "over": "2",
+          "ballInOver": 5,
+          "batsman": "V. Kohli",
+          "bowler": "R. Patel",
+          "eventType": "run",
+          "runs": 2,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 2",
+          "timestamp": "2025-10-30T00:05:30.271Z"
         }
       ],
       "batsmen": [
@@ -124,9 +148,9 @@
         {
           "name": "R. Patel",
           "overs": "3.3",
-          "runs": 32,
+          "runs": 36,
           "wickets": 1,
-          "balls": 3
+          "balls": 5
         },
         {
           "name": "N. Yadav",
@@ -175,8 +199,8 @@
         },
         {
           "name": "V. Kohli",
-          "runs": 6,
-          "balls": 2,
+          "runs": 10,
+          "balls": 4,
           "fours": 1,
           "sixes": 0,
           "status": "not out"
@@ -255,8 +279,8 @@
         }
       ],
       "oversSummary": [],
-      "total": 57,
-      "balls": 3
+      "total": 61,
+      "balls": 5
     },
     {
       "team": "Strikers",
@@ -344,9 +368,11 @@
     "currentOverBalls": [
       "R. Sharma 1",
       "V. Kohli 4",
+      "V. Kohli 2",
+      "V. Kohli 2",
       "V. Kohli 2"
     ],
     "isFreeHit": false
   },
-  "lastSaved": "10/30/2025, 5:35:29 AM"
+  "lastSaved": "10/30/2025, 5:35:31 AM"
 }
