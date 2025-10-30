@@ -50,6 +50,18 @@
           "bowler": "A. Khan",
           "runs": 0,
           "type": "wicket"
+        },
+        {
+          "over": "2",
+          "ballInOver": 1,
+          "batsman": "R. Sharma",
+          "bowler": "R. Patel",
+          "eventType": "run",
+          "runs": 1,
+          "extraType": null,
+          "wicket": null,
+          "summary": "R. Sharma 1",
+          "timestamp": "2025-10-30T00:04:39.920Z"
         }
       ],
       "batsmen": [
@@ -88,8 +100,9 @@
         {
           "name": "R. Patel",
           "overs": "3.3",
-          "runs": 25,
-          "wickets": 1
+          "runs": 26,
+          "wickets": 1,
+          "balls": 1
         },
         {
           "name": "N. Yadav",
@@ -126,7 +139,100 @@
           "score": 75,
           "over": "9.5"
         }
-      ]
+      ],
+      "battingOrder": [
+        {
+          "name": "R. Sharma",
+          "runs": 1,
+          "balls": 1,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "V. Kohli",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "S. Iyer",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "S. Yadav",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "H. Pandya",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "R. Jadeja",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "D. Karthik",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "R. Ashwin",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "B. Kumar",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "M. Shami",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "J. Bumrah",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        }
+      ],
+      "oversSummary": [],
+      "total": 51,
+      "balls": 1
     },
     {
       "team": "Strikers",
@@ -167,10 +273,54 @@
         "legbyes": 0,
         "total": 0
       },
-      "fallOfWickets": []
+      "fallOfWickets": [],
+      "battingOrder": [
+        {
+          "name": "P. Shaw",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "S. Dhawan",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "A. Russell",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        }
+      ],
+      "oversSummary": [],
+      "total": 0,
+      "balls": 0
     }
   ],
   "target": 150,
   "runRate": "8.19",
-  "lastUpdated": "10/30/2025, 5:33:09 AM"
+  "lastUpdated": "10/30/2025, 5:33:09 AM",
+  "title": "Titans vs Strikers",
+  "matchMeta": {
+    "oversPerInnings": 20,
+    "target": 150
+  },
+  "current": {
+    "striker": "R. Sharma",
+    "nonStriker": "V. Kohli",
+    "currentBowler": "R. Patel",
+    "currentOverBalls": [
+      "R. Sharma 1"
+    ],
+    "isFreeHit": false
+  },
+  "lastSaved": "10/30/2025, 5:34:39 AM"
 }
