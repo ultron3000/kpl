@@ -2,434 +2,25 @@
   "title": "Titans vs Strikers",
   "venue": "KPL Arena 1",
   "status": "LIVE",
-  "toss": "Titans won the toss and chose to bat first",
   "currentInnings": 0,
-  "matchMeta": {
-    "oversPerInnings": 20,
-    "target": 150
-  },
   "innings": [
     {
       "team": "Titans",
-      "total": 66,
-      "wickets": 2,
-      "overs": 3,
-      "balls": 0,
+      "total": 10,
+      "wickets": 0,
+      "overs": 0,
+      "balls": 2,
       "extras": {
-        "wides": 0,
-        "noballs": 0,
+        "wides": 1,
+        "noballs": 1,
         "byes": 0,
-        "legbyes": 0,
-        "total": 0
+        "legbyes": 1,
+        "total": 3
       },
-      "ballsDetailed": [
-        {
-          "over": 0,
-          "ballInOver": 1,
-          "batsman": "R. Sharma",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 0,
-          "extraType": null,
-          "wicket": null,
-          "summary": "R. Sharma 0",
-          "timestamp": "2025-10-30T00:09:46.110Z"
-        },
-        {
-          "over": 0,
-          "ballInOver": 2,
-          "batsman": "R. Sharma",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 1,
-          "extraType": null,
-          "wicket": null,
-          "summary": "R. Sharma 1",
-          "timestamp": "2025-10-30T00:09:48.478Z"
-        },
-        {
-          "over": 0,
-          "ballInOver": 3,
-          "batsman": "R. Sharma",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 2,
-          "extraType": null,
-          "wicket": null,
-          "summary": "R. Sharma 2",
-          "timestamp": "2025-10-30T00:09:49.230Z"
-        },
-        {
-          "over": 0,
-          "ballInOver": 4,
-          "batsman": "R. Sharma",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 1,
-          "extraType": null,
-          "wicket": null,
-          "summary": "R. Sharma 1",
-          "timestamp": "2025-10-30T00:09:50.422Z"
-        },
-        {
-          "over": 0,
-          "ballInOver": 5,
-          "batsman": "R. Sharma",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 6,
-          "extraType": null,
-          "wicket": null,
-          "summary": "R. Sharma 6",
-          "timestamp": "2025-10-30T00:09:52.086Z"
-        },
-        {
-          "over": 0,
-          "ballInOver": 6,
-          "batsman": "R. Sharma",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 6,
-          "extraType": null,
-          "wicket": null,
-          "summary": "R. Sharma 6",
-          "timestamp": "2025-10-30T00:09:52.262Z"
-        },
-        {
-          "over": 1,
-          "ballInOver": 1,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 6,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 6",
-          "timestamp": "2025-10-30T00:16:06.812Z"
-        },
-        {
-          "over": 1,
-          "ballInOver": 2,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 6,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 6",
-          "timestamp": "2025-10-30T00:16:07.188Z"
-        },
-        {
-          "over": 1,
-          "ballInOver": 3,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 6,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 6",
-          "timestamp": "2025-10-30T00:16:07.956Z"
-        },
-        {
-          "over": 1,
-          "ballInOver": 4,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 6,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 6",
-          "timestamp": "2025-10-30T00:16:08.404Z"
-        },
-        {
-          "over": 1,
-          "ballInOver": 5,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 6,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 6",
-          "timestamp": "2025-10-30T00:16:08.722Z"
-        },
-        {
-          "over": 1,
-          "ballInOver": 6,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 6,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 6",
-          "timestamp": "2025-10-30T00:16:09.140Z"
-        },
-        {
-          "over": 2,
-          "ballInOver": 1,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 4,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 4",
-          "timestamp": "2025-10-30T00:51:31.375Z"
-        },
-        {
-          "over": 2,
-          "ballInOver": 2,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 4,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 4",
-          "timestamp": "2025-10-30T00:51:31.735Z"
-        },
-        {
-          "over": 2,
-          "ballInOver": 3,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 4,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 4",
-          "timestamp": "2025-10-30T00:51:32.463Z"
-        },
-        {
-          "over": 2,
-          "ballInOver": 4,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "run",
-          "runs": 2,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 2",
-          "timestamp": "2025-10-30T00:51:34.079Z"
-        },
-        {
-          "over": 2,
-          "ballInOver": 5,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "wicket",
-          "runs": 0,
-          "extraType": null,
-          "wicket": {
-            "how": "bowled",
-            "outPlayer": "V. Kohli",
-            "fielder": null,
-            "newBatsman": null
-          },
-          "summary": "Wicket - bowled - V. Kohli",
-          "timestamp": "2025-10-30T00:52:52.575Z"
-        },
-        {
-          "over": 2,
-          "ballInOver": 6,
-          "batsman": "V. Kohli",
-          "bowler": "P. Shaw",
-          "eventType": "wicket",
-          "runs": 0,
-          "extraType": null,
-          "wicket": {
-            "how": "bowled",
-            "outPlayer": "V. Kohli",
-            "fielder": null,
-            "newBatsman": "Iyer"
-          },
-          "summary": "Wicket - bowled - V. Kohli",
-          "timestamp": "2025-10-30T00:53:06.951Z"
-        }
-      ],
-      "battingOrder": [
-        {
-          "name": "R. Sharma",
-          "runs": 16,
-          "balls": 6,
-          "fours": 0,
-          "sixes": 2,
-          "status": "not out"
-        },
-        {
-          "name": "V. Kohli",
-          "runs": 50,
-          "balls": 10,
-          "fours": 3,
-          "sixes": 6,
-          "status": "out (bowled)"
-        },
-        {
-          "name": "S. Iyer",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "S. Yadav",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "H. Pandya",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "R. Jadeja",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "D. Karthik",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "R. Ashwin",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "B. Kumar",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "M. Shami",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "J. Bumrah",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "Iyer",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        }
-      ],
-      "bowlers": [
-        {
-          "name": "A. Khan",
-          "overs": 0,
-          "balls": 0,
-          "runs": 0,
-          "wickets": 0
-        },
-        {
-          "name": "R. Patel",
-          "overs": 0,
-          "balls": 0,
-          "runs": 0,
-          "wickets": 0
-        },
-        {
-          "name": "N. Yadav",
-          "overs": 0,
-          "balls": 0,
-          "runs": 0,
-          "wickets": 0
-        },
-        {
-          "name": "P. Shaw",
-          "overs": 3,
-          "balls": 0,
-          "runs": 66,
-          "wickets": 2
-        }
-      ],
-      "oversSummary": [
-        {
-          "over": 1,
-          "balls": [
-            "R. Sharma 0",
-            "R. Sharma 1",
-            "R. Sharma 2",
-            "R. Sharma 1",
-            "R. Sharma 6",
-            "R. Sharma 6"
-          ],
-          "bowler": "P. Shaw"
-        },
-        {
-          "over": 2,
-          "balls": [
-            "V. Kohli 6",
-            "V. Kohli 6",
-            "V. Kohli 6",
-            "V. Kohli 6",
-            "V. Kohli 6",
-            "V. Kohli 6"
-          ],
-          "bowler": "P. Shaw"
-        },
-        {
-          "over": 3,
-          "balls": [
-            "V. Kohli 4",
-            "V. Kohli 4",
-            "V. Kohli 4",
-            "V. Kohli 2",
-            "Wicket - bowled - V. Kohli",
-            "Wicket - bowled - V. Kohli"
-          ],
-          "bowler": "P. Shaw"
-        }
-      ],
-      "fallOfWickets": [
-        {
-          "batsman": "V. Kohli",
-          "score": 66,
-          "wicket": 1,
-          "over": "2.5"
-        },
-        {
-          "batsman": "V. Kohli",
-          "score": 66,
-          "wicket": 2,
-          "over": "2.6"
-        }
-      ]
+      "battingOrder": [],
+      "bowlers": [],
+      "fallOfWickets": [],
+      "ballsDetailed": []
     },
     {
       "team": "Strikers",
@@ -444,52 +35,43 @@
         "legbyes": 0,
         "total": 0
       },
-      "ballsDetailed": [],
-      "battingOrder": [
-        {
-          "name": "P. Shaw",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "S. Dhawan",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        },
-        {
-          "name": "A. Russell",
-          "runs": 0,
-          "balls": 0,
-          "fours": 0,
-          "sixes": 0,
-          "status": "not out"
-        }
-      ],
-      "bowlers": [
-        {
-          "name": "B. Kumar",
-          "overs": 0,
-          "balls": 0,
-          "runs": 0,
-          "wickets": 0
-        }
-      ],
-      "oversSummary": [],
-      "fallOfWickets": []
+      "battingOrder": [],
+      "bowlers": [],
+      "fallOfWickets": [],
+      "ballsDetailed": []
     }
   ],
-  "current": {
-    "striker": "V. Kohli",
-    "nonStriker": "R. Sharma",
-    "currentBowler": "P. Shaw",
-    "currentOverBalls": [],
-    "isFreeHit": false
+  "teams": {
+    "Titans": [
+      "Rohit Sharma",
+      "Virat Kohli",
+      "Shreyas Iyer",
+      "Hardik Pandya",
+      "Suryakumar Yadav",
+      "Rishabh Pant",
+      "Ravindra Jadeja",
+      "Bhuvneshwar Kumar",
+      "Jasprit Bumrah",
+      "Mohammed Shami",
+      "Yuzvendra Chahal"
+    ],
+    "Strikers": [
+      "Prithvi Shaw",
+      "Shikhar Dhawan",
+      "KL Rahul",
+      "Sanju Samson",
+      "Ruturaj Gaikwad",
+      "Axar Patel",
+      "Deepak Hooda",
+      "Mohammed Siraj",
+      "Kuldeep Yadav",
+      "Arshdeep Singh",
+      "Umran Malik"
+    ]
   },
-  "lastSaved": "10/30/2025, 6:23:09 AM"
+  "current": {
+    "striker": "Virat Kohli",
+    "nonStriker": "Rohit Sharma",
+    "bowler": "Axar Patel"
+  }
 }
