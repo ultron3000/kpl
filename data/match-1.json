@@ -6,7 +6,7 @@
   "innings": [
     {
       "team": "Titans",
-      "total": 28,
+      "total": 25,
       "wickets": 0,
       "overs": 1,
       "balls": 0,
@@ -17,10 +17,220 @@
         "legbyes": 0,
         "total": 2
       },
-      "battingOrder": [],
-      "bowlers": [],
+      "battingOrder": [
+        {
+          "name": "Rohit Sharma",
+          "runs": 5,
+          "balls": 2,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Virat Kohli",
+          "runs": 18,
+          "balls": 4,
+          "fours": 1,
+          "sixes": 2,
+          "status": "not out"
+        },
+        {
+          "name": "Shreyas Iyer",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Hardik Pandya",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Suryakumar Yadav",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Rishabh Pant",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Ravindra Jadeja",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Bhuvneshwar Kumar",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Jasprit Bumrah",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Mohammed Shami",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        },
+        {
+          "name": "Yuzvendra Chahal",
+          "runs": 0,
+          "balls": 0,
+          "fours": 0,
+          "sixes": 0,
+          "status": "not out"
+        }
+      ],
+      "bowlers": [
+        {
+          "name": "Prithvi Shaw",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "Shikhar Dhawan",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "KL Rahul",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "Sanju Samson",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "Ruturaj Gaikwad",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "Axar Patel",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "Deepak Hooda",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "Mohammed Siraj",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "Kuldeep Yadav",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "Arshdeep Singh",
+          "overs": 0,
+          "balls": 0,
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "Umran Malik",
+          "overs": 1,
+          "balls": 0,
+          "runs": 25,
+          "wickets": 0
+        }
+      ],
       "fallOfWickets": [],
-      "ballsDetailed": []
+      "ballsDetailed": [
+        {
+          "over": 0,
+          "ball": 1,
+          "striker": "Rohit Sharma",
+          "bowler": "Umran Malik",
+          "runs": 2
+        },
+        {
+          "over": 0,
+          "ball": 2,
+          "striker": "Rohit Sharma",
+          "bowler": "Umran Malik",
+          "runs": 3
+        },
+        {
+          "over": 0,
+          "ball": 3,
+          "striker": "Virat Kohli",
+          "bowler": "Umran Malik",
+          "runs": 6
+        },
+        {
+          "over": 0,
+          "ball": 4,
+          "striker": "Virat Kohli",
+          "bowler": "Umran Malik",
+          "runs": 6
+        },
+        {
+          "over": 0,
+          "ball": 5,
+          "striker": "Virat Kohli",
+          "bowler": "Umran Malik",
+          "runs": 4
+        },
+        {
+          "over": 0,
+          "ball": 6,
+          "striker": "Virat Kohli",
+          "bowler": "Umran Malik",
+          "runs": 2
+        }
+      ]
     },
     {
       "team": "Strikers",
