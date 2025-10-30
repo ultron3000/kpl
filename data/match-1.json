@@ -2,11 +2,11 @@
   "title": "Titans vs Strikers",
   "venue": "KPL Arena 1",
   "status": "LIVE",
-  "currentInnings": 1,
+  "currentInnings": 0,
   "innings": [
     {
       "team": "Titans",
-      "total": 34,
+      "total": 28,
       "wickets": 0,
       "overs": 1,
       "balls": 0,
@@ -14,8 +14,8 @@
         "wides": 1,
         "noballs": 1,
         "byes": 0,
-        "legbyes": 1,
-        "total": 3
+        "legbyes": 0,
+        "total": 2
       },
       "battingOrder": [],
       "bowlers": [],
@@ -24,16 +24,16 @@
     },
     {
       "team": "Strikers",
-      "total": 13,
-      "wickets": 2,
+      "total": 0,
+      "wickets": 0,
       "overs": 0,
-      "balls": 4,
+      "balls": 0,
       "extras": {
-        "wides": 1,
-        "noballs": 1,
+        "wides": 0,
+        "noballs": 0,
         "byes": 0,
         "legbyes": 0,
-        "total": 2
+        "total": 0
       },
       "battingOrder": [],
       "bowlers": [],
@@ -70,8 +70,8 @@
     ]
   },
   "current": {
-    "striker": "Prithvi Shaw",
-    "nonStriker": "Sanju Samson",
-    "bowler": "Ravindra Jadeja"
+    "striker": "Rohit Sharma",
+    "nonStriker": "Virat Kohli",
+    "bowler": "Umran Malik"
   }
 }
