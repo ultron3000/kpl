@@ -11,10 +11,10 @@
   "innings": [
     {
       "team": "Titans",
-      "total": 22,
+      "total": 40,
       "wickets": 0,
       "overs": 1,
-      "balls": 1,
+      "balls": 4,
       "extras": {
         "wides": 0,
         "noballs": 0,
@@ -106,6 +106,42 @@
           "wicket": null,
           "summary": "V. Kohli 6",
           "timestamp": "2025-10-30T00:16:06.812Z"
+        },
+        {
+          "over": 1,
+          "ballInOver": 2,
+          "batsman": "V. Kohli",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 6,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 6",
+          "timestamp": "2025-10-30T00:16:07.188Z"
+        },
+        {
+          "over": 1,
+          "ballInOver": 3,
+          "batsman": "V. Kohli",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 6,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 6",
+          "timestamp": "2025-10-30T00:16:07.956Z"
+        },
+        {
+          "over": 1,
+          "ballInOver": 4,
+          "batsman": "V. Kohli",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 6,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 6",
+          "timestamp": "2025-10-30T00:16:08.404Z"
         }
       ],
       "battingOrder": [
@@ -119,10 +155,10 @@
         },
         {
           "name": "V. Kohli",
-          "runs": 6,
-          "balls": 1,
+          "runs": 24,
+          "balls": 4,
           "fours": 0,
-          "sixes": 1,
+          "sixes": 4,
           "status": "not out"
         },
         {
@@ -223,8 +259,8 @@
         {
           "name": "P. Shaw",
           "overs": 1,
-          "balls": 1,
-          "runs": 22,
+          "balls": 4,
+          "runs": 40,
           "wickets": 0
         }
       ],
@@ -302,9 +338,12 @@
     "nonStriker": "R. Sharma",
     "currentBowler": "P. Shaw",
     "currentOverBalls": [
+      "V. Kohli 6",
+      "V. Kohli 6",
+      "V. Kohli 6",
       "V. Kohli 6"
     ],
     "isFreeHit": false
   },
-  "lastSaved": "10/30/2025, 5:46:06 AM"
+  "lastSaved": "10/30/2025, 5:46:08 AM"
 }
