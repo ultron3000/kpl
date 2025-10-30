@@ -14,10 +14,8 @@ button{cursor:pointer;border:0;border-radius:6px;padding:8px 12px;font-weight:60
 .btnWicket{background:#ef4444;color:#fff;}
 .btnSave{background:#059669;color:#fff;margin-top:10px;}
 .status{color:#0b69ff;font-weight:700;}
-table{width:100%;border-collapse:collapse;margin-top:10px;}
-th,td{padding:6px;border-bottom:1px solid #e5e7eb;text-align:left;font-size:14px;}
-pre{background:#0b1220;color:#c8f3ff;padding:10px;border-radius:8px;overflow:auto;}
 select,input{padding:6px;border:1px solid #cbd5e1;border-radius:6px;}
+#msg{margin-top:8px;font-size:14px;}
 </style>
 </head>
 <body>
@@ -63,7 +61,7 @@ select,input{padding:6px;border:1px solid #cbd5e1;border-radius:6px;}
   </div>
 
   <button class="btnSave" onclick="saveData()">Force Save & Push</button>
-  <div id="msg" style="margin-top:6px;font-size:13px;color:#065f46;"></div>
+  <div id="msg"></div>
 </div>
 
 <script>
@@ -97,7 +95,6 @@ function init(){
 function populatePlayers(){
   const idx=Number($("inningSel").value);
   match.currentInnings=idx;
-
   const battingTeam=idx===0?"Titans":"Strikers";
   const bowlingTeam=idx===0?"Strikers":"Titans";
 
@@ -111,8 +108,20 @@ function populatePlayers(){
   match.current.striker=batsmen[0];
   match.current.nonStriker=batsmen[1];
   match.current.bowler=bowlers[bowlers.length-1];
+
+  const inn=match.innings[idx];
+  if(inn.battingOrder.length===0){
+    inn.battingOrder=batsmen.map(n=>({name:n,runs:0,balls:0,fours:0,sixes:0,status:"not out"}));
+  }
+  if(inn.bowlers.length===0){
+    inn.bowlers=bowlers.map(n=>({name:n,overs:0,balls:0,runs:0,wickets:0}));
+  }
+
   updatePanel();
 }
+
+function getBatsman(inn,name){return inn.battingOrder.find(x=>x.name===name);}
+function getBowler(inn,name){return inn.bowlers.find(x=>x.name===name);}
 
 function updatePanel(){
   const inn=match.innings[match.currentInnings];
@@ -129,11 +138,31 @@ function updatePanel(){
 
 function ball(runs){
   const inn=match.innings[match.currentInnings];
+  const striker=match.current.striker;
+  const bowler=match.current.bowler;
+  const batsmanObj=getBatsman(inn,striker);
+  const bowlerObj=getBowler(inn,bowler);
+
+  batsmanObj.runs+=runs;
+  batsmanObj.balls+=1;
+  if(runs===4)batsmanObj.fours+=1;
+  if(runs===6)batsmanObj.sixes+=1;
+  bowlerObj.runs+=runs;
+  bowlerObj.balls+=1;
+
   inn.total+=runs;
-  inn.balls++;
+  inn.balls+=1;
+  inn.ballsDetailed.push({over:inn.overs,ball:inn.balls,striker,bowler,runs});
+
+  // odd runs swap striker
+  if(runs%2===1){[match.current.striker,match.current.nonStriker]=[match.current.nonStriker,match.current.striker];}
+
   if(inn.balls>=BALLS_PER_OVER){
-    inn.overs++;
+    inn.overs+=1;
     inn.balls=0;
+    bowlerObj.overs+=1;
+    bowlerObj.balls=0;
+    [match.current.striker,match.current.nonStriker]=[match.current.nonStriker,match.current.striker];
     autoPush();
   }
   updatePanel();
@@ -141,15 +170,30 @@ function ball(runs){
 
 function extra(type){
   const inn=match.innings[match.currentInnings];
+  const bowlerObj=getBowler(inn,match.current.bowler);
   inn.extras.total++;
   inn.total++;
   inn.extras[type+'s']=(inn.extras[type+'s']||0)+1;
+  bowlerObj.runs++;
   updatePanel();
 }
 
 function wicket(){
   const inn=match.innings[match.currentInnings];
-  inn.wickets++;
+  const striker=match.current.striker;
+  const bowler=match.current.bowler;
+  const batsmanObj=getBatsman(inn,striker);
+  const bowlerObj=getBowler(inn,bowler);
+
+  batsmanObj.status="out";
+  bowlerObj.wickets+=1;
+  inn.wickets+=1;
+  inn.fallOfWickets.push(`${striker} ${inn.total}/${inn.wickets}`);
+
+  const nextBatsman=inn.battingOrder.find(x=>x.status==="not out" && x!==batsmanObj);
+  if(nextBatsman){
+    match.current.striker=nextBatsman.name;
+  }
   updatePanel();
 }
 
