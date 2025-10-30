@@ -7,20 +7,20 @@
   "innings": [
     {
       "team": "Titans",
-      "runs": 61,
-      "wickets": 2,
-      "overs": "2.5",
+      "runs": 0,
+      "wickets": 0,
+      "overs": "0.1",
       "batsmen": [
         {
           "name": "R. Sharma",
-          "runs": 1,
+          "runs": 0,
           "balls": 1,
           "status": "not out"
         },
         {
           "name": "V. Kohli",
-          "runs": 10,
-          "balls": 4,
+          "runs": 0,
+          "balls": 0,
           "status": "not out"
         },
         {
@@ -81,160 +81,57 @@
       "bowlers": [
         {
           "name": "A. Khan",
-          "overs": "4.0",
-          "runs": 28,
-          "wickets": 2
+          "overs": "0",
+          "runs": 0,
+          "wickets": 0
         },
         {
           "name": "R. Patel",
-          "overs": "3.3.5",
-          "runs": 36,
-          "wickets": 1
+          "overs": "0",
+          "runs": 0,
+          "wickets": 0
         },
         {
           "name": "N. Yadav",
-          "overs": "3.0",
-          "runs": 30,
-          "wickets": 1
+          "overs": "0",
+          "runs": 0,
+          "wickets": 0
+        },
+        {
+          "name": "P. Shaw",
+          "overs": "0.1",
+          "runs": 0,
+          "wickets": 0
         }
       ],
       "extras": {
-        "wides": 2,
-        "noballs": 1,
+        "wides": 0,
+        "noballs": 0,
         "byes": 0,
         "legbyes": 0,
-        "total": 3
+        "total": 0
       },
       "balls": [
         {
-          "over": 1,
-          "ball": 1,
-          "batsman": "R. Sharma",
-          "bowler": "A. Khan",
-          "runs": 1,
-          "type": "normal"
-        },
-        {
-          "over": 1,
-          "ball": 2,
-          "batsman": "V. Kohli",
-          "bowler": "A. Khan",
-          "runs": 4,
-          "type": "four"
-        },
-        {
-          "over": 2,
-          "ball": 1,
-          "batsman": "R. Sharma",
-          "bowler": "R. Patel",
-          "runs": 0,
-          "type": "dot"
-        },
-        {
-          "over": 2,
-          "ball": 2,
-          "batsman": "R. Sharma",
-          "bowler": "R. Patel",
-          "runs": 6,
-          "type": "six"
-        },
-        {
-          "over": 3,
-          "ball": 5,
-          "batsman": "V. Kohli",
-          "bowler": "A. Khan",
-          "runs": 0,
-          "type": "wicket"
-        },
-        {
-          "over": "2",
+          "over": 0,
           "ballInOver": 1,
           "batsman": "R. Sharma",
-          "bowler": "R. Patel",
+          "bowler": "P. Shaw",
           "eventType": "run",
-          "runs": 1,
+          "runs": 0,
           "extraType": null,
           "wicket": null,
-          "summary": "R. Sharma 1",
-          "timestamp": "2025-10-30T00:04:39.920Z"
-        },
-        {
-          "over": "2",
-          "ballInOver": 2,
-          "batsman": "V. Kohli",
-          "bowler": "R. Patel",
-          "eventType": "run",
-          "runs": 4,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 4",
-          "timestamp": "2025-10-30T00:05:03.384Z"
-        },
-        {
-          "over": "2",
-          "ballInOver": 3,
-          "batsman": "V. Kohli",
-          "bowler": "R. Patel",
-          "eventType": "run",
-          "runs": 2,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 2",
-          "timestamp": "2025-10-30T00:05:29.351Z"
-        },
-        {
-          "over": "2",
-          "ballInOver": 4,
-          "batsman": "V. Kohli",
-          "bowler": "R. Patel",
-          "eventType": "run",
-          "runs": 2,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 2",
-          "timestamp": "2025-10-30T00:05:29.759Z"
-        },
-        {
-          "over": "2",
-          "ballInOver": 5,
-          "batsman": "V. Kohli",
-          "bowler": "R. Patel",
-          "eventType": "run",
-          "runs": 2,
-          "extraType": null,
-          "wicket": null,
-          "summary": "V. Kohli 2",
-          "timestamp": "2025-10-30T00:05:30.271Z"
+          "summary": "R. Sharma 0",
+          "timestamp": "2025-10-30T00:09:46.110Z"
         }
       ],
-      "fallOfWickets": [
-        {
-          "batsman": "V. Kohli",
-          "score": 35,
-          "over": "3.5"
-        },
-        {
-          "batsman": "S. Gill",
-          "score": 48,
-          "over": "6.2"
-        },
-        {
-          "batsman": "K. Pandya",
-          "score": 60,
-          "over": "8.1"
-        },
-        {
-          "batsman": "R. Pant",
-          "score": 75,
-          "over": "9.5"
-        }
-      ]
+      "fallOfWickets": []
     },
     {
       "team": "Strikers",
       "runs": 0,
       "wickets": 0,
-      "overs": "0.0.0",
+      "overs": "0.0",
       "batsmen": [
         {
           "name": "P. Shaw",
@@ -258,7 +155,7 @@
       "bowlers": [
         {
           "name": "B. Kumar",
-          "overs": "0.0",
+          "overs": "0",
           "runs": 0,
           "wickets": 0
         }
@@ -275,6 +172,6 @@
     }
   ],
   "target": 150,
-  "runRate": "2.93",
-  "lastUpdated": "10/30/2025, 5:36:00 AM"
+  "runRate": "0.00",
+  "lastUpdated": "10/30/2025, 5:39:46 AM"
 }
