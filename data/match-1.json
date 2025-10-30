@@ -6,10 +6,10 @@
   "innings": [
     {
       "team": "Titans",
-      "total": 10,
+      "total": 34,
       "wickets": 0,
-      "overs": 0,
-      "balls": 2,
+      "overs": 1,
+      "balls": 0,
       "extras": {
         "wides": 1,
         "noballs": 1,
