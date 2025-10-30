@@ -6,47 +6,98 @@
 <title>KPL Live — Match 1</title>
 <style>
 body{font-family:Inter,Arial,sans-serif;background:#0b132b;color:#fff;margin:0;padding:0;}
-.container{max-width:900px;margin:40px auto;padding:20px;background:#1c2541;border-radius:10px;}
+.container{max-width:1000px;margin:40px auto;padding:20px;background:#1c2541;border-radius:10px;}
 h1{text-align:center;color:#ffcc00;margin-bottom:5px;}
 .score{text-align:center;font-size:2em;margin:10px 0;}
+.subtext{text-align:center;color:#ccc;font-size:14px;}
 .section{background:#3a506b;margin-top:20px;padding:15px;border-radius:8px;}
+.section h2{color:#ffcc00;margin-bottom:5px;}
 table{width:100%;border-collapse:collapse;margin-top:10px;}
 th,td{border-bottom:1px solid #555;padding:8px;text-align:left;}
 th{color:#ffcc00;}
 .flash{animation:flashScore 0.8s ease-in-out;}
 @keyframes flashScore{0%{background:#00c6ff;color:#000;}100%{background:transparent;color:#fff;}}
+.badge{background:#ffcc00;color:#000;padding:3px 6px;border-radius:4px;font-weight:700;font-size:12px;}
 </style>
 </head>
 <body>
 <div class="container">
   <h1 id="matchTitle">Loading...</h1>
-  <div id="venue" style="text-align:center;color:#ccc;"></div>
+  <div id="venue" class="subtext"></div>
   <div class="score" id="mainScore">Loading...</div>
   <div id="innings"></div>
 </div>
 <script>
-let prev="";
+let prevScore="";
 async function loadMatch(){
  try{
   const res=await fetch("data/match-1.json?nocache="+Date.now());
   const data=await res.json();
+
   document.getElementById("matchTitle").textContent=data.title;
-  document.getElementById("venue").textContent=data.venue+" | "+data.status;
-  const ci=data.currentInnings||0;const inn=data.innings[ci];
-  const score=`${inn.team} ${inn.total}/${inn.wickets} (${inn.overs}.${inn.balls} ov)`;
-  const ms=document.getElementById("mainScore");ms.textContent=score;
-  if(score!==prev){ms.classList.add("flash");setTimeout(()=>ms.classList.remove("flash"),800);prev=score;}
-  const html=data.innings.map(i=>`
-   <div class='section'>
-    <h2>${i.team} Innings</h2>
-    <p>Score: <b>${i.total}/${i.wickets}</b> (${i.overs}.${i.balls} ov)
-    <br>Extras: ${i.extras.total||0}
-    <br>Fall of Wickets: ${(i.fallOfWickets||[]).length}</p>
-   </div>`).join('');
-  document.getElementById("innings").innerHTML=html;
- }catch(e){document.getElementById("mainScore").textContent="Error loading data";}
+  document.getElementById("venue").textContent=`${data.venue} • ${data.status}`;
+  
+  const ci=data.currentInnings||0;
+  const inn=data.innings[ci];
+  const scoreText=`${inn.team} ${inn.total}/${inn.wickets} (${inn.overs}.${inn.balls} ov)`;
+  
+  const scoreEl=document.getElementById("mainScore");
+  scoreEl.textContent=scoreText;
+  if(scoreText!==prevScore){
+    scoreEl.classList.add("flash");
+    setTimeout(()=>scoreEl.classList.remove("flash"),800);
+    prevScore=scoreText;
+  }
+
+  const oversFloat=inn.overs+(inn.balls/6);
+  const rr=oversFloat?(inn.total/oversFloat).toFixed(2):"0.00";
+
+  const inningsHtml=data.innings.map((inn,idx)=>{
+    const batsHtml=(inn.battingOrder||[]).map(p=>`
+      <tr>
+        <td>${p.name||'-'}</td>
+        <td>${p.runs||0}</td>
+        <td>${p.balls||0}</td>
+        <td>${p.fours||0}</td>
+        <td>${p.sixes||0}</td>
+        <td>${p.status||'not out'}</td>
+      </tr>`).join('');
+
+    const bowlHtml=(inn.bowlers||[]).map(b=>`
+      <tr>
+        <td>${b.name||'-'}</td>
+        <td>${b.overs||0}</td>
+        <td>${b.runs||0}</td>
+        <td>${b.wickets||0}</td>
+      </tr>`).join('');
+
+    const fow=(inn.fallOfWickets||[]).join(', ')||'—';
+
+    return `
+    <div class='section'>
+      <h2>${inn.team} Innings ${idx===data.currentInnings?'<span class="badge">LIVE</span>':''}</h2>
+      <p>Score: <b>${inn.total}/${inn.wickets}</b> (${inn.overs}.${inn.balls} ov)<br>
+      Run Rate: ${rr}<br>
+      Extras: ${inn.extras?.total||0}<br>
+      Fall of Wickets: ${fow}</p>
+
+      <h3>Batting</h3>
+      <table><thead><tr><th>Batsman</th><th>R</th><th>B</th><th>4s</th><th>6s</th><th>Status</th></tr></thead>
+      <tbody>${batsHtml}</tbody></table>
+
+      <h3>Bowling</h3>
+      <table><thead><tr><th>Bowler</th><th>O</th><th>R</th><th>W</th></tr></thead>
+      <tbody>${bowlHtml}</tbody></table>
+    </div>`;
+  }).join('');
+
+  document.getElementById("innings").innerHTML=inningsHtml;
+ }catch(e){
+  document.getElementById("mainScore").textContent="Error loading data";
+ }
 }
-loadMatch();setInterval(loadMatch,10000);
+loadMatch();
+setInterval(loadMatch,10000);
 </script>
 </body>
 </html>
