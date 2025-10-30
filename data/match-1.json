@@ -11,10 +11,10 @@
   "innings": [
     {
       "team": "Titans",
-      "total": 1,
+      "total": 4,
       "wickets": 0,
       "overs": 0,
-      "balls": 2,
+      "balls": 4,
       "extras": {
         "wides": 0,
         "noballs": 0,
@@ -46,13 +46,37 @@
           "wicket": null,
           "summary": "R. Sharma 1",
           "timestamp": "2025-10-30T00:09:48.478Z"
+        },
+        {
+          "over": 0,
+          "ballInOver": 3,
+          "batsman": "R. Sharma",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 2,
+          "extraType": null,
+          "wicket": null,
+          "summary": "R. Sharma 2",
+          "timestamp": "2025-10-30T00:09:49.230Z"
+        },
+        {
+          "over": 0,
+          "ballInOver": 4,
+          "batsman": "R. Sharma",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 1,
+          "extraType": null,
+          "wicket": null,
+          "summary": "R. Sharma 1",
+          "timestamp": "2025-10-30T00:09:50.422Z"
         }
       ],
       "battingOrder": [
         {
           "name": "R. Sharma",
-          "runs": 1,
-          "balls": 2,
+          "runs": 4,
+          "balls": 4,
           "fours": 0,
           "sixes": 0,
           "status": "not out"
@@ -163,8 +187,8 @@
         {
           "name": "P. Shaw",
           "overs": 0,
-          "balls": 2,
-          "runs": 1,
+          "balls": 4,
+          "runs": 4,
           "wickets": 0
         }
       ],
@@ -230,9 +254,11 @@
     "currentBowler": "P. Shaw",
     "currentOverBalls": [
       "R. Sharma 0",
+      "R. Sharma 1",
+      "R. Sharma 2",
       "R. Sharma 1"
     ],
     "isFreeHit": false
   },
-  "lastSaved": "10/30/2025, 5:39:48 AM"
+  "lastSaved": "10/30/2025, 5:39:50 AM"
 }
