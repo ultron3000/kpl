@@ -7,9 +7,9 @@
   "innings": [
     {
       "team": "Titans",
-      "runs": 55,
+      "runs": 57,
       "wickets": 2,
-      "overs": "2.2",
+      "overs": "2.3",
       "batsmen": [
         {
           "name": "R. Sharma",
@@ -19,8 +19,8 @@
         },
         {
           "name": "V. Kohli",
-          "runs": 4,
-          "balls": 1,
+          "runs": 6,
+          "balls": 2,
           "status": "not out"
         },
         {
@@ -87,8 +87,8 @@
         },
         {
           "name": "R. Patel",
-          "overs": "3.3.2",
-          "runs": 30,
+          "overs": "3.3.3",
+          "runs": 32,
           "wickets": 1
         },
         {
@@ -169,6 +169,18 @@
           "wicket": null,
           "summary": "V. Kohli 4",
           "timestamp": "2025-10-30T00:05:03.384Z"
+        },
+        {
+          "over": "2",
+          "ballInOver": 3,
+          "batsman": "V. Kohli",
+          "bowler": "R. Patel",
+          "eventType": "run",
+          "runs": 2,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 2",
+          "timestamp": "2025-10-30T00:05:29.351Z"
         }
       ],
       "fallOfWickets": [
@@ -239,6 +251,6 @@
     }
   ],
   "target": 150,
-  "runRate": "2.70",
-  "lastUpdated": "10/30/2025, 5:35:03 AM"
+  "runRate": "2.78",
+  "lastUpdated": "10/30/2025, 5:35:29 AM"
 }
