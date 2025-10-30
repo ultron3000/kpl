@@ -7,9 +7,9 @@
   "innings": [
     {
       "team": "Titans",
-      "runs": 22,
+      "runs": 40,
       "wickets": 0,
-      "overs": "1.1",
+      "overs": "1.4",
       "batsmen": [
         {
           "name": "R. Sharma",
@@ -19,8 +19,8 @@
         },
         {
           "name": "V. Kohli",
-          "runs": 6,
-          "balls": 1,
+          "runs": 24,
+          "balls": 4,
           "status": "not out"
         },
         {
@@ -99,8 +99,8 @@
         },
         {
           "name": "P. Shaw",
-          "overs": "1.1",
-          "runs": 22,
+          "overs": "1.4",
+          "runs": 40,
           "wickets": 0
         }
       ],
@@ -195,6 +195,42 @@
           "wicket": null,
           "summary": "V. Kohli 6",
           "timestamp": "2025-10-30T00:16:06.812Z"
+        },
+        {
+          "over": 1,
+          "ballInOver": 2,
+          "batsman": "V. Kohli",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 6,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 6",
+          "timestamp": "2025-10-30T00:16:07.188Z"
+        },
+        {
+          "over": 1,
+          "ballInOver": 3,
+          "batsman": "V. Kohli",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 6,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 6",
+          "timestamp": "2025-10-30T00:16:07.956Z"
+        },
+        {
+          "over": 1,
+          "ballInOver": 4,
+          "batsman": "V. Kohli",
+          "bowler": "P. Shaw",
+          "eventType": "run",
+          "runs": 6,
+          "extraType": null,
+          "wicket": null,
+          "summary": "V. Kohli 6",
+          "timestamp": "2025-10-30T00:16:08.404Z"
         }
       ],
       "fallOfWickets": []
@@ -244,6 +280,6 @@
     }
   ],
   "target": 150,
-  "runRate": "18.86",
-  "lastUpdated": "10/30/2025, 5:46:06 AM"
+  "runRate": "24.00",
+  "lastUpdated": "10/30/2025, 5:46:08 AM"
 }
