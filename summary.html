@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>KPL — Live Matches & Summary</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body{font-family:Inter,Arial,sans-serif;background:#0b132b;color:#fff;margin:0;padding:0}
+.header{background:#1a2238;padding:15px;text-align:center;font-size:24px;font-weight:700;color:#ffcc00}
+.container{padding:20px;max-width:900px;margin:auto}
+.match-card{background:#162447;border:1px solid #233554;border-radius:10px;padding:15px;margin-bottom:18px;transition:.2s}
+.match-card:hover{transform:scale(1.02);border-color:#ffcc00}
+.title{font-size:18px;font-weight:700;margin-bottom:4px;color:#ffcc00}
+.sub{font-size:13px;color:#bbb;margin-bottom:12px}
+.score{font-size:20px;font-weight:700;margin-bottom:6px}
+.status{font-size:13px;font-weight:700;color:#00eaff}
+.btn{display:inline-block;background:#ffcc00;color:#000;padding:7px 14px;border-radius:5px;text-decoration:none;font-weight:600;font-size:13px;margin-top:8px}
+.badge-live{background:#e00;color:#fff;padding:3px 6px;font-size:11px;border-radius:5px;margin-left:6px}
+.badge-complete{background:#00b300;color:#fff;padding:3px 6px;font-size:11px;border-radius:5px;margin-left:6px}
+</style>
+</head>
+<body>
+
+<div class="header">KPL — Live & Results</div>
+<div class="container" id="matchesList">Loading...</div>
+
+<script>
+// list of match JSON files & page links (ADD more later)
+const matches = [
+  {json:"data/match-1.json", page:"match-1.html"},
+  {json:"data/match-2.json", page:"match-2.html"},
+  {json:"data/match-3.json", page:"match-3.html"},
+];
+
+async function fetchMatch(m){
+  try{
+    const res = await fetch(m.json + "?t=" + Date.now());
+    return await res.json();
+  }catch(e){
+    return null;
+  }
+}
+
+function formatScore(inn){
+  if(!inn) return "—";
+  return `${inn.team} ${inn.total}/${inn.wickets} (${inn.overs}.${inn.balls})`;
+}
+
+async function loadMatches(){
+  const container=document.getElementById("matchesList");
+  container.innerHTML="";
+
+  for(const m of matches){
+    const data = await fetchMatch(m);
+    if(!data){
+      container.innerHTML+=`<div class="match-card">Unable to load ${m.json}</div>`;
+      continue;
+    }
+
+    const inn1=data.innings[0];
+    const inn2=data.innings[1];
+
+    const liveBadge = data.status==="LIVE" ? `<span class="badge-live">LIVE</span>` : "";
+    const doneBadge = data.status==="Completed" ? `<span class="badge-complete">DONE</span>` : "";
+
+    container.innerHTML+=`
+      <div class="match-card">
+        <div class="title">${data.title} ${liveBadge}${doneBadge}</div>
+        <div class="sub">${data.venue}</div>
+
+        <div class="score">${formatScore(inn1)}</div>
+        ${inn2.total > 0 || inn2.wickets > 0 ? `<div class="score">${formatScore(inn2)}</div>` : ""}
+
+        <div class="status">${data.status}</div>
+        <a class="btn" href="${m.page}">View Full Scorecard</a>
+      </div>
+    `;
+  }
+}
+loadMatches();
+setInterval(loadMatches, 10000);
+</script>
+
+</body>
+</html>
