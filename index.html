@@ -3,31 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>KPL Box Cricket League</title>
+<title>KPL League — Live Fixtures & Scores</title>
 <style>
-  body {font-family: Inter, Arial, sans-serif; background:#0b132b; color:#fff; margin:0; padding:0;}
-  header {background:#1c2541; text-align:center; padding:20px;}
-  h1 {margin:0; color:#ffcc00;}
-  main {max-width:800px; margin:30px auto; background:#1c2541; padding:20px; border-radius:10px;}
-  table {width:100%; border-collapse:collapse;}
-  th, td {padding:10px; border-bottom:1px solid #444;}
-  th {color:#ffcc00; text-align:left;}
-  a {color:#00c6ff; text-decoration:none;}
-  a:hover {text-decoration:underline;}
+  body{font-family:Inter,Arial,sans-serif;background:#0b132b;color:#fff;margin:0;padding:0}
+  header{background:#1c2541;padding:20px 0;text-align:center;border-bottom:2px solid #00c6ff}
+  header h1{color:#ffcc00;margin:0;font-size:28px}
+  main{max-width:1100px;margin:30px auto;padding:0 20px}
+  .matches{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px}
+  .card{background:#1c2541;border-radius:10px;padding:16px;box-shadow:0 0 10px rgba(0,0,0,0.3);transition:transform .2s}
+  .card:hover{transform:scale(1.02)}
+  .team{font-weight:700;color:#00c6ff}
+  .score{font-size:20px;margin-top:6px}
+  .status{font-size:13px;color:#aaa;margin-top:4px}
+  .btns{display:flex;justify-content:space-between;margin-top:10px}
+  .btn{background:#00c6ff;color:#0b132b;font-weight:700;padding:6px 10px;border-radius:6px;text-decoration:none;transition:0.2s}
+  .btn:hover{background:#ffcc00;color:#000}
+  footer{text-align:center;color:#bbb;padding:20px 0;margin-top:30px;font-size:13px}
 </style>
 </head>
 <body>
 <header>
-  <h1>🏏 KPL BOX CRICKET LEAGUE</h1>
-  <p>Fixtures & Live Matches</p>
+  <h1>🏏 KPL Box Cricket League — Live Fixtures</h1>
 </header>
 <main>
-  <table>
-    <tr><th>Match</th><th>Venue</th><th>Status</th><th>Link</th></tr>
-    <tr><td>Titans vs Strikers</td><td>KPL Arena 1</td><td><span style="color:#22c55e">LIVE</span></td><td><a href="match-1.html">View Live</a></td></tr>
-    <tr><td>Warriors vs Challengers</td><td>KPL Arena 2</td><td>Upcoming</td><td>—</td></tr>
-    <tr><td>Blazers vs Mavericks</td><td>KPL Arena 3</td><td>Upcoming</td><td>—</td></tr>
-  </table>
+  <div id="matches" class="matches">Loading fixtures...</div>
 </main>
+<footer>
+  © 2025 KPL Live | Auto-refreshing every 20s
+</footer>
+
+<script>
+async function loadFixtures(){
+  try{
+    const res = await fetch('data/live.json?nocache='+Date.now());
+    if(!res.ok) throw new Error("Couldn't load live.json");
+    const data = await res.json();
+    renderMatches(data);
+  }catch(err){
+    document.getElementById('matches').innerHTML = `<div style='color:#f87171'>${err.message}</div>`;
+  }
+}
+
+function renderMatches(data){
+  // Supports multiple matches in live.json or one
+  const matches = Array.isArray(data) ? data : [data];
+  const html = matches.map((m, i)=>{
+    const inn = m.innings && m.innings[m.currentInnings||0];
+    const score = inn ? `${inn.team}: ${inn.runs}/${inn.wickets} (${inn.overs})` : "—";
+    const target = m.target ? `<div class='status'>Target: ${m.target}</div>` : '';
+    const status = (m.status || "LIVE").toUpperCase();
+    const fileSuffix = i+1; // match-1, match-2, etc.
+    return `
+      <div class="card">
+        <div class="team">${m.match || m.title || `Match ${fileSuffix}`}</div>
+        <div class="score">${score}</div>
+        ${target}
+        <div class="status">${status} • ${m.venue || 'KPL Arena'}</div>
+        <div class="btns">
+          <a class="btn" href="match-${fileSuffix}.html">View Live</a>
+          <a class="btn" href="summary.html">Summary</a>
+        </div>
+      </div>`;
+  }).join('');
+  document.getElementById('matches').innerHTML = html;
+}
+
+loadFixtures();
+setInterval(loadFixtures, 20000);
+</script>
 </body>
 </html>
