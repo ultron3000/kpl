@@ -68,6 +68,15 @@
     .confetti i{position:absolute;width:10px;height:16px;background:linear-gradient(180deg,#fff2 0%,#fff0 100%);opacity:0.9;transform-origin:center;animation:fall 2500ms linear infinite}
     @keyframes fall{0%{transform:translateY(-10vh) rotate(0) scale(0.9)}100%{transform:translateY(110vh) rotate(540deg) scale(1.1)}}
 
+    /* Ensure logo background images cover the logo box when provided */
+    .logo[data-bg] {
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      color: transparent; /* hide fallback text */
+      padding: 0;
+    }
+
   </style>
 </head>
 <body>
@@ -85,7 +94,13 @@
       <!-- Panthers -->
       <article class="team-card">
         <div class="badge">
-          <div class="logo-wrap"><div class="logo panthers">PANTHERS</div></div>
+          <div class="logo-wrap">
+            <!-- logo background applied via data-bg attribute -->
+            <div class="logo panthers" data-bg
+                 style="background-image: url('https://i.postimg.cc/jDyrBJ8p/Whats-App-Image-2025-11-16-at-4-29-47-PM-(1).jpg')">
+              PANTHERS
+            </div>
+          </div>
           <div class="meta"><h3>Khandelwal Panthers</h3><p>Squad List</p></div>
         </div>
         <ul>
@@ -96,7 +111,12 @@
       <!-- Commandos -->
       <article class="team-card">
         <div class="badge">
-          <div class="logo-wrap"><div class="logo commandos">COMMANDOS</div></div>
+          <div class="logo-wrap">
+            <div class="logo commandos" data-bg
+                 style="background-image: url('https://i.postimg.cc/f3ZhsTpz/Whats-App-Image-2025-11-16-at-4-29-47-PM.jpg')">
+              COMMANDOS
+            </div>
+          </div>
           <div class="meta"><h3>Khandelwal Commandos</h3><p>Squad List</p></div>
         </div>
         <ul>
@@ -107,18 +127,28 @@
       <!-- Warriors -->
       <article class="team-card">
         <div class="badge">
-          <div class="logo-wrap"><div class="logo warriors">WARRIORS</div></div>
+          <div class="logo-wrap">
+            <div class="logo warriors" data-bg
+                 style="background-image: url('https://i.postimg.cc/4KZTGNqN/Whats-App-Image-2025-11-16-at-4-29-46-PM.jpg')">
+              WARRIORS
+            </div>
+          </div>
           <div class="meta"><h3>Khandelwal Warriors</h3><p>Squad List</p></div>
         </div>
         <ul>
-          <li>Shubham Baraskar</li><li>Yash</li><li>Shre Berde</li><li>Raju Berde</li><li>Om Mungle</li><li>Rakesh Khanvilkar</li><li>Prasad Rane</li><li>Sank B Parab</li>
+          <li>Shubham Baraskar</li><li>Yash</li><li>Shre Berde</li><li>Raju Berde</li><li>Om Mungle</li><li>Rakesh Khanvilkar</li><li>Prasad Rane</li><li>Santosh Parab</li>
         </ul>
       </article>
 
       <!-- Titans -->
       <article class="team-card">
         <div class="badge">
-          <div class="logo-wrap"><div class="logo titans">TITANS</div></div>
+          <div class="logo-wrap">
+            <div class="logo titans" data-bg
+                 style="background-image: url('https://i.postimg.cc/rdcLTF3m/Whats-App-Image-2025-11-16-at-4-29-46-PM-(1).jpg')">
+              TITANS
+            </div>
+          </div>
           <div class="meta"><h3>Khandelwal Titans</h3><p>Squad List</p></div>
         </div>
         <ul>
@@ -129,7 +159,12 @@
       <!-- Nomads -->
       <article class="team-card">
         <div class="badge">
-          <div class="logo-wrap"><div class="logo nomads">NOMADS</div></div>
+          <div class="logo-wrap">
+            <div class="logo nomads" data-bg
+                 style="background-image: url('https://i.postimg.cc/gwdPpkQh/Whats-App-Image-2025-11-16-at-4-29-45-PM.jpg')">
+              NOMADS
+            </div>
+          </div>
           <div class="meta"><h3>Khandelwal Nomads</h3><p>Squad List</p></div>
         </div>
         <ul>
@@ -140,7 +175,12 @@
       <!-- Gladiators -->
       <article class="team-card">
         <div class="badge">
-          <div class="logo-wrap"><div class="logo gladiators">GLADIATORS</div></div>
+          <div class="logo-wrap">
+            <div class="logo gladiators" data-bg
+                 style="background-image: url('https://i.postimg.cc/VS1cwLpS/Whats-App-Image-2025-11-16-at-4-29-46-PM-(2).jpg')">
+              GLADIATORS
+            </div>
+          </div>
           <div class="meta"><h3>Khandelwal Gladiators</h3><p>Squad List</p></div>
         </div>
         <ul>
