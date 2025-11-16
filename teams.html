@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Khandelwal Premier League — Teams</title>
+  <style>
+    :root{
+      --bg:#08060a;
+      --card:#0f1724;
+      --glass: rgba(255,255,255,0.03);
+      --accent: #59f0c6;
+      --muted: #9aa3b2;
+      --glass-border: rgba(255,255,255,0.06);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;background:radial-gradient(1200px 400px at 10% 10%, rgba(89,240,198,0.04), transparent),
+      linear-gradient(180deg,#071018 0%, #04030b 100%);color:#e6eef6;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:48px;
+    }
+    .wrap{width:100%;max-width:1100px}
+
+    header{display:flex;align-items:center;gap:18px;margin-bottom:28px}
+    header img.league{width:84px;height:84px;border-radius:12px;object-fit:cover;box-shadow:0 6px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02)}
+    header .title{line-height:1}
+    header h1{font-size:20px;margin:0}
+    header p{margin:0;color:var(--muted);font-size:13px}
+
+    .grid{display:grid;grid-template-columns: repeat(auto-fit,minmax(260px,1fr));gap:20px}
+    .team-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));border-radius:14px;padding:18px;border:1px solid var(--glass-border);backdrop-filter: blur(6px);position:relative;overflow:hidden;transition:transform 350ms cubic-bezier(.2,.9,.3,1), box-shadow 350ms;}
+    .team-card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 18px 40px rgba(0,0,0,0.6), 0 6px 30px rgba(89,240,198,0.06)}
+
+    .badge{display:flex;align-items:center;gap:14px}
+    .logo-wrap{width:86px;height:86px;flex:0 0 86px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));border:1px solid rgba(255,255,255,0.03);box-shadow:0 4px 18px rgba(0,0,0,0.5);}
+    .logo {width:68px;height:68px;border-radius:10px;display:grid;place-items:center;font-weight:700;font-size:18px;color:#061018}
+
+    .meta h3{margin:0;font-size:18px;letter-spacing:0.6px}
+    .meta p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+
+    .stadium{margin-top:14px;display:flex;gap:10px;align-items:center}
+    .pill{padding:8px 10px;border-radius:999px;background:var(--glass);border:1px solid rgba(255,255,255,0.02);font-size:12px;color:var(--muted)}
+
+    /* Neon team accents */
+    .logo.panthers{background:linear-gradient(135deg,#0ea5b6,#0369a1);color:white}
+    .logo.commandos{background:linear-gradient(135deg,#ef4444,#be123c);color:white}
+    .logo.warriors{background:linear-gradient(135deg,#f97316,#b45309);color:white}
+    .logo.titans{background:linear-gradient(135deg,#7c3aed,#4c1d95);color:white}
+    .logo.nomads{background:linear-gradient(135deg,#06b6d4,#0ea5b6);color:white}
+    .logo.gladiators{background:linear-gradient(135deg,#10b981,#065f46);color:white}
+
+    /* subtle animated underline */
+    .meta h3::after{content:'';display:block;height:3px;width:46px;margin-top:8px;border-radius:3px;background:linear-gradient(90deg,var(--accent), transparent);opacity:0.9;transform-origin:left;transition:width 420ms}
+    .team-card:hover .meta h3::after{width:86px}
+
+    /* cricket ball icon */
+    .ball{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.1));box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+
+    footer{margin-top:26px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* responsive flair */
+    @media (min-width:900px){
+      .grid{grid-template-columns:repeat(3,1fr)}
+    }
+
+    /* confetti animation for page load */
+    .confetti{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:screen}
+    .confetti i{position:absolute;width:10px;height:16px;background:linear-gradient(180deg,#fff2 0%,#fff0 100%);opacity:0.9;transform-origin:center;animation:fall 2500ms linear infinite}
+    @keyframes fall{0%{transform:translateY(-10vh) rotate(0) scale(0.9)}100%{transform:translateY(110vh) rotate(540deg) scale(1.1)}}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <img class="league" src="https://i9.ytimg.com/vi/UHHcy231BpY/mqdefault.jpg?v=6918b848&sqp=CKjP5sgG&rs=AOn4CLBmzW8o1A2BessFJchHwPBRqbXUjA" alt="KPL League logo" />
+      <div class="title">
+        <h1>Khandelwal Premier League — Team Showcase</h1>
+        <p>Cricket Box-Tournament</p>
+      </div>
+    </header>
+
+    <main class="grid" id="teams">
+
+      <!-- Panthers -->
+      <article class="team-card">
+        <div class="badge">
+          <div class="logo-wrap"><div class="logo panthers">PANTHERS</div></div>
+          <div class="meta"><h3>Khandelwal Panthers</h3><p>Squad List</p></div>
+        </div>
+        <ul>
+          <li>Sameer Mavle</li><li>Varun Arya</li><li>Avinash Kumbhar</li><li>Adip Chavan</li><li>Prathamesh Mungle</li><li>Sanket Surve</li><li>Deepak Parmar</li><li>Ganesh Potdar</li><li>Chetan</li>
+        </ul>
+      </article>
+
+      <!-- Commandos -->
+      <article class="team-card">
+        <div class="badge">
+          <div class="logo-wrap"><div class="logo commandos">COMMANDOS</div></div>
+          <div class="meta"><h3>Khandelwal Commandos</h3><p>Squad List</p></div>
+        </div>
+        <ul>
+          <li>Vedant Berde</li><li>Parth Pawar</li><li>Dinesh Jadhav</li><li>Nilesh Berde</li><li>Vishal Bagve</li><li>Anand Bhogle</li><li>Akshay Keluskar</li><li>Sahil Navghane</li>
+        </ul>
+      </article>
+
+      <!-- Warriors -->
+      <article class="team-card">
+        <div class="badge">
+          <div class="logo-wrap"><div class="logo warriors">WARRIORS</div></div>
+          <div class="meta"><h3>Khandelwal Warriors</h3><p>Squad List</p></div>
+        </div>
+        <ul>
+          <li>Shubham Baraskar</li><li>Yash</li><li>Shre Berde</li><li>Raju Berde</li><li>Om Mungle</li><li>Rakesh Khanvilkar</li><li>Prasad Rane</li><li>Sank B Parab</li>
+        </ul>
+      </article>
+
+      <!-- Titans -->
+      <article class="team-card">
+        <div class="badge">
+          <div class="logo-wrap"><div class="logo titans">TITANS</div></div>
+          <div class="meta"><h3>Khandelwal Titans</h3><p>Squad List</p></div>
+        </div>
+        <ul>
+          <li>Atharva Parab</li><li>Aradhya Mahadik</li><li>Onkar Keluskar</li><li>Tushar Parab</li><li>Sai Ambre</li><li>Pratej Irap</li><li>Prasana Mungle</li><li>Vishal Mungle</li>
+        </ul>
+      </article>
+
+      <!-- Nomads -->
+      <article class="team-card">
+        <div class="badge">
+          <div class="logo-wrap"><div class="logo nomads">NOMADS</div></div>
+          <div class="meta"><h3>Khandelwal Nomads</h3><p>Squad List</p></div>
+        </div>
+        <ul>
+          <li>Sachin Salvi</li><li>Pruthviraj Chavan</li><li>Vinod Kumbhar</li><li>Sameer Panda</li><li>Ritesh Berde</li><li>Chirag Khavnekar</li><li>Ninad Shingate</li><li>Chirag Bhoite</li>
+        </ul>
+      </article>
+
+      <!-- Gladiators -->
+      <article class="team-card">
+        <div class="badge">
+          <div class="logo-wrap"><div class="logo gladiators">GLADIATORS</div></div>
+          <div class="meta"><h3>Khandelwal Gladiators</h3><p>Squad List</p></div>
+        </div>
+        <ul>
+          <li>Sandip Berde</li><li>Aniket Parmar</li><li>Dhiraj Jadhav</li><li>Tejas Karkera</li><li>Somnath Potdar</li><li>Ashish Lamkhade</li><li>Aryan Chavan</li><li>Sandesh Parab</li>
+        </ul>
+      </article>
+
+    </main>
+
+    <footer>
+      <p>@Khandelwal Premier League</p>
+    </footer>
+  </div>
+
+  <!-- confetti (small random pieces) -->
+  <div class="confetti" aria-hidden>
+    <!-- small JS will seed pieces -->
+  </div>
+
+  <script>
+    // tiny confetti seeder
+    const confettiEl = document.querySelector('.confetti');
+    const colors = ["#59f0c6","#06b6d4","#7c3aed","#f97316","#ef4444","#10b981"];
+    for(let i=0;i<24;i++){
+      const el = document.createElement('i');
+      el.style.left = Math.random()*100 + '%';
+      el.style.top = (Math.random()*-20)+'vh';
+      el.style.background = colors[i%colors.length];
+      el.style.transform = 'rotate('+Math.floor(Math.random()*360)+'deg)';
+      el.style.opacity = 0.9*Math.random()+0.2;
+      el.style.animationDelay = (Math.random()*1200)+'ms';
+      el.style.width = (6+Math.random()*14)+'px';
+      el.style.height = (8+Math.random()*18)+'px';
+      confettiEl.appendChild(el);
+    }
+  </script>
+</body>
+</html>
