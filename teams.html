@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Khandelwal Premier League — Teams</title>
   <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .wrap {
+      animation: fadeIn 0.8s ease-out forwards;
+    }
     :root{
       --bg:#08060a;
       --card:#0f1724;
@@ -22,14 +29,42 @@
     .wrap{width:100%;max-width:1100px}
 
     header{display:flex;align-items:center;gap:18px;margin-bottom:28px}
-    header img.league{width:84px;height:84px;border-radius:12px;object-fit:cover;box-shadow:0 6px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02)}
+    header img.league{
+      width:84px;
+      height:84px;
+      border-radius:12px;
+      object-fit:cover;
+      box-shadow:0 6px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+    header img.league:hover {
+      transform: rotate(5deg) scale(1.05);
+      box-shadow:0 10px 40px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.02);
+    }
     header .title{line-height:1}
     header h1{font-size:20px;margin:0}
     header p{margin:0;color:var(--muted);font-size:13px}
 
     .grid{display:grid;grid-template-columns: repeat(auto-fit,minmax(260px,1fr));gap:20px}
     .team-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));border-radius:14px;padding:18px;border:1px solid var(--glass-border);backdrop-filter: blur(6px);position:relative;overflow:hidden;transition:transform 350ms cubic-bezier(.2,.9,.3,1), box-shadow 350ms;}
-    .team-card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 18px 40px rgba(0,0,0,0.6), 0 6px 30px rgba(89,240,198,0.06)}
+    .team-card:hover{
+      transform:translateY(-8px) scale(1.01);
+      box-shadow:0 18px 40px rgba(0,0,0,0.6), 0 6px 30px rgba(89,240,198,0.06);
+      border-color: rgba(89, 240, 198, 0.2);
+    }
+    .team-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      background: radial-gradient(circle at center, rgba(89, 240, 198, 0.08), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    .team-card:hover::after {
+      opacity: 1;
+    }
 
     .badge{display:flex;align-items:center;gap:14px}
     .logo-wrap{width:86px;height:86px;flex:0 0 86px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));border:1px solid rgba(255,255,255,0.03);box-shadow:0 4px 18px rgba(0,0,0,0.5);}
@@ -37,6 +72,27 @@
 
     .meta h3{margin:0;font-size:18px;letter-spacing:0.6px}
     .meta p{margin:6px 0 0;font-size:13px;color:var(--muted)}
+
+    .team-card ul {
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .team-card li {
+      padding: 6px 8px;
+      background: var(--glass);
+      border-radius: 6px;
+      font-size: 13px;
+      border: 1px solid var(--glass-border);
+      transition: all 0.2s ease;
+    }
+    .team-card li:hover {
+      background: rgba(89, 240, 198, 0.1);
+      transform: translateX(4px);
+    }
 
     .stadium{margin-top:14px;display:flex;gap:10px;align-items:center}
     .pill{padding:8px 10px;border-radius:999px;background:var(--glass);border:1px solid rgba(255,255,255,0.02);font-size:12px;color:var(--muted)}
@@ -56,7 +112,14 @@
     /* cricket ball icon */
     .ball{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%, rgba(255,255,255,0.4), rgba(255,255,255,0.1));box-shadow:0 6px 18px rgba(0,0,0,0.6)}
 
-    footer{margin-top:26px;color:var(--muted);font-size:13px;text-align:center}
+    footer{
+      margin-top: 36px;
+      padding-top: 20px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      border-top: 1px solid var(--glass-border);
+    }
 
     /* responsive flair */
     @media (min-width:900px){
@@ -217,5 +280,3 @@
       confettiEl.appendChild(el);
     }
   </script>
-</body>
-</html>
